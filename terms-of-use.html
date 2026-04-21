@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Use &amp; Disclaimer — DMARC Analysis Assistant | Sumikko Lab</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', 'Yu Gothic UI', sans-serif; line-height: 1.7; color: #1a1a2e; background: #f8f9fa; }
+  .container { max-width: 720px; margin: 0 auto; padding: 40px 24px; }
+  h1 { font-size: 1.5rem; margin-bottom: 4px; }
+  .updated { font-size: 0.85rem; color: #64748b; margin-bottom: 32px; }
+  h2 { font-size: 1.1rem; margin: 28px 0 8px; color: #1e3a5f; border-left: 3px solid #3b82f6; padding-left: 10px; }
+  h3 { font-size: 1.05rem; margin: 24px 0 8px; color: #1e3a5f; }
+  p { margin-bottom: 12px; font-size: 0.95rem; }
+  ol { padding-left: 22px; margin: 8px 0 16px; }
+  ul { padding-left: 20px; margin: 8px 0 16px; }
+  li { font-size: 0.92rem; margin-bottom: 8px; }
+  .nav-links { font-size: 0.85rem; margin-bottom: 24px; }
+  .nav-links a { color: #3b82f6; text-decoration: none; margin-right: 16px; }
+  .nav-links a:hover { text-decoration: underline; }
+  .section-ja, .section-en { display: none; }
+  .section-ja.visible, .section-en.visible { display: block; }
+  .lang-toggle { position: fixed; top: 12px; right: 24px; z-index: 10; }
+  .lang-toggle button { background: #f1f5f9; border: 1px solid #e2e8f0; padding: 5px 14px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; color: #1e3a5f; }
+  .lang-toggle button.active { background: #3b82f6; color: #fff; border-color: #3b82f6; }
+  hr.divider { border: none; border-top: 2px solid #e2e8f0; margin: 32px 0; }
+  .footer { text-align: center; padding: 24px 0; border-top: 1px solid #e2e8f0; font-size: 0.8rem; color: #94a3b8; margin-top: 40px; }
+  .note { background: #f1f5f9; border-left: 3px solid #94a3b8; padding: 12px 16px; font-size: 0.85rem; color: #475569; margin: 16px 0; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="lang-toggle">
+    <button id="btn-ja" class="active" onclick="switchLang('ja')">日本語</button>
+    <button id="btn-en" onclick="switchLang('en')">English</button>
+  </div>
+
+  <!-- Japanese -->
+  <div class="section-ja visible" id="content-ja">
+    <div class="nav-links">
+      <a href="index.html">製品情報</a>
+      <a href="privacy-policy.html">プライバシーポリシー</a>
+      <a href="support.html">サポート</a>
+      <a href="manual/">マニュアル</a>
+    </div>
+    <h1>利用規約・免責事項</h1>
+    <p class="updated">最終更新: 2026年4月21日</p>
+
+    <p class="note">本ページは、アプリ初回起動時に表示される「利用規約・免責事項」の全文版です。アプリ内表示と同一の条文を掲載しています。</p>
+
+    <h3>利用規約</h3>
+    <ol>
+      <li>本ソフトウェア「DMARC 分析支援ツール」は Sumikko Lab（以下「提供元」）が提供するツールです。DMARC 集約レポートおよび関連するバウンスメールの解析・表示を目的として利用できます。</li>
+      <li>本ソフトウェアはローカル端末上でのみ動作し、Microsoft 365 および DNS の設定を変更しません。レポートメール本体の削除・移動・編集も行いません（読み取り専用）。</li>
+      <li>Microsoft 365 への接続は、利用者が明示的に設定した場合に限り行われ、使用する権限スコープは Mail.Read のみです。</li>
+      <li>本ソフトウェアの逆コンパイル、解析、改変、再配布、他製品への組み込みを禁止します。</li>
+      <li>本ソフトウェアが表示する解析結果および分類は参考情報です。最終的な判断は利用者の責任で行ってください。</li>
+      <li>提供元は、本ソフトウェアの利用に起因して生じた損害について責任を負いません。可用性・継続提供も保証しません。</li>
+      <li>本規約の全文は製品サイトに掲載しています。規約が改訂された場合は、改訂版への同意が必要になります。</li>
+    </ol>
+
+    <hr class="divider">
+
+    <h3>免責事項</h3>
+    <ol>
+      <li>本ソフトウェアが表示する分類・判定・推定は、レポート本文およびメールヘッダーに基づくルールベースの解析結果です。送信者の意図や DNS の実運用を確定するものではありません。</li>
+      <li>「なりすまし疑い」「設定不備」「転送由来」などの表示区分は機械判定のため、すべての事例を正確に分類できるとは限りません。最終判断は利用者の責任で行ってください。</li>
+      <li>本ソフトウェアの利用、利用不能、または利用結果に起因して生じた損害（業務への影響、データ損失、機会損失を含む）について、提供元は責任を負いません。</li>
+      <li>本ソフトウェアの可用性、継続提供、および第三者サービス（Microsoft 365 Graph API 等）との互換性は保証されません。仕様変更により予期せず動作しなくなる場合があります。</li>
+    </ol>
+
+    <hr class="divider">
+
+    <h3>補足</h3>
+
+    <h2>準拠法および管轄</h2>
+    <p>本規約は日本法に準拠します。本ソフトウェアまたは本規約に関して生じた紛争については、東京地方裁判所を第一審の専属的合意管轄裁判所とします。</p>
+
+    <h2>第三者ソフトウェア</h2>
+    <ul>
+      <li>Microsoft.Web.WebView2（Microsoft Software License）</li>
+      <li>Microsoft.Identity.Client（MIT License）</li>
+      <li>Microsoft.Identity.Client.Desktop（MIT License）</li>
+    </ul>
+    <p>本ソフトウェアは Microsoft Edge WebView2 Runtime を利用しており、その利用条件は Microsoft のライセンス条項に従います。</p>
+
+    <h2>連絡先</h2>
+    <p>製品サイト: <a href="https://dmarc-analysis.sumikkolab.com/">https://dmarc-analysis.sumikkolab.com/</a></p>
+    <p>サポート: <a href="https://dmarc-analysis.sumikkolab.com/support.html">https://dmarc-analysis.sumikkolab.com/support.html</a></p>
+    <p>メール: <a href="mailto:support@sumikkolab.com">support@sumikkolab.com</a></p>
+  </div>
+
+  <!-- English -->
+  <div class="section-en" id="content-en">
+    <div class="nav-links">
+      <a href="index.html?lang=en">Product</a>
+      <a href="privacy-policy.html?lang=en">Privacy Policy</a>
+      <a href="support.html?lang=en">Support</a>
+      <a href="manual/">Manual</a>
+    </div>
+    <h1>Terms of Use &amp; Disclaimer</h1>
+    <p class="updated">Last updated: April 21, 2026</p>
+
+    <p class="note">This page is the full-text version of the "Terms of Use &amp; Disclaimer" shown on first launch of the app. The provisions match what is displayed in the application.</p>
+
+    <h3>Terms of Use</h3>
+    <ol>
+      <li>This software "DMARC Analysis Assistant" is provided by Sumikko Lab ("the provider"). It is intended for analyzing and displaying DMARC aggregate reports and related bounce messages.</li>
+      <li>The software runs locally on the user's device. It does not modify Microsoft 365 settings or DNS records, and does not delete, move, or edit report messages (read-only).</li>
+      <li>Microsoft 365 connections are made only when explicitly configured by the user, and the permission scope is limited to Mail.Read.</li>
+      <li>Decompilation, reverse engineering, modification, redistribution, or embedding of this software into other products is prohibited.</li>
+      <li>Analysis results and classifications shown by this software are advisory. The final judgment rests with the user.</li>
+      <li>The provider assumes no liability for any damages arising from the use of this software, nor guarantees availability or continued operation.</li>
+      <li>The full text of the terms is published on the product website. If the terms are revised, agreement to the revised version will be required.</li>
+    </ol>
+
+    <hr class="divider">
+
+    <h3>Disclaimer</h3>
+    <ol>
+      <li>Classifications, verdicts, and inferences shown by this software are rule-based analyses derived from report contents and mail headers. They do not confirm sender intent or actual DNS configuration.</li>
+      <li>Labels such as "Spoofing suspected", "Config issue", and "Forwarded" are machine-produced estimates and may not classify every case correctly. The final judgment rests with the user.</li>
+      <li>The provider assumes no liability for any damages (including operational impact, data loss, or loss of opportunity) arising from the use of, inability to use, or results obtained from this software.</li>
+      <li>No warranty is made regarding availability, continued operation, or compatibility with third-party services (such as Microsoft 365 Graph API). Specification changes may cause the software to stop working unexpectedly.</li>
+    </ol>
+
+    <hr class="divider">
+
+    <h3>Supplementary Provisions</h3>
+
+    <h2>Governing Law and Jurisdiction</h2>
+    <p>These Terms shall be governed by the laws of Japan. Any disputes arising from the software or these Terms shall be subject to the exclusive jurisdiction of the Tokyo District Court as the court of first instance.</p>
+
+    <h2>Third-Party Software</h2>
+    <ul>
+      <li>Microsoft.Web.WebView2 (Microsoft Software License)</li>
+      <li>Microsoft.Identity.Client (MIT License)</li>
+      <li>Microsoft.Identity.Client.Desktop (MIT License)</li>
+    </ul>
+    <p>The software uses Microsoft Edge WebView2 Runtime, subject to Microsoft license terms.</p>
+
+    <h2>Contact</h2>
+    <p>Website: <a href="https://dmarc-analysis.sumikkolab.com/">https://dmarc-analysis.sumikkolab.com/</a></p>
+    <p>Support: <a href="https://dmarc-analysis.sumikkolab.com/support.html">https://dmarc-analysis.sumikkolab.com/support.html</a></p>
+    <p>Email: <a href="mailto:support@sumikkolab.com">support@sumikkolab.com</a></p>
+  </div>
+
+</div>
+<div class="footer">&copy; 2026 Sumikko Lab. DMARC Analysis Assistant.</div>
+
+<script>
+function switchLang(lang) {
+  document.querySelectorAll('.section-ja, .section-en').forEach(function(el) { el.classList.remove('visible'); });
+  document.querySelectorAll('.section-' + lang).forEach(function(el) { el.classList.add('visible'); });
+  document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+}
+(function() { if (location.search.indexOf('lang=en') >= 0) switchLang('en'); })();
+</script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support &amp; FAQ — DMARC Analysis Assistant | Sumikko Lab</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', 'Yu Gothic UI', sans-serif; line-height: 1.7; color: #1a1a2e; background: #f8f9fa; }
+  .container { max-width: 720px; margin: 0 auto; padding: 40px 24px; }
+  h1 { font-size: 1.5rem; margin-bottom: 4px; }
+  .updated { font-size: 0.85rem; color: #64748b; margin-bottom: 32px; }
+  h2 { font-size: 1.1rem; margin: 28px 0 8px; color: #1e3a5f; border-left: 3px solid #3b82f6; padding-left: 10px; }
+  h3 { font-size: 1rem; margin: 20px 0 6px; color: #1e3a5f; }
+  p { margin-bottom: 12px; font-size: 0.95rem; }
+  ul { padding-left: 20px; margin: 8px 0 16px; }
+  li { font-size: 0.92rem; margin-bottom: 6px; }
+  code { background: #eef2f7; padding: 1px 6px; border-radius: 3px; font-size: 0.88em; }
+  .nav-links { font-size: 0.85rem; margin-bottom: 24px; }
+  .nav-links a { color: #3b82f6; text-decoration: none; margin-right: 16px; }
+  .nav-links a:hover { text-decoration: underline; }
+  .section-ja, .section-en { display: none; }
+  .section-ja.visible, .section-en.visible { display: block; }
+  .lang-toggle { position: fixed; top: 12px; right: 24px; z-index: 10; }
+  .lang-toggle button { background: #f1f5f9; border: 1px solid #e2e8f0; padding: 5px 14px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; color: #1e3a5f; }
+  .lang-toggle button.active { background: #3b82f6; color: #fff; border-color: #3b82f6; }
+  .faq { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 18px 20px; margin: 14px 0; }
+  .faq-q { font-weight: 600; color: #1e3a5f; margin-bottom: 8px; }
+  .faq-a { font-size: 0.92rem; color: #475569; }
+  .contact-box { background: #eff6ff; border-radius: 8px; padding: 20px; margin: 24px 0; }
+  .contact-box a { color: #1e40af; font-weight: 500; }
+  .footer { text-align: center; padding: 24px 0; border-top: 1px solid #e2e8f0; font-size: 0.8rem; color: #94a3b8; margin-top: 40px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="lang-toggle">
+    <button id="btn-ja" class="active" onclick="switchLang('ja')">日本語</button>
+    <button id="btn-en" onclick="switchLang('en')">English</button>
+  </div>
+
+  <!-- Japanese -->
+  <div class="section-ja visible" id="content-ja">
+    <div class="nav-links">
+      <a href="index.html">製品情報</a>
+      <a href="terms-of-use.html">利用規約・免責事項</a>
+      <a href="privacy-policy.html">プライバシーポリシー</a>
+      <a href="manual/">マニュアル</a>
+    </div>
+    <h1>サポート</h1>
+    <p class="updated">DMARC 分析支援ツール</p>
+
+    <div class="contact-box">
+      <h3 style="margin-top:0">お問い合わせ</h3>
+      <p>メール: <a href="mailto:support@sumikkolab.com">support@sumikkolab.com</a></p>
+      <p style="font-size:0.85rem;color:#475569">※ 返信は営業日ベースとなります。開発者の裁量により対応させていただきます（利用規約 第6条）。</p>
+    </div>
+
+    <h2>お問い合わせの前にご確認ください</h2>
+    <ul>
+      <li>お使いの OS バージョン（Windows 10 / 11）</li>
+      <li>本ソフトウェアのバージョン（設定画面の「このアプリについて」に表示）</li>
+      <li>発生した症状の具体的な手順と、表示されたエラーメッセージ</li>
+      <li>Microsoft 365 連携を使用していた場合は、その旨</li>
+    </ul>
+    <p style="font-size:0.85rem;color:#64748b">※ メール本文や DMARC レポートに含まれる IP アドレス・ドメイン名・認証結果などは、機密情報になり得ます。スクリーンショットを送付される際はマスキング等にご配慮ください。</p>
+
+    <h2>よくあるご質問</h2>
+
+    <div class="faq">
+      <div class="faq-q">Q. このツールは Microsoft 365 の設定を変更しますか？</div>
+      <div class="faq-a">A. 変更しません。Microsoft 365 への接続は読み取り専用で、使用権限は <code>Mail.Read</code> のみです。メールの送信・削除・編集も行いません。DNS 設定も変更しません。</div>
+    </div>
+
+    <div class="faq">
+      <div class="faq-q">Q. 解析対象のデータはクラウドに送信されますか？</div>
+      <div class="faq-a">A. 送信しません。レポート本文、IP アドレス、認証結果、ドメイン情報、分類結果は外部サーバーに送信されません。クラウド解析や外部 AI API にも問合せを行いません。</div>
+    </div>
+
+    <div class="faq">
+      <div class="faq-q">Q. Microsoft 365 連携は必須ですか？</div>
+      <div class="faq-a">A. 必須ではありません。連携を使わず、DMARC レポートファイル（XML / ZIP / GZ）を直接取り込んで利用することもできます。</div>
+    </div>
+
+    <div class="faq">
+      <div class="faq-q">Q. 6 分類の判定はどのように行われていますか？</div>
+      <div class="faq-a">A. ルールベースの分類エンジンが、レポート本文とメールヘッダーから判定します。AI 推論や機械学習は使用していません。同一入力に対して常に同一の分類結果を返します。</div>
+    </div>
+
+    <div class="faq">
+      <div class="faq-q">Q. 保存されたデータはどこにありますか？ 削除したい場合は？</div>
+      <div class="faq-a">A. 設定・解析結果は <code>%LocalAppData%\DmarcAnalysisAssistant</code> 配下に保存されます。アプリ内の「データ削除」メニュー、フォルダの手動削除、アプリのアンインストールのいずれでも削除できます。</div>
+    </div>
+
+    <div class="faq">
+      <div class="faq-q">Q. 認証トークンの扱いは？</div>
+      <div class="faq-a">A. Microsoft 365 の認証トークンはメモリ上にのみ保持し、ディスクには一切書き込みません。アプリを終了するとトークンは破棄されます。</div>
+    </div>
+
+    <div class="faq">
+      <div class="faq-q">Q. 「なりすまし疑い」と表示された場合、すぐに対応が必要ですか？</div>
+      <div class="faq-a">A. 判定は参考情報です。送信元 IP、認証結果、送信経路を確認したうえで、組織のセキュリティ担当者と相談して対応方針を決めてください。機械判定のため、すべての事例を正確に分類できるとは限りません（免責事項 第2条）。</div>
+    </div>
+
+    <div class="faq">
+      <div class="faq-q">Q. アプリが起動しない・WebView2 エラーが出る</div>
+      <div class="faq-a">A. Microsoft Edge WebView2 Runtime がインストールされているか確認してください（Windows 11 には通常プリインストールされています）。未インストールの場合は Microsoft の公式ページからインストールできます。</div>
+    </div>
+
+    <div class="faq">
+      <div class="faq-q">Q. バージョンアップの通知はありますか？</div>
+      <div class="faq-a">A. Microsoft Store 経由でインストールされた場合は Store の自動更新機能に従います。本サイトおよびアプリ内「このアプリについて」からも最新バージョンをご確認いただけます。</div>
+    </div>
+
+  </div>
+
+  <!-- English -->
+  <div class="section-en" id="content-en">
+    <div class="nav-links">
+      <a href="index.html?lang=en">Product</a>
+      <a href="terms-of-use.html?lang=en">Terms of Use &amp; Disclaimer</a>
+      <a href="privacy-policy.html?lang=en">Privacy Policy</a>
+      <a href="manual/">Manual</a>
+    </div>
+    <h1>Support</h1>
+    <p class="updated">DMARC Analysis Assistant</p>
+
+    <div class="contact-box">
+      <h3 style="margin-top:0">Contact</h3>
+      <p>Email: <a href="mailto:support@sumikkolab.com">support@sumikkolab.com</a></p>
+      <p style="font-size:0.85rem;color:#475569">Responses are provided on business days at the developer's discretion (Terms of Use, Article 6).</p>
+    </div>
+
+    <h2>Before contacting us</h2>
+    <ul>
+      <li>Your OS version (Windows 10 / 11)</li>
+      <li>The software version (shown under "About this app" on the settings page)</li>
+      <li>Specific steps to reproduce the issue and any displayed error messages</li>
+      <li>Whether Microsoft 365 integration was in use</li>
+    </ul>
+    <p style="font-size:0.85rem;color:#64748b">Note: IP addresses, domain names, and authentication results shown in mail bodies or DMARC reports may be confidential. Please mask sensitive information when sharing screenshots.</p>
+
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq">
+      <div class="faq-q">Q. Does this tool modify Microsoft 365 settings?</div>
+      <div class="faq-a">A. No. Microsoft 365 connections are read-only with the <code>Mail.Read</code> scope. The tool does not send, delete, or edit mail, and does not change DNS settings.</div>
+    </div>
+
+    <div class="faq">
+      <div class="faq-q">Q. Is analysis data transmitted to the cloud?</div>
+      <div class="faq-a">A. No. Report contents, IP addresses, authentication results, domain information, and classification results are never sent to any external server. No cloud analysis or external AI API is used.</div>
+    </div>
+
+    <div class="faq">
+      <div class="faq-q">Q. Is Microsoft 365 integration required?</div>
+      <div class="faq-a">A. No. You can use the tool by directly importing DMARC report files (XML / ZIP / GZ) without enabling Microsoft 365 integration.</div>
+    </div>
+
+    <div class="faq">
+      <div class="faq-q">Q. How does the six-category classification work?</div>
+      <div class="faq-a">A. A rule-based classification engine analyzes report contents and mail headers. No AI inference or machine learning is used. The same input always produces the same classification result.</div>
+    </div>
+
+    <div class="faq">
+      <div class="faq-q">Q. Where is stored data kept, and how can I delete it?</div>
+      <div class="faq-a">A. Settings and analysis results are stored under <code>%LocalAppData%\DmarcAnalysisAssistant</code>. You can delete them via the in-app "Delete data" menu, by manually removing the folder, or by uninstalling the app.</div>
+    </div>
+
+    <div class="faq">
+      <div class="faq-q">Q. How are authentication tokens handled?</div>
+      <div class="faq-a">A. Microsoft 365 authentication tokens are held in memory only and are never written to disk. They are discarded when the application exits.</div>
+    </div>
+
+    <div class="faq">
+      <div class="faq-q">Q. If "Spoofing suspected" is shown, do I need to act immediately?</div>
+      <div class="faq-a">A. The classification is advisory. Review source IP, authentication results, and sending path, and consult with your security team. Since the result is machine-generated, not every case can be classified correctly (Disclaimer, Article 2).</div>
+    </div>
+
+    <div class="faq">
+      <div class="faq-q">Q. The app does not start or shows a WebView2 error.</div>
+      <div class="faq-a">A. Ensure Microsoft Edge WebView2 Runtime is installed (usually pre-installed on Windows 11). If not, you can install it from Microsoft's official page.</div>
+    </div>
+
+    <div class="faq">
+      <div class="faq-q">Q. How will I be notified of updates?</div>
+      <div class="faq-a">A. If installed via Microsoft Store, updates follow Store auto-update. You can also check the latest version on this website and under "About this app" in the application.</div>
+    </div>
+
+  </div>
+
+</div>
+<div class="footer">&copy; 2026 Sumikko Lab. DMARC Analysis Assistant.</div>
+
+<script>
+function switchLang(lang) {
+  document.querySelectorAll('.section-ja, .section-en').forEach(function(el) { el.classList.remove('visible'); });
+  document.querySelectorAll('.section-' + lang).forEach(function(el) { el.classList.add('visible'); });
+  document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+}
+(function() { if (location.search.indexOf('lang=en') >= 0) switchLang('en'); })();
+</script>
+</body>
+</html>

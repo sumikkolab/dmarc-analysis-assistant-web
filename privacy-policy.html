@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — DMARC Analysis Assistant | Sumikko Lab</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', 'Yu Gothic UI', sans-serif; line-height: 1.7; color: #1a1a2e; background: #f8f9fa; }
+  .container { max-width: 720px; margin: 0 auto; padding: 40px 24px; }
+  h1 { font-size: 1.5rem; margin-bottom: 4px; }
+  .updated { font-size: 0.85rem; color: #64748b; margin-bottom: 32px; }
+  h2 { font-size: 1.1rem; margin: 28px 0 8px; color: #1e3a5f; border-left: 3px solid #3b82f6; padding-left: 10px; }
+  h3 { font-size: 1.05rem; margin: 24px 0 8px; color: #1e3a5f; }
+  p { margin-bottom: 12px; font-size: 0.95rem; }
+  ol { padding-left: 22px; margin: 8px 0 16px; }
+  ul { padding-left: 20px; margin: 8px 0 16px; }
+  li { font-size: 0.92rem; margin-bottom: 8px; }
+  code { background: #eef2f7; padding: 1px 6px; border-radius: 3px; font-size: 0.88em; }
+  .nav-links { font-size: 0.85rem; margin-bottom: 24px; }
+  .nav-links a { color: #3b82f6; text-decoration: none; margin-right: 16px; }
+  .nav-links a:hover { text-decoration: underline; }
+  .section-ja, .section-en { display: none; }
+  .section-ja.visible, .section-en.visible { display: block; }
+  .lang-toggle { position: fixed; top: 12px; right: 24px; z-index: 10; }
+  .lang-toggle button { background: #f1f5f9; border: 1px solid #e2e8f0; padding: 5px 14px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; color: #1e3a5f; }
+  .lang-toggle button.active { background: #3b82f6; color: #fff; border-color: #3b82f6; }
+  hr.divider { border: none; border-top: 2px solid #e2e8f0; margin: 32px 0; }
+  .footer { text-align: center; padding: 24px 0; border-top: 1px solid #e2e8f0; font-size: 0.8rem; color: #94a3b8; margin-top: 40px; }
+  .note { background: #f1f5f9; border-left: 3px solid #94a3b8; padding: 12px 16px; font-size: 0.85rem; color: #475569; margin: 16px 0; }
+  .highlight { background: #f0fdf4; border-left: 3px solid #10b981; padding: 12px 16px; font-size: 0.9rem; color: #166534; margin: 16px 0; font-weight: 500; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="lang-toggle">
+    <button id="btn-ja" class="active" onclick="switchLang('ja')">日本語</button>
+    <button id="btn-en" onclick="switchLang('en')">English</button>
+  </div>
+
+  <!-- Japanese -->
+  <div class="section-ja visible" id="content-ja">
+    <div class="nav-links">
+      <a href="index.html">製品情報</a>
+      <a href="terms-of-use.html">利用規約・免責事項</a>
+      <a href="support.html">サポート</a>
+      <a href="manual/">マニュアル</a>
+    </div>
+    <h1>プライバシーポリシー</h1>
+    <p class="updated">最終更新: 2026年4月21日</p>
+
+    <p class="highlight">本ソフトウェアはローカル端末上でのみ動作し、レポート内容・IP 情報・認証結果・ドメイン情報を外部に送信しません。テレメトリ・クラッシュレポート・使用履歴の自動送信も行いません。</p>
+
+    <h3>プライバシー通知（アプリ内表示と同一内容）</h3>
+    <ol>
+      <li>本ソフトウェアはローカル端末上でのみ動作します。解析対象のレポートデータ、バウンスメール本文、設定情報を外部サービスへ送信することはありません。</li>
+      <li>Microsoft 365 への接続は、利用者が設定画面で明示的に設定した場合に限り行われ、使用する権限スコープは Mail.Read のみです。メールの送信・削除・編集は行いません。</li>
+      <li>Microsoft 365 の認証トークンはメモリ上に一時保持されるのみで、ディスクへの永続化は行いません。アプリを終了すると破棄されます。</li>
+      <li>分類結果、IP アドレス、認証結果、ドメイン情報などを外部サービスへ送信することはありません。クラウド解析や外部 AI API への問合せも行いません。</li>
+      <li>利用状況のテレメトリ、クラッシュレポート、使用履歴の自動送信・収集は行いません。</li>
+      <li>設定情報と解析結果はローカル端末の <code>%LocalAppData%\DmarcAnalysisAssistant</code> 配下に保存され、利用者の操作で削除できます。</li>
+    </ol>
+
+    <hr class="divider">
+
+    <h3>補足説明</h3>
+
+    <h2>収集・保存するデータ</h2>
+    <p>本ソフトウェアがローカル端末上に保存するデータは次のとおりです。いずれも <code>%LocalAppData%\DmarcAnalysisAssistant</code> 配下に保存され、アンインストールまたは利用者の操作で削除できます。</p>
+    <ul>
+      <li>取込んだ DMARC 集約レポート（XML / ZIP / GZ 展開後）</li>
+      <li>取込んだバウンスメールのヘッダー・本文（ローカル DB 内）</li>
+      <li>6 分類エンジンによる判定結果</li>
+      <li>アプリ設定（表示言語、取込フォルダ、同意状態のハッシュ等）</li>
+    </ul>
+
+    <h2>Microsoft 365 連携（任意機能）</h2>
+    <p>利用者が設定画面で Microsoft 365 連携を明示的に有効化した場合に限り、Microsoft Graph API を用いて受信トレイから DMARC レポートおよびバウンスメールを取得します。</p>
+    <ul>
+      <li>使用権限スコープ: <code>User.Read</code> / <code>Mail.Read</code>（読み取り専用）</li>
+      <li>送信・削除・編集は行いません。</li>
+      <li>認証トークンはメモリ上にのみ保持され、ディスクには保存されません。アプリを終了すると破棄されます。</li>
+      <li>連携を停止するには設定画面でサインアウトしてください。</li>
+    </ul>
+
+    <h2>外部サービスへの送信</h2>
+    <p>分類結果、IP アドレス、認証結果、ドメイン情報、レポート本文を外部サービスへ送信することはありません。クラウド解析、外部 AI API、テレメトリ収集、広告配信のいずれも行いません。</p>
+
+    <h2>データの削除</h2>
+    <p>保存データは利用者の操作でいつでも削除できます。</p>
+    <ul>
+      <li>アプリ内の「データ削除」メニュー（または設定画面の初期化）</li>
+      <li>エクスプローラーで <code>%LocalAppData%\DmarcAnalysisAssistant</code> フォルダを手動削除</li>
+      <li>Windows の「アプリのアンインストール」</li>
+    </ul>
+
+    <h2>第三者サービス</h2>
+    <ul>
+      <li><strong>Microsoft 365 Graph API</strong>: 利用者が連携を有効化した場合のみ通信します。</li>
+      <li><strong>Microsoft Edge WebView2 Runtime</strong>: GUI 表示に使用します。Microsoft のライセンスおよびプライバシー条項に従います。</li>
+    </ul>
+
+    <h2>プライバシーポリシーの変更</h2>
+    <p>本ポリシーは予告なく変更されることがあります。重要な変更がある場合はアプリ内および本ページで通知します。</p>
+
+    <h2>連絡先</h2>
+    <p>メール: <a href="mailto:support@sumikkolab.com">support@sumikkolab.com</a></p>
+    <p>サポート: <a href="https://dmarc-analysis.sumikkolab.com/support.html">https://dmarc-analysis.sumikkolab.com/support.html</a></p>
+  </div>
+
+  <!-- English -->
+  <div class="section-en" id="content-en">
+    <div class="nav-links">
+      <a href="index.html?lang=en">Product</a>
+      <a href="terms-of-use.html?lang=en">Terms of Use &amp; Disclaimer</a>
+      <a href="support.html?lang=en">Support</a>
+      <a href="manual/">Manual</a>
+    </div>
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: April 21, 2026</p>
+
+    <p class="highlight">This software runs locally on your device. Report contents, IP information, authentication results, and domain information are never transmitted externally. No telemetry, crash reports, or usage history are automatically collected or sent.</p>
+
+    <h3>Privacy Notice (identical to the in-app text)</h3>
+    <ol>
+      <li>This software runs locally on the user's device. Report data, bounce message contents, and configuration information are never sent to any external service.</li>
+      <li>Microsoft 365 connections are made only when explicitly configured on the settings page, and the permission scope is limited to Mail.Read. The software does not send, delete, or edit mail.</li>
+      <li>Microsoft 365 authentication tokens are held in memory only and are never persisted to disk. They are discarded when the application exits.</li>
+      <li>Classification results, IP addresses, authentication results, and domain information are not sent to any external service. No queries are made to cloud analysis platforms or external AI APIs.</li>
+      <li>Telemetry, crash reports, and usage history are not collected or transmitted automatically.</li>
+      <li>Configuration and analysis results are stored under <code>%LocalAppData%\DmarcAnalysisAssistant</code> on the user's device and can be deleted by the user.</li>
+    </ol>
+
+    <hr class="divider">
+
+    <h3>Supplementary Notes</h3>
+
+    <h2>Data collected and stored</h2>
+    <p>The software stores the following data locally on your device. All data is stored under <code>%LocalAppData%\DmarcAnalysisAssistant</code> and can be deleted by uninstalling the app or through user actions.</p>
+    <ul>
+      <li>Imported DMARC aggregate reports (XML, or extracted from ZIP/GZ)</li>
+      <li>Imported bounce message headers and body (in the local database)</li>
+      <li>Classification results produced by the six-category engine</li>
+      <li>Application settings (display language, import folder, consent state hash, etc.)</li>
+    </ul>
+
+    <h2>Microsoft 365 integration (optional)</h2>
+    <p>Only when the user explicitly enables Microsoft 365 integration on the settings page, the software uses Microsoft Graph API to read DMARC reports and bounce messages from the inbox.</p>
+    <ul>
+      <li>Permission scope: <code>User.Read</code> / <code>Mail.Read</code> (read-only)</li>
+      <li>The software does not send, delete, or edit mail.</li>
+      <li>Authentication tokens are held in memory only and are never persisted to disk. They are discarded on application exit.</li>
+      <li>To stop the integration, sign out from the settings page.</li>
+    </ul>
+
+    <h2>Transmission to external services</h2>
+    <p>Classification results, IP addresses, authentication results, domain information, and report contents are never transmitted to external services. The software performs no cloud analysis, no external AI API calls, no telemetry collection, and no ad delivery.</p>
+
+    <h2>Data deletion</h2>
+    <p>Stored data can be deleted at any time by the user.</p>
+    <ul>
+      <li>Using the in-app "Delete data" menu (or reset from the settings page)</li>
+      <li>Manually deleting the <code>%LocalAppData%\DmarcAnalysisAssistant</code> folder in Explorer</li>
+      <li>Uninstalling the app via Windows "Apps &amp; features"</li>
+    </ul>
+
+    <h2>Third-party services</h2>
+    <ul>
+      <li><strong>Microsoft 365 Graph API</strong>: used only when the user enables integration.</li>
+      <li><strong>Microsoft Edge WebView2 Runtime</strong>: used for GUI rendering; subject to Microsoft's license and privacy terms.</li>
+    </ul>
+
+    <h2>Changes to this policy</h2>
+    <p>This policy may be updated without prior notice. Significant changes will be announced in the application and on this page.</p>
+
+    <h2>Contact</h2>
+    <p>Email: <a href="mailto:support@sumikkolab.com">support@sumikkolab.com</a></p>
+    <p>Support: <a href="https://dmarc-analysis.sumikkolab.com/support.html">https://dmarc-analysis.sumikkolab.com/support.html</a></p>
+  </div>
+
+</div>
+<div class="footer">&copy; 2026 Sumikko Lab. DMARC Analysis Assistant.</div>
+
+<script>
+function switchLang(lang) {
+  document.querySelectorAll('.section-ja, .section-en').forEach(function(el) { el.classList.remove('visible'); });
+  document.querySelectorAll('.section-' + lang).forEach(function(el) { el.classList.add('visible'); });
+  document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+}
+(function() { if (location.search.indexOf('lang=en') >= 0) switchLang('en'); })();
+</script>
+</body>
+</html>
