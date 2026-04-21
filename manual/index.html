@@ -6,132 +6,114 @@
 <title>Manual — DMARC Analysis Assistant | Sumikko Lab</title>
 <meta name="description" content="DMARC 分析支援ツールのマニュアル。インストール、初回同意、レポート取込、6 分類の確認、CSV エクスポート、データ削除の操作手順。">
 <link rel="canonical" href="https://dmarc-analysis.sumikkolab.com/manual/">
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'Segoe UI', 'Yu Gothic UI', sans-serif; line-height: 1.7; color: #1a1a2e; background: #f8f9fa; }
-  .container { max-width: 720px; margin: 0 auto; padding: 40px 24px; }
-  h1 { font-size: 1.5rem; margin-bottom: 4px; }
-  .updated { font-size: 0.85rem; color: #64748b; margin-bottom: 32px; }
-  h2 { font-size: 1.1rem; margin: 28px 0 8px; color: #1e3a5f; border-left: 3px solid #3b82f6; padding-left: 10px; }
-  p { margin-bottom: 12px; font-size: 0.95rem; }
-  ul { padding-left: 20px; margin: 8px 0 16px; }
-  li { font-size: 0.92rem; margin-bottom: 6px; }
-  .nav-links { font-size: 0.85rem; margin-bottom: 24px; }
-  .nav-links a { color: #3b82f6; text-decoration: none; margin-right: 16px; }
-  .nav-links a:hover { text-decoration: underline; }
-  .section-ja, .section-en { display: none; }
-  .section-ja.visible, .section-en.visible { display: block; }
-  .lang-toggle { position: fixed; top: 12px; right: 24px; z-index: 10; }
-  .lang-toggle button { background: #f1f5f9; border: 1px solid #e2e8f0; padding: 5px 14px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; color: #1e3a5f; }
-  .lang-toggle button.active { background: #3b82f6; color: #fff; border-color: #3b82f6; }
-  .footer { text-align: center; padding: 24px 0; border-top: 1px solid #e2e8f0; font-size: 0.8rem; color: #94a3b8; margin-top: 40px; }
-  .note { background: #fef3c7; border-left: 3px solid #f59e0b; padding: 12px 16px; font-size: 0.9rem; color: #92400e; margin: 16px 0; }
-</style>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="container">
-  <div class="lang-toggle">
-    <button id="btn-ja" class="active" onclick="switchLang('ja')">日本語</button>
-    <button id="btn-en" onclick="switchLang('en')">English</button>
-  </div>
-
-  <div class="section-ja visible">
-    <div class="nav-links">
-      <a href="../index.html">製品情報</a>
-      <a href="../terms-of-use.html">利用規約・免責事項</a>
-      <a href="../privacy-policy.html">プライバシーポリシー</a>
-      <a href="../support.html">サポート</a>
-    </div>
-    <h1>マニュアル</h1>
-    <p class="updated">DMARC 分析支援ツール</p>
-
-    <div class="note">詳細なマニュアルは v1.0 Store 公開後に順次公開予定です。現時点では本ページ下部の概要と、アプリ内のツールチップ・ヘルプ文言をご参照ください。</div>
-
-    <h2>1. インストール</h2>
-    <ul>
-      <li>Microsoft Store から「DMARC 分析支援ツール」を検索してインストールします。</li>
-      <li>Microsoft Edge WebView2 Runtime が必要です（Windows 11 には通常プリインストール）。</li>
-    </ul>
-
-    <h2>2. 初回起動時の同意</h2>
-    <ul>
-      <li>初回起動時に「利用規約・免責事項」が表示されます。</li>
-      <li>内容をご確認のうえ、「同意してはじめる」を選択するとアプリが利用可能になります。</li>
-    </ul>
-
-    <h2>3. DMARC レポートの取込</h2>
-    <ul>
-      <li>取込元フォルダを指定して、XML / ZIP / GZ 形式の集約レポートを取り込みます。</li>
-      <li>任意機能として Microsoft 365 連携を有効にすると、受信トレイから直接取り込めます（権限は Mail.Read のみ）。</li>
-    </ul>
-
-    <h2>4. 分類結果の確認</h2>
-    <ul>
-      <li>6 分類ラベル（なりすまし疑い / 設定不備 / 転送由来 / 正常送信 / バウンス / 判定不能）で一覧表示されます。</li>
-      <li>ドメイン別、分類別、期間別のトレンドをグラフで確認できます。</li>
-    </ul>
-
-    <h2>5. CSV エクスポート</h2>
-    <ul>
-      <li>分類結果を CSV で出力し、Excel / BI ツールで追加分析できます。</li>
-    </ul>
-
-    <h2>6. データの削除</h2>
-    <ul>
-      <li>アプリ内の「データ削除」メニューから削除できます。</li>
-      <li>または <code>%LocalAppData%\DmarcAnalysisAssistant</code> フォルダを手動削除、あるいはアプリをアンインストールしてください。</li>
-    </ul>
-  </div>
-
-  <div class="section-en">
-    <div class="nav-links">
-      <a href="../index.html?lang=en">Product</a>
-      <a href="../terms-of-use.html?lang=en">Terms of Use &amp; Disclaimer</a>
-      <a href="../privacy-policy.html?lang=en">Privacy Policy</a>
-      <a href="../support.html?lang=en">Support</a>
-    </div>
-    <h1>Manual</h1>
-    <p class="updated">DMARC Analysis Assistant</p>
-
-    <div class="note">Detailed manual pages will be published after v1.0 Store release. For now, please refer to the overview below and the in-app tooltips and help text.</div>
-
-    <h2>1. Installation</h2>
-    <ul>
-      <li>Search for "DMARC Analysis Assistant" in Microsoft Store and install.</li>
-      <li>Microsoft Edge WebView2 Runtime is required (usually pre-installed on Windows 11).</li>
-    </ul>
-
-    <h2>2. First-launch consent</h2>
-    <ul>
-      <li>"Terms of Use &amp; Disclaimer" is shown on first launch.</li>
-      <li>Review the terms and choose "Agree and continue" to start using the app.</li>
-    </ul>
-
-    <h2>3. Importing DMARC reports</h2>
-    <ul>
-      <li>Specify a source folder to import XML / ZIP / GZ aggregate reports.</li>
-      <li>Optionally enable Microsoft 365 integration to fetch directly from the inbox (scope: Mail.Read only).</li>
-    </ul>
-
-    <h2>4. Reviewing classification results</h2>
-    <ul>
-      <li>Six-category labels (Spoofing suspected / Config issue / Forwarded / Legitimate / Bounce / Unknown) are shown in the list view.</li>
-      <li>Trends by domain, category, and period are visualized in charts.</li>
-    </ul>
-
-    <h2>5. CSV export</h2>
-    <ul>
-      <li>Export classification results to CSV for further analysis in Excel or BI tools.</li>
-    </ul>
-
-    <h2>6. Data deletion</h2>
-    <ul>
-      <li>Use the in-app "Delete data" menu.</li>
-      <li>Or manually remove the <code>%LocalAppData%\DmarcAnalysisAssistant</code> folder, or uninstall the app.</li>
-    </ul>
-  </div>
-
+<div class="lang-toggle">
+  <button id="btn-ja" class="active" onclick="switchLang('ja')">日本語</button>
+  <button id="btn-en" onclick="switchLang('en')">English</button>
 </div>
+
+<div class="manual-header">
+  <a href="../">&larr; DMARC Analysis Assistant</a>
+  <div class="section-ja visible"><h1>マニュアル</h1></div>
+  <div class="section-en"><h1>Manual</h1></div>
+</div>
+
+<div class="manual-container">
+  <nav class="manual-nav">
+    <div class="section-ja visible">
+      <h2>目次</h2>
+      <ul>
+        <li><a href="index.html"><strong>0. 概要</strong></a></li>
+        <li><a href="getting-started.html">1. はじめに</a></li>
+        <li class="planned"><a>2. レポート取込（予定）</a></li>
+        <li class="planned"><a>3. 分析画面（予定）</a></li>
+        <li><a href="classification.html">4. 6 分類の読み方</a></li>
+        <li class="planned"><a>5. バウンス分析（予定）</a></li>
+        <li class="planned"><a>6. Microsoft 365 連携（予定）</a></li>
+        <li><a href="troubleshooting.html">7. トラブルシューティング</a></li>
+      </ul>
+    </div>
+    <div class="section-en">
+      <h2>Contents</h2>
+      <ul>
+        <li><a href="index.html?lang=en"><strong>0. Overview</strong></a></li>
+        <li><a href="getting-started.html?lang=en">1. Getting Started</a></li>
+        <li class="planned"><a>2. Importing reports (planned)</a></li>
+        <li class="planned"><a>3. Analysis screen (planned)</a></li>
+        <li><a href="classification.html?lang=en">4. Reading the six categories</a></li>
+        <li class="planned"><a>5. Bounce analysis (planned)</a></li>
+        <li class="planned"><a>6. Microsoft 365 integration (planned)</a></li>
+        <li><a href="troubleshooting.html?lang=en">7. Troubleshooting</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="manual-content">
+    <div class="nav-links">
+      <a href="../">&larr; 製品情報 / Product</a>
+      <a href="../support.html">サポート / Support</a>
+    </div>
+
+    <!-- Japanese -->
+    <div class="section-ja visible">
+      <h2>DMARC 分析支援ツール マニュアル</h2>
+      <p>このマニュアルは DMARC 分析支援ツール v1.0 の操作を章ごとに説明します。左のメニューから章を選択してください。</p>
+
+      <h3>このツールの流れ</h3>
+      <ol>
+        <li><strong>同意</strong> — 初回起動時に利用規約・免責事項を確認し、同意する</li>
+        <li><strong>取込</strong> — フォルダまたは Microsoft 365 から DMARC レポート（XML / ZIP / GZ）を取得</li>
+        <li><strong>解析</strong> — 6 分類で自動判定（なりすまし疑い / 設定不備 / 転送由来 / 正常送信 / バウンス / 判定不能）</li>
+        <li><strong>確認</strong> — 一覧・フィルタ・トレンドで状況を把握</li>
+        <li><strong>エクスポート</strong> — CSV で外部ツール（Excel / BI）連携</li>
+      </ol>
+
+      <h3>マニュアルの範囲</h3>
+      <div class="note">
+        v1.0 リリース時点では上記目次の <strong>0 / 1 / 4 / 7 章のみ</strong>を公開しています。「予定」と表示された章は、v1.0 リリース後の画面確定に合わせて順次公開します。当面はアプリ内ツールチップと、製品トップページの機能説明もあわせてご参照ください。
+      </div>
+
+      <h3>関連リンク</h3>
+      <ul>
+        <li><a href="../">製品情報トップ</a></li>
+        <li><a href="../terms-of-use.html">利用規約・免責事項</a></li>
+        <li><a href="../privacy-policy.html">プライバシーポリシー</a></li>
+        <li><a href="../support.html">サポート・FAQ</a></li>
+      </ul>
+    </div>
+
+    <!-- English -->
+    <div class="section-en">
+      <h2>DMARC Analysis Assistant Manual</h2>
+      <p>This manual walks through DMARC Analysis Assistant v1.0 chapter by chapter. Choose a chapter from the menu on the left.</p>
+
+      <h3>Workflow</h3>
+      <ol>
+        <li><strong>Consent</strong> — Review the Terms of Use &amp; Disclaimer on first launch and accept</li>
+        <li><strong>Import</strong> — Load DMARC reports (XML / ZIP / GZ) from a folder or from Microsoft 365</li>
+        <li><strong>Analyze</strong> — The six-category engine classifies each entry (Spoofing suspected / Config issue / Forwarded / Legitimate / Bounce / Unknown)</li>
+        <li><strong>Review</strong> — Inspect results with filters and trends</li>
+        <li><strong>Export</strong> — Export to CSV for Excel or BI tools</li>
+      </ol>
+
+      <h3>Scope of this manual</h3>
+      <div class="note">
+        At the v1.0 release, only chapters <strong>0 / 1 / 4 / 7</strong> are published. Chapters marked "planned" will be added after the v1.0 UI is finalized. For now, please also consult the in-app tooltips and the feature overview on the product top page.
+      </div>
+
+      <h3>Related links</h3>
+      <ul>
+        <li><a href="../?lang=en">Product top page</a></li>
+        <li><a href="../terms-of-use.html?lang=en">Terms of Use &amp; Disclaimer</a></li>
+        <li><a href="../privacy-policy.html?lang=en">Privacy Policy</a></li>
+        <li><a href="../support.html?lang=en">Support &amp; FAQ</a></li>
+      </ul>
+    </div>
+  </main>
+</div>
+
 <div class="footer">&copy; 2026 Sumikko Lab. DMARC Analysis Assistant.</div>
 
 <script>
@@ -140,6 +122,7 @@ function switchLang(lang) {
   document.querySelectorAll('.section-' + lang).forEach(function(el) { el.classList.add('visible'); });
   document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
   document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.documentElement.lang = lang;
 }
 (function() { if (location.search.indexOf('lang=en') >= 0) switchLang('en'); })();
 </script>

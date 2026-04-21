@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 7: Troubleshooting — DMARC Analysis Assistant | Sumikko Lab</title>
+<meta name="description" content="DMARC 分析支援ツールのトラブルシューティング。起動・取込・Microsoft 365 連携・WebView2・CSV エクスポートなどの問題と対処法。">
+<link rel="canonical" href="https://dmarc-analysis.sumikkolab.com/manual/troubleshooting.html">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="lang-toggle">
+  <button id="btn-ja" class="active" onclick="switchLang('ja')">日本語</button>
+  <button id="btn-en" onclick="switchLang('en')">English</button>
+</div>
+
+<div class="manual-header">
+  <a href="../">&larr; DMARC Analysis Assistant</a>
+  <div class="section-ja visible"><h1>Chapter 7: トラブルシューティング</h1></div>
+  <div class="section-en"><h1>Chapter 7: Troubleshooting</h1></div>
+</div>
+
+<div class="manual-container">
+  <nav class="manual-nav">
+    <div class="section-ja visible">
+      <h2>目次</h2>
+      <ul>
+        <li><a href="index.html">0. 概要</a></li>
+        <li><a href="getting-started.html">1. はじめに</a></li>
+        <li class="planned"><a>2. レポート取込（予定）</a></li>
+        <li class="planned"><a>3. 分析画面（予定）</a></li>
+        <li><a href="classification.html">4. 6 分類の読み方</a></li>
+        <li class="planned"><a>5. バウンス分析（予定）</a></li>
+        <li class="planned"><a>6. Microsoft 365 連携（予定）</a></li>
+        <li><a href="troubleshooting.html"><strong>7. トラブルシューティング</strong></a></li>
+      </ul>
+    </div>
+    <div class="section-en">
+      <h2>Contents</h2>
+      <ul>
+        <li><a href="index.html?lang=en">0. Overview</a></li>
+        <li><a href="getting-started.html?lang=en">1. Getting Started</a></li>
+        <li class="planned"><a>2. Importing reports (planned)</a></li>
+        <li class="planned"><a>3. Analysis screen (planned)</a></li>
+        <li><a href="classification.html?lang=en">4. Reading the six categories</a></li>
+        <li class="planned"><a>5. Bounce analysis (planned)</a></li>
+        <li class="planned"><a>6. Microsoft 365 integration (planned)</a></li>
+        <li><a href="troubleshooting.html?lang=en"><strong>7. Troubleshooting</strong></a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="manual-content">
+    <div class="nav-links">
+      <a href="classification.html">&larr; 前章: 6 分類の読み方</a>
+      <a href="index.html">目次へ戻る &rarr;</a>
+    </div>
+
+    <!-- Japanese -->
+    <div class="section-ja visible">
+      <h2>トラブルシューティング</h2>
+      <p>起動や取込で問題が発生した場合の対処方法をまとめます。ここに記載のない症状については <a href="../support.html">サポート・FAQ</a> もご確認ください。</p>
+
+      <h3>起動関連</h3>
+
+      <h4>アプリが起動しない / 白い画面のまま</h4>
+      <ul>
+        <li><strong>原因候補:</strong> Microsoft Edge WebView2 Runtime が不足。</li>
+        <li><strong>対処:</strong> Microsoft 公式サイトから WebView2 Runtime（Evergreen Bootstrapper）を導入。Windows 11 は通常プリインストール済み。</li>
+      </ul>
+
+      <h4>起動直後に「利用規約・免責事項」画面が毎回表示される</h4>
+      <ul>
+        <li><strong>原因候補:</strong> ユーザーデータフォルダの書き込み権限不足、または規約改訂。</li>
+        <li><strong>対処:</strong> 規約改訂時は再同意が必要です（改訂版の公開履歴あり）。それ以外の場合は <code>%LocalAppData%\SumikkoLab\DmarcAnalysisAssistant</code> の書き込み権限を確認。</li>
+      </ul>
+
+      <h3>レポート取込関連</h3>
+
+      <h4>「取込」を押しても 0 件と表示される</h4>
+      <ul>
+        <li><strong>原因候補:</strong> フォルダ内に DMARC 集約レポート（XML / ZIP / GZ）が存在しない。別種のメールを誤指定。</li>
+        <li><strong>対処:</strong> ZIP / GZ 添付ファイルをフォルダに保存し直して再試行。ファイル名に <code>dmarc</code> または <code>rua</code> を含む場合が多い。</li>
+      </ul>
+
+      <h4>取込時に「XML 解析エラー」</h4>
+      <ul>
+        <li><strong>原因候補:</strong> レポートの破損、文字コード不整合、非標準スキーマ。</li>
+        <li><strong>対処:</strong> 対象ファイルを除外して再取込。該当ファイルのプロバイダ・ファイル名を控えてサポートまでご連絡ください。</li>
+      </ul>
+
+      <h4>取込に極端に時間がかかる</h4>
+      <ul>
+        <li><strong>原因候補:</strong> フォルダ内のファイル数が数千件規模、または大容量 ZIP。</li>
+        <li><strong>対処:</strong> 月別にサブフォルダへ分割して取り込む。バックグラウンドスキャンは 1 回の取込に閉じているため、フォルダを分けると段階的に進められます。</li>
+      </ul>
+
+      <h3>バウンス突合関連</h3>
+
+      <h4>「バウンス」ラベルが 1 件もつかない</h4>
+      <ul>
+        <li><strong>原因候補:</strong> バウンスフォルダが未指定、またはバウンスメールの件名が非標準。</li>
+        <li><strong>対処:</strong> バウンスフォルダを明示的に指定。ISP によっては多言語件名の場合があり、未対応の可能性あり。</li>
+      </ul>
+
+      <h3>Microsoft 365 連携関連</h3>
+
+      <h4>サインインに失敗する</h4>
+      <ul>
+        <li><strong>原因候補:</strong> テナントの条件付きアクセスでブロック、Mail.Read 権限の同意がまだ、ネットワーク未接続。</li>
+        <li><strong>対処:</strong> 管理者にアプリの同意可否を確認。個人アカウントでも動作しますが、組織アカウントでは管理者同意が必要な場合があります。</li>
+      </ul>
+
+      <h4>サインインは通るがメールが取れない</h4>
+      <ul>
+        <li><strong>原因候補:</strong> Mail.Read が付与されていない、対象フォルダが空。</li>
+        <li><strong>対処:</strong> 別クライアントでメールの存在を確認。権限スコープは Mail.Read（読み取り専用）のみ使用します。</li>
+      </ul>
+
+      <h3>CSV エクスポート関連</h3>
+
+      <h4>Excel で開くと文字化け</h4>
+      <ul>
+        <li><strong>原因候補:</strong> Excel の既定エンコーディング。</li>
+        <li><strong>対処:</strong> 本ツールの CSV は UTF-8 BOM 付きで出力します。Excel 365 は通常そのまま読めます。古い Excel では「データの取得 &gt; テキスト」で UTF-8 を指定してください。</li>
+      </ul>
+
+      <h3>データ保存先とリセット</h3>
+      <p>本ツールはユーザーデータを <code>%LocalAppData%\SumikkoLab\DmarcAnalysisAssistant</code> 配下に保存します。完全リセットが必要な場合はアプリ終了後にこのフォルダを削除してください。Microsoft 365 の認証トークンはメモリ上のみで、ディスクには保存されません。</p>
+
+      <h3>それでも解決しない場合</h3>
+      <ul>
+        <li><a href="../support.html">サポート・FAQ</a> で該当する質問を検索</li>
+        <li>サポート（<a href="mailto:support@sumikkolab.com">support@sumikkolab.com</a>）へメールで連絡</li>
+      </ul>
+    </div>
+
+    <!-- English -->
+    <div class="section-en">
+      <h2>Troubleshooting</h2>
+      <p>Common issues and how to resolve them. If your issue is not listed here, see <a href="../support.html?lang=en">Support &amp; FAQ</a>.</p>
+
+      <h3>Launch issues</h3>
+
+      <h4>The app does not start / stays on a blank screen</h4>
+      <ul>
+        <li><strong>Likely cause:</strong> Microsoft Edge WebView2 Runtime is missing.</li>
+        <li><strong>Fix:</strong> Install the WebView2 Runtime (Evergreen Bootstrapper) from Microsoft's official site. It is typically pre-installed on Windows 11.</li>
+      </ul>
+
+      <h4>The Terms of Use screen appears on every launch</h4>
+      <ul>
+        <li><strong>Likely cause:</strong> Lack of write permission to user data folder, or a terms revision.</li>
+        <li><strong>Fix:</strong> Re-consent is required after a terms revision (version history is published). Otherwise, check write permission on <code>%LocalAppData%\SumikkoLab\DmarcAnalysisAssistant</code>.</li>
+      </ul>
+
+      <h3>Report import issues</h3>
+
+      <h4>Import returns 0 rows</h4>
+      <ul>
+        <li><strong>Likely cause:</strong> The folder contains no DMARC aggregate reports (XML / ZIP / GZ), or the wrong folder was selected.</li>
+        <li><strong>Fix:</strong> Save ZIP / GZ attachments into the folder and retry. Filenames commonly contain <code>dmarc</code> or <code>rua</code>.</li>
+      </ul>
+
+      <h4>"XML parse error" during import</h4>
+      <ul>
+        <li><strong>Likely cause:</strong> Corrupted report, encoding mismatch, or nonstandard schema.</li>
+        <li><strong>Fix:</strong> Move the offending file aside and retry. Please report the provider and filename to support.</li>
+      </ul>
+
+      <h4>Import is extremely slow</h4>
+      <ul>
+        <li><strong>Likely cause:</strong> Thousands of files in one folder, or very large ZIPs.</li>
+        <li><strong>Fix:</strong> Split by month into subfolders. Scanning is scoped to a single import run, so splitting folders lets you progress incrementally.</li>
+      </ul>
+
+      <h3>Bounce correlation</h3>
+
+      <h4>No entry is labeled "Bounce"</h4>
+      <ul>
+        <li><strong>Likely cause:</strong> Bounce folder not specified, or bounce subjects are nonstandard.</li>
+        <li><strong>Fix:</strong> Specify the bounce folder explicitly. Some ISPs use localized subject lines that may be unsupported.</li>
+      </ul>
+
+      <h3>Microsoft 365 integration</h3>
+
+      <h4>Sign-in fails</h4>
+      <ul>
+        <li><strong>Likely cause:</strong> Conditional access policy, Mail.Read not consented, or no network.</li>
+        <li><strong>Fix:</strong> Ask your admin whether app consent is permitted. Personal accounts work as well; organizational accounts may require admin consent.</li>
+      </ul>
+
+      <h4>Sign-in succeeds but no mail is retrieved</h4>
+      <ul>
+        <li><strong>Likely cause:</strong> Mail.Read not granted, or the target folder is empty.</li>
+        <li><strong>Fix:</strong> Verify the messages exist via another client. This tool only uses the Mail.Read scope (read-only).</li>
+      </ul>
+
+      <h3>CSV export</h3>
+
+      <h4>Garbled characters in Excel</h4>
+      <ul>
+        <li><strong>Likely cause:</strong> Excel default encoding.</li>
+        <li><strong>Fix:</strong> Our CSV is UTF-8 with BOM. Excel 365 reads it as-is. In older Excel, use "Get Data &gt; From Text" and specify UTF-8.</li>
+      </ul>
+
+      <h3>Data location and reset</h3>
+      <p>User data is stored under <code>%LocalAppData%\SumikkoLab\DmarcAnalysisAssistant</code>. For a full reset, close the app and delete this folder. Microsoft 365 authentication tokens are held in memory only and never persisted.</p>
+
+      <h3>Still stuck?</h3>
+      <ul>
+        <li>Search <a href="../support.html?lang=en">Support &amp; FAQ</a></li>
+        <li>Email support at <a href="mailto:support@sumikkolab.com">support@sumikkolab.com</a></li>
+      </ul>
+    </div>
+  </main>
+</div>
+
+<div class="footer">&copy; 2026 Sumikko Lab. DMARC Analysis Assistant.</div>
+
+<script>
+function switchLang(lang) {
+  document.querySelectorAll('.section-ja, .section-en').forEach(function(el) { el.classList.remove('visible'); });
+  document.querySelectorAll('.section-' + lang).forEach(function(el) { el.classList.add('visible'); });
+  document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.documentElement.lang = lang;
+}
+(function() { if (location.search.indexOf('lang=en') >= 0) switchLang('en'); })();
+</script>
+</body>
+</html>

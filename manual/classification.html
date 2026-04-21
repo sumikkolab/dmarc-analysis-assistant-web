@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 4: Reading the Six Categories — DMARC Analysis Assistant | Sumikko Lab</title>
+<meta name="description" content="DMARC 分析支援ツールの 6 分類（なりすまし疑い / 設定不備 / 転送由来 / 正常送信 / バウンス / 判定不能）の読み方と推奨アクション。">
+<link rel="canonical" href="https://dmarc-analysis.sumikkolab.com/manual/classification.html">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="lang-toggle">
+  <button id="btn-ja" class="active" onclick="switchLang('ja')">日本語</button>
+  <button id="btn-en" onclick="switchLang('en')">English</button>
+</div>
+
+<div class="manual-header">
+  <a href="../">&larr; DMARC Analysis Assistant</a>
+  <div class="section-ja visible"><h1>Chapter 4: 6 分類の読み方</h1></div>
+  <div class="section-en"><h1>Chapter 4: Reading the Six Categories</h1></div>
+</div>
+
+<div class="manual-container">
+  <nav class="manual-nav">
+    <div class="section-ja visible">
+      <h2>目次</h2>
+      <ul>
+        <li><a href="index.html">0. 概要</a></li>
+        <li><a href="getting-started.html">1. はじめに</a></li>
+        <li class="planned"><a>2. レポート取込（予定）</a></li>
+        <li class="planned"><a>3. 分析画面（予定）</a></li>
+        <li><a href="classification.html"><strong>4. 6 分類の読み方</strong></a></li>
+        <li class="planned"><a>5. バウンス分析（予定）</a></li>
+        <li class="planned"><a>6. Microsoft 365 連携（予定）</a></li>
+        <li><a href="troubleshooting.html">7. トラブルシューティング</a></li>
+      </ul>
+    </div>
+    <div class="section-en">
+      <h2>Contents</h2>
+      <ul>
+        <li><a href="index.html?lang=en">0. Overview</a></li>
+        <li><a href="getting-started.html?lang=en">1. Getting Started</a></li>
+        <li class="planned"><a>2. Importing reports (planned)</a></li>
+        <li class="planned"><a>3. Analysis screen (planned)</a></li>
+        <li><a href="classification.html?lang=en"><strong>4. Reading the six categories</strong></a></li>
+        <li class="planned"><a>5. Bounce analysis (planned)</a></li>
+        <li class="planned"><a>6. Microsoft 365 integration (planned)</a></li>
+        <li><a href="troubleshooting.html?lang=en">7. Troubleshooting</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="manual-content">
+    <div class="nav-links">
+      <a href="getting-started.html">&larr; 前章: はじめに</a>
+      <a href="troubleshooting.html">次章: トラブルシューティング &rarr;</a>
+    </div>
+
+    <!-- Japanese -->
+    <div class="section-ja visible">
+      <h2>6 分類の読み方</h2>
+      <p>本ツールは DMARC 集約レポートの各行を <strong>6 つのラベル</strong>のいずれかに自動分類します。判定はルールベース（決定論）で行われ、同じ入力に対して常に同じ結果を返します。AI 推論やクラウド解析は使用しません。</p>
+
+      <h3>判定に使用する情報</h3>
+      <ul>
+        <li>SPF 認証結果（pass / fail / softfail / none）</li>
+        <li>DKIM 認証結果（pass / fail / none）</li>
+        <li>送信元 IP アドレス（自社/外部の判別）</li>
+        <li>ヘッダ From ドメインと Envelope From ドメインの一致</li>
+        <li>関連バウンスメールの有無（取り込み済みの場合）</li>
+      </ul>
+
+      <h3>6 ラベル一覧</h3>
+      <table>
+        <thead>
+          <tr><th>ラベル</th><th>条件の概要</th><th>優先度</th><th>推奨アクション</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="label-dot dot-red"></span><strong>なりすまし疑い</strong></td>
+            <td>SPF / DKIM 両方 fail、送信元 IP が自社管理外。From ドメインは自社。</td>
+            <td>高</td>
+            <td>送信元 IP と ASN を確認し、なりすまし送信の可能性を調査。必要なら DMARC ポリシーを <code>p=reject</code> へ強化。</td>
+          </tr>
+          <tr>
+            <td><span class="label-dot dot-amber"></span><strong>設定不備</strong></td>
+            <td>送信元 IP は自社/正規 SaaS だが、SPF または DKIM が fail。</td>
+            <td>中</td>
+            <td>SPF レコード（include: / ip4:）や DKIM セレクタの設定漏れを確認。SaaS 側の DKIM 署名設定の抜けが多い。</td>
+          </tr>
+          <tr>
+            <td><span class="label-dot dot-blue"></span><strong>転送由来</strong></td>
+            <td>SPF fail / DKIM pass、または転送に特徴的な中継 IP を経由。</td>
+            <td>低</td>
+            <td>通常は対応不要。DKIM が通っていれば DMARC としては合格扱い。件数が異常に多い場合のみ確認。</td>
+          </tr>
+          <tr>
+            <td><span class="label-dot dot-green"></span><strong>正常送信</strong></td>
+            <td>SPF / DKIM のいずれかが pass かつ DMARC 整合（aligned）。</td>
+            <td>-</td>
+            <td>対応不要。記録としてトレンド確認のみ。</td>
+          </tr>
+          <tr>
+            <td><span class="label-dot dot-purple"></span><strong>バウンス</strong></td>
+            <td>取り込んだバウンスメールと突合できた fail エントリ。</td>
+            <td>中</td>
+            <td>宛先不達の原因（存在しないアドレス / 受信側の拒否）を確認。大量の場合は送信リスト衛生を見直す。</td>
+          </tr>
+          <tr>
+            <td><span class="label-dot dot-gray"></span><strong>判定不能</strong></td>
+            <td>情報不足（IP 逆引きできない、DKIM セレクタ不明など）で自動判定不可。</td>
+            <td>-</td>
+            <td>分類対象の件数が多い場合、レポート元プロバイダの仕様を確認。通常は放置してよい。</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>ラベルが示すもの・示さないもの</h3>
+      <div class="note">
+        <p><strong>示すもの:</strong> そのエントリがどのカテゴリに該当するかの客観的な判定結果。</p>
+        <p><strong>示さないもの:</strong> 実際の被害有無、攻撃者の意図、証拠としての法的効力。分類結果はあくまで <strong>一次トリアージ</strong> のための目安です。最終的な対応判断は利用者の責任で行ってください。</p>
+      </div>
+
+      <h3>判定が直感と違うとき</h3>
+      <ul>
+        <li><strong>自社送信なのに「なりすまし疑い」:</strong> SPF / DKIM が未設定 or 間違っている可能性。「設定不備」に寄せるため SPF / DKIM を整備する。</li>
+        <li><strong>明らかに転送なのに「設定不備」:</strong> 中継 IP のパターンが本ツールの既知リストにない場合。件数が多ければ report@ に情報提供を歓迎します。</li>
+        <li><strong>バウンスが取り込めていない:</strong> バウンスメールのフォルダ指定を確認。件名や送信者が標準的でないバウンスは未対応。</li>
+      </ul>
+
+      <h3>次にやること</h3>
+      <ul>
+        <li><a href="troubleshooting.html">第 7 章 トラブルシューティング</a>: 取込・起動時の問題</li>
+        <li><a href="../support.html">サポート・FAQ</a>: よくある質問</li>
+      </ul>
+    </div>
+
+    <!-- English -->
+    <div class="section-en">
+      <h2>Reading the Six Categories</h2>
+      <p>This tool classifies each row of a DMARC aggregate report into one of <strong>six labels</strong>. Classification is rule-based (deterministic): the same input always produces the same output. No AI inference or cloud analysis is used.</p>
+
+      <h3>Inputs used for classification</h3>
+      <ul>
+        <li>SPF result (pass / fail / softfail / none)</li>
+        <li>DKIM result (pass / fail / none)</li>
+        <li>Source IP address (whether it belongs to your org or not)</li>
+        <li>Alignment between header-From and envelope-From domains</li>
+        <li>Whether a correlated bounce message exists (if imported)</li>
+      </ul>
+
+      <h3>The six labels</h3>
+      <table>
+        <thead>
+          <tr><th>Label</th><th>Condition</th><th>Priority</th><th>Recommended action</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="label-dot dot-red"></span><strong>Spoofing suspected</strong></td>
+            <td>Both SPF and DKIM fail; source IP is outside your org; From domain is yours.</td>
+            <td>High</td>
+            <td>Review source IP and ASN; investigate possible spoofing. Consider tightening DMARC to <code>p=reject</code> if appropriate.</td>
+          </tr>
+          <tr>
+            <td><span class="label-dot dot-amber"></span><strong>Config issue</strong></td>
+            <td>Source IP belongs to your org or a known SaaS, but SPF or DKIM fails.</td>
+            <td>Medium</td>
+            <td>Check SPF record (<code>include:</code> / <code>ip4:</code>) and DKIM selector configuration. Missing SaaS-side DKIM signing is common.</td>
+          </tr>
+          <tr>
+            <td><span class="label-dot dot-blue"></span><strong>Forwarded</strong></td>
+            <td>SPF fail with DKIM pass, or a forwarding-typical relay IP.</td>
+            <td>Low</td>
+            <td>Usually no action. If DKIM passes, DMARC overall passes. Investigate only if counts are abnormally high.</td>
+          </tr>
+          <tr>
+            <td><span class="label-dot dot-green"></span><strong>Legitimate</strong></td>
+            <td>SPF or DKIM passes and is DMARC-aligned.</td>
+            <td>-</td>
+            <td>No action. Keep for trend tracking.</td>
+          </tr>
+          <tr>
+            <td><span class="label-dot dot-purple"></span><strong>Bounce</strong></td>
+            <td>Failing entries correlated with imported bounce messages.</td>
+            <td>Medium</td>
+            <td>Investigate bounce causes (nonexistent address, recipient rejection). Review list hygiene if high volume.</td>
+          </tr>
+          <tr>
+            <td><span class="label-dot dot-gray"></span><strong>Unknown</strong></td>
+            <td>Insufficient information (reverse DNS unavailable, unknown DKIM selector, etc.).</td>
+            <td>-</td>
+            <td>Generally leave alone. If counts are large, check whether the report provider uses a nonstandard format.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>What the labels do and do not indicate</h3>
+      <div class="note">
+        <p><strong>Do:</strong> Provide an objective category based on the observable data in the report.</p>
+        <p><strong>Do not:</strong> Confirm actual harm, attacker intent, or legal-grade evidence. Classification is a <strong>first-pass triage aid</strong>. Final response decisions are your responsibility.</p>
+      </div>
+
+      <h3>When the result feels wrong</h3>
+      <ul>
+        <li><strong>Your own traffic marked "Spoofing suspected":</strong> SPF/DKIM likely missing or misconfigured. Fix them, and the classification moves to "Config issue" or "Legitimate".</li>
+        <li><strong>Obvious forwards marked "Config issue":</strong> The relay IP may not match our known-forwarder heuristics. High-volume examples are welcome at support.</li>
+        <li><strong>Bounces not being correlated:</strong> Check that the bounce folder is specified. Non-standard bounce subjects/senders may be unsupported.</li>
+      </ul>
+
+      <h3>Next steps</h3>
+      <ul>
+        <li><a href="troubleshooting.html?lang=en">Chapter 7 Troubleshooting</a>: import and launch issues</li>
+        <li><a href="../support.html?lang=en">Support &amp; FAQ</a></li>
+      </ul>
+    </div>
+  </main>
+</div>
+
+<div class="footer">&copy; 2026 Sumikko Lab. DMARC Analysis Assistant.</div>
+
+<script>
+function switchLang(lang) {
+  document.querySelectorAll('.section-ja, .section-en').forEach(function(el) { el.classList.remove('visible'); });
+  document.querySelectorAll('.section-' + lang).forEach(function(el) { el.classList.add('visible'); });
+  document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.documentElement.lang = lang;
+}
+(function() { if (location.search.indexOf('lang=en') >= 0) switchLang('en'); })();
+</script>
+</body>
+</html>
