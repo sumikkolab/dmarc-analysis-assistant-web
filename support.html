@@ -6,6 +6,60 @@
 <title>Support &amp; FAQ — DMARC Analysis Assistant | Sumikko Lab</title>
 <meta name="description" content="DMARC 分析支援ツールのサポート・FAQ。問い合わせ先・動作環境・プライバシー・6 分類判定・Microsoft 365 連携・データ保存先・WebView2 等のよくある質問と回答。">
 <link rel="canonical" href="https://dmarc-analysis.sumikkolab.com/support.html">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "inLanguage": "ja",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "このツールは Microsoft 365 の設定を変更しますか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "変更しません。Microsoft 365 への接続は読み取り専用で、使用権限は Mail.Read のみです。メールの送信・削除・編集も行いません。DNS 設定も変更しません。" }
+    },
+    {
+      "@type": "Question",
+      "name": "解析対象のデータはクラウドに送信されますか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "送信しません。レポート本文、IP アドレス、認証結果、ドメイン情報、分類結果は外部サーバーに送信されません。クラウド解析や外部 AI API にも問合せを行いません。" }
+    },
+    {
+      "@type": "Question",
+      "name": "Microsoft 365 連携は必須ですか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "必須ではありません。連携を使わず、DMARC レポートファイル（XML / ZIP / GZ）を直接取り込んで利用することもできます。" }
+    },
+    {
+      "@type": "Question",
+      "name": "6 分類の判定はどのように行われていますか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "ルールベースの分類エンジンが、レポート本文とメールヘッダーから判定します。AI 推論や機械学習は使用していません。同一入力に対して常に同一の分類結果を返します。" }
+    },
+    {
+      "@type": "Question",
+      "name": "保存されたデータはどこにありますか？ 削除したい場合は？",
+      "acceptedAnswer": { "@type": "Answer", "text": "設定・解析結果は %LocalAppData%\\DmarcAnalysisAssistant 配下に保存されます。アプリ内の「データ削除」メニュー、フォルダの手動削除、アプリのアンインストールのいずれでも削除できます。" }
+    },
+    {
+      "@type": "Question",
+      "name": "認証トークンの扱いは？",
+      "acceptedAnswer": { "@type": "Answer", "text": "Microsoft 365 の認証トークンはメモリ上にのみ保持し、ディスクには一切書き込みません。アプリを終了するとトークンは破棄されます。" }
+    },
+    {
+      "@type": "Question",
+      "name": "「なりすまし疑い」と表示された場合、すぐに対応が必要ですか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "判定は参考情報です。送信元 IP、認証結果、送信経路を確認したうえで、組織のセキュリティ担当者と相談して対応方針を決めてください。機械判定のため、すべての事例を正確に分類できるとは限りません。" }
+    },
+    {
+      "@type": "Question",
+      "name": "アプリが起動しない・WebView2 エラーが出る",
+      "acceptedAnswer": { "@type": "Answer", "text": "Microsoft Edge WebView2 Runtime がインストールされているか確認してください（Windows 11 には通常プリインストールされています）。未インストールの場合は Microsoft の公式ページからインストールできます。" }
+    },
+    {
+      "@type": "Question",
+      "name": "バージョンアップの通知はありますか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "Microsoft Store 経由でインストールされた場合は Store の自動更新機能に従います。本サイトおよびアプリ内「このアプリについて」からも最新バージョンをご確認いただけます。" }
+    }
+  ]
+}
+</script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Segoe UI', 'Yu Gothic UI', sans-serif; line-height: 1.7; color: #1a1a2e; background: #f8f9fa; }

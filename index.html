@@ -6,6 +6,56 @@
 <title>DMARC 分析支援ツール — DMARC レポートをローカルで可視化</title>
 <meta name="description" content="DMARC 集約レポートとバウンスメールをローカル端末だけで可視化。なりすまし疑い / 設定不備 / 転送由来を区別して、対応すべきものが見える。外部サーバーに送信しません。">
 <link rel="canonical" href="https://dmarc-analysis.sumikkolab.com/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://dmarc-analysis.sumikkolab.com/#organization",
+      "name": "Sumikko Lab",
+      "url": "https://sumikkolab.com/",
+      "email": "support@sumikkolab.com"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://dmarc-analysis.sumikkolab.com/#website",
+      "url": "https://dmarc-analysis.sumikkolab.com/",
+      "name": "DMARC Analysis Assistant",
+      "inLanguage": ["ja", "en"],
+      "publisher": { "@id": "https://dmarc-analysis.sumikkolab.com/#organization" }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://dmarc-analysis.sumikkolab.com/#software",
+      "name": "DMARC Analysis Assistant",
+      "alternateName": "DMARC 分析支援ツール",
+      "applicationCategory": "SecurityApplication",
+      "applicationSubCategory": "Email Security",
+      "operatingSystem": "Windows 10, Windows 11",
+      "url": "https://dmarc-analysis.sumikkolab.com/",
+      "description": "Analyzes DMARC aggregate reports and related bounce messages entirely on the local device, classifying each entry into six categories (Spoofing suspected / Config issue / Forwarded / Legitimate / Bounce / Unknown). Uses a deterministic rule-based engine, with no cloud analysis or external AI. Microsoft 365 integration is optional and read-only (Mail.Read).",
+      "inLanguage": ["ja", "en"],
+      "featureList": [
+        "DMARC aggregate report analysis (XML / ZIP / GZ)",
+        "Bounce message correlation",
+        "Six-category rule-based classification",
+        "Domain / category / period trend aggregation",
+        "CSV export",
+        "Local-only execution, no external transmission",
+        "Optional Microsoft 365 read-only integration (Mail.Read)"
+      ],
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "JPY",
+        "availability": "https://schema.org/InStock"
+      },
+      "publisher": { "@id": "https://dmarc-analysis.sumikkolab.com/#organization" }
+    }
+  ]
+}
+</script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Segoe UI', 'Yu Gothic UI', sans-serif; line-height: 1.7; color: #1a1a2e; background: #f8f9fa; }
@@ -38,6 +88,14 @@
   /* Sections */
   .section-ja, .section-en { display: none; }
   .section-ja.visible, .section-en.visible { display: block; }
+
+  /* At-a-glance fact block */
+  .at-a-glance { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px 22px; margin: 8px 0 24px; }
+  .at-a-glance h2 { margin-top: 0; font-size: 1.05rem; }
+  .at-a-glance dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; font-size: 0.9rem; margin-top: 10px; }
+  .at-a-glance dt { font-weight: 600; color: #1e3a5f; white-space: nowrap; }
+  .at-a-glance dd { color: #334155; margin: 0; }
+  @media (max-width: 520px) { .at-a-glance dl { grid-template-columns: 1fr; gap: 2px 0; } .at-a-glance dt { margin-top: 6px; } }
 
   /* Problem section */
   .problem-section { background: #fef2f2; border-radius: 8px; padding: 24px; margin: 28px 0; border: 1px solid #fecaca; }
@@ -140,6 +198,17 @@
   <!-- ===== Japanese Content ===== -->
   <div class="section-ja visible">
 
+    <div class="at-a-glance">
+      <h2>このツールを一言で</h2>
+      <dl>
+        <dt>これは何か</dt><dd>DMARC 集約レポート（RUA）と関連バウンスメールを解析する Windows デスクトップアプリ。</dd>
+        <dt>誰向けか</dt><dd>自社ドメインを持ち、DMARC ポリシー監視を必要とする中小〜中堅組織の情シス・運用担当者。</dd>
+        <dt>何ができる</dt><dd>ZIP / GZ / XML のレポート取込、バウンスメール突合、6 分類（なりすまし疑い / 設定不備 / 転送由来 / 正常送信 / バウンス / 判定不能）、トレンド表示、CSV 出力。</dd>
+        <dt>何をしない</dt><dd>外部送信しない。クラウド解析・AI 推論を使わない。メールを送信・削除・編集しない。DNS を変更しない。</dd>
+        <dt>差別化</dt><dd>ローカル完結・決定論的ルール判定・Microsoft 365 連携は任意で Mail.Read のみ・テレメトリなし。</dd>
+      </dl>
+    </div>
+
     <div class="problem-section">
       <h2>DMARC レポート、本当に読めていますか？</h2>
       <p>DMARC 集約レポート（RUA）は XML で届き、送信元 IP、認証結果（SPF/DKIM）、件数が並ぶだけ。パッと見ても「どれがなりすましで、どれが自社の設定不備で、どれが単なる転送なのか」が分かりません。</p>
@@ -216,6 +285,17 @@
 
   <!-- ===== English Content ===== -->
   <div class="section-en">
+
+    <div class="at-a-glance">
+      <h2>At a glance</h2>
+      <dl>
+        <dt>What it is</dt><dd>A Windows desktop app that analyzes DMARC aggregate reports (RUA) and related bounce messages.</dd>
+        <dt>Who it is for</dt><dd>IT / operations staff at small to mid-sized organizations that own mail domains and need DMARC policy monitoring.</dd>
+        <dt>What it does</dt><dd>Imports ZIP / GZ / XML reports, correlates bounce messages, classifies into six categories (Spoofing suspected / Config issue / Forwarded / Legitimate / Bounce / Unknown), shows trends, exports CSV.</dd>
+        <dt>What it doesn't do</dt><dd>No external transmission. No cloud analysis or AI inference. Never sends, deletes, or edits mail. Never changes DNS.</dd>
+        <dt>Differentiators</dt><dd>Local-only, deterministic rule-based classification, optional Microsoft 365 integration with Mail.Read only, zero telemetry.</dd>
+      </dl>
+    </div>
 
     <div class="problem-section">
       <h2>Can you actually read your DMARC reports?</h2>
