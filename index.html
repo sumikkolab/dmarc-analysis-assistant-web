@@ -134,8 +134,9 @@
   .feature-card p { font-size: 0.85rem; color: #475569; }
 
   /* Screenshot in content */
-  .content-screenshot { margin: 20px 0; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; }
+  .content-screenshot { margin: 20px 0; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; background: #fff; }
   .content-screenshot img { width: 100%; display: block; }
+  .content-screenshot figcaption { padding: 10px 14px; background: #f8fafc; font-size: 0.85rem; color: #475569; border-top: 1px solid #e2e8f0; }
 
   ul { padding-left: 20px; margin: 8px 0 16px; }
   li { font-size: 0.9rem; margin-bottom: 4px; }
@@ -187,9 +188,16 @@
     </div>
   </div>
 
-  <!-- Hero screenshot (placeholder until real screenshot lands) -->
-  <div class="hero-screenshot">
-    <div class="screenshot-placeholder">スクリーンショット準備中 / Screenshot coming soon</div>
+  <!-- Hero screenshot (language-aware) -->
+  <div class="section-ja visible">
+    <div class="hero-screenshot">
+      <img src="images/ja/dashboard.png" alt="メールセキュリティの状態がひと目でわかるダッシュボード。DMARC の結果を 6 分類で自動整理し、問題の種類と件数をすぐ把握できます。">
+    </div>
+  </div>
+  <div class="section-en">
+    <div class="hero-screenshot">
+      <img src="images/en/dashboard.png" alt="See your email security status at a glance. The dashboard auto-sorts DMARC results into six plain-language classes, so you know exactly what needs attention.">
+    </div>
   </div>
 </div>
 
@@ -260,6 +268,24 @@
         <p>分類結果を CSV で出力。Excel / BI ツールでさらに分析できます。送信側 SaaS の切り分けにも。</p>
       </div>
     </div>
+
+    <h2>画面イメージ</h2>
+    <figure class="content-screenshot">
+      <img src="images/ja/welcome.png" alt="起動してすぐ、2 つの選択肢から始められます。手元の DMARC レポートをフォルダから読み込むか、Microsoft 365 メールボックスから自動取得するか。">
+      <figcaption>最初の一歩：レポートファイルから確認するか、Microsoft 365 から自動取得するかを選びます。</figcaption>
+    </figure>
+    <figure class="content-screenshot">
+      <img src="images/ja/findings.png" alt="気になる分類だけにフィルタしてレコードを精査。送信元 IP・ドメイン・SPF・DKIM の結果を 1 画面で確認できます。">
+      <figcaption>分類フィルタで精査：送信元 IP・ドメイン・SPF・DKIM を 1 画面で確認できます。</figcaption>
+    </figure>
+    <figure class="content-screenshot">
+      <img src="images/ja/bounce.png" alt="M365 または EML フォルダからバウンスメールを取り込み、15 のソースモデルに自動判別。確定バウンス・要確認・通常メールの 4 バケットで整理します。">
+      <figcaption>バウンスメール分析：15 のソースモデルに自動判別し、確定バウンス / 要確認 / 通常メールの 4 バケットに整理します。</figcaption>
+    </figure>
+    <figure class="content-screenshot">
+      <img src="images/ja/settings.png" alt="複数の受信ドメインをまとめて扱い、Managed / Monitored / External の管理区分を運用メモとして付与。組織の DMARC 統制を見える化します。">
+      <figcaption>複数ドメイン + 管理区分：Managed / Monitored / External のタグで組織の DMARC 統制を見える化します。</figcaption>
+    </figure>
 
     <div class="privacy-note">
       <p><strong>プライバシー:</strong> 本ツールはローカル端末上でのみ動作します。レポート本文・IP 情報・認証結果・ドメイン情報を外部サーバーに送信しません。Microsoft 365 への接続は、利用者が明示的に設定した場合のみ行われ、使用する権限は <strong>Mail.Read のみ</strong>です。認証トークンはメモリ上に一時保持され、ディスクに保存しません。</p>
@@ -348,6 +374,24 @@
         <p>Export classification results to CSV for further analysis in Excel or BI tools, including SaaS sender attribution.</p>
       </div>
     </div>
+
+    <h2>Screens</h2>
+    <figure class="content-screenshot">
+      <img src="images/en/welcome.png" alt="Two paths from the start: load DMARC reports from a local folder, or pull them automatically from your Microsoft 365 mailbox.">
+      <figcaption>First step: choose to load report files, or pull them directly from Microsoft 365.</figcaption>
+    </figure>
+    <figure class="content-screenshot">
+      <img src="images/en/findings.png" alt="Filter by the class you care about and inspect each record — source IP, domain, SPF, and DKIM results on a single screen.">
+      <figcaption>Filter by class and inspect records — source IP, domain, SPF, and DKIM in one view.</figcaption>
+    </figure>
+    <figure class="content-screenshot">
+      <img src="images/en/bounce.png" alt="Import bounce mail from Microsoft 365 or a local EML folder. Fifteen source models auto-sort messages into four buckets: confirmed bounce, needs review, regular mail, and more.">
+      <figcaption>Bounce analysis: fifteen source models auto-sort messages into four buckets — confirmed bounce, needs review, and regular mail.</figcaption>
+    </figure>
+    <figure class="content-screenshot">
+      <img src="images/en/settings.png" alt="Track multiple receiving domains and tag each as Managed, Monitored, or External to make your organization's DMARC posture visible.">
+      <figcaption>Multi-domain with management tags: Managed / Monitored / External keeps your DMARC posture organized.</figcaption>
+    </figure>
 
     <div class="privacy-note">
       <p><strong>Privacy:</strong> This tool runs locally on your device. Report contents, IP information, authentication results, and domain information are never sent to any external server. Microsoft 365 connections are made only when explicitly configured, and the permission scope is limited to <strong>Mail.Read</strong>. Authentication tokens are held in memory only and are never persisted to disk.</p>
