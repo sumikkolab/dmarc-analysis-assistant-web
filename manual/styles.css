@@ -37,6 +37,9 @@ th, td { border: 1px solid #e2e8f0; padding: 8px 12px; text-align: left; vertica
 th { background: #f1f5f9; color: #1e3a5f; font-weight: 600; }
 
 .screenshot-placeholder { background: #f1f5f9; border: 2px dashed #94a3b8; border-radius: 8px; padding: 40px 20px; text-align: center; color: #64748b; font-size: 0.85rem; margin: 12px 0; }
+.content-screenshot { margin: 16px 0; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; background: #fff; }
+.content-screenshot img { width: 100%; display: block; margin: 0; border: 0; border-radius: 0; }
+.content-screenshot figcaption { padding: 8px 12px; background: #f8fafc; font-size: 0.82rem; color: #475569; border-top: 1px solid #e2e8f0; }
 
 .section-ja, .section-en { display: none; }
 .section-ja.visible, .section-en.visible { display: block; }
