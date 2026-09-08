@@ -67,7 +67,7 @@ DMARC 集約レポートは XML で届き、送信元 IP・SPF/DKIM 結果・件
 ## 動作環境
 
 - Windows 10 / 11
-- .NET 8 Desktop Runtime
+- .NET 10（Store 版に同梱）
 - Microsoft Edge WebView2 Runtime
 - Microsoft 365 Graph API アクセス（任意のメール取込機能を使う場合のみ）
 

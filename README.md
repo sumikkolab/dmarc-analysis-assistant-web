@@ -67,7 +67,7 @@ This tool applies a deterministic, rule-based classification so operators can sp
 ## System requirements
 
 - Windows 10 / 11
-- .NET 8 Desktop Runtime
+- .NET 10 (included with the Store package)
 - Microsoft Edge WebView2 Runtime
 - Microsoft 365 Graph API access (only if using the optional mail import feature)
 
