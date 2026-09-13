@@ -41,6 +41,7 @@
       "featureList": [
         "DMARC aggregate report analysis (XML / ZIP / GZ)",
         "Bounce message correlation",
+        "Sending server summary by source IP",
         "Six-category rule-based classification",
         "Domain / category / period trend aggregation",
         "CSV export",
@@ -214,7 +215,7 @@
       <dl>
         <dt>これは何か</dt><dd>DMARC 集約レポート（RUA）と関連バウンスメールを解析する Windows デスクトップアプリ。</dd>
         <dt>誰向けか</dt><dd>自社ドメインを持ち、DMARC ポリシー監視を必要とする中小〜中堅組織の情シス・運用担当者。</dd>
-        <dt>何ができる</dt><dd>ZIP / GZ / XML のレポート取込、バウンスメール突合、6 分類（なりすまし疑い / 設定不備 / 転送由来 / 正常送信 / バウンス / 判定不能）、トレンド表示、CSV 出力。</dd>
+        <dt>何ができる</dt><dd>ZIP / GZ / XML のレポート取込、バウンスメール突合、送信元サーバー別集計、6 分類（なりすまし疑い / 設定不備 / 転送由来 / 正常送信 / バウンス / 判定不能）、CSV 出力。</dd>
         <dt>何をしない</dt><dd>外部送信しない。クラウド解析・AI 推論を使わない。メールを送信・削除・編集しない。DNS を変更しない。</dd>
         <dt>差別化</dt><dd>ローカル完結・決定論的ルール判定・Microsoft 365 連携は任意で Mail.Read のみ・テレメトリなし。</dd>
       </dl>
@@ -263,8 +264,8 @@
         <p>関連するバウンスメールを取り込んで、レポート上の fail エントリと突合。転送由来かどうかの判定を補助します。</p>
       </div>
       <div class="feature-card">
-        <h3>トレンド集計</h3>
-        <p>ドメイン別・分類別・期間別の件数推移を可視化。改善活動や経営報告に利用できます。</p>
+        <h3>送信元サーバー別集計</h3>
+        <p>送信元 IP ごとにメール数、要確認件数、DMARC 成功率、設定照合をまとめ、問題が多い送信元から確認できます。</p>
       </div>
       <div class="feature-card">
         <h3>CSV エクスポート</h3>
@@ -280,6 +281,10 @@
     <figure class="content-screenshot">
       <img src="images/ja/findings.png" alt="気になる分類だけにフィルタしてレコードを精査。送信元 IP・ドメイン・SPF・DKIM の結果を 1 画面で確認できます。">
       <figcaption>分類フィルタで精査：送信元 IP・ドメイン・SPF・DKIM を 1 画面で確認できます。</figcaption>
+    </figure>
+    <figure class="content-screenshot">
+      <img src="images/ja/sending-servers.png" alt="送信元サーバー一覧。送信元 IP ごとにメール数、要確認件数、DMARC 成功率、推定サービス、設定照合を確認できます。">
+      <figcaption>送信元サーバー別集計：問題が多い送信元 IP を優先して確認できます。</figcaption>
     </figure>
     <figure class="content-screenshot">
       <img src="images/ja/bounce.png" alt="M365 または EML フォルダからバウンスメールを取り込み、15 のソースモデルに自動判別。確定バウンス・要確認・通常メールの 4 バケットで整理します。">
@@ -320,7 +325,7 @@
       <dl>
         <dt>What it is</dt><dd>A Windows desktop app that analyzes DMARC aggregate reports (RUA) and related bounce messages.</dd>
         <dt>Who it is for</dt><dd>IT / operations staff at small to mid-sized organizations that own mail domains and need DMARC policy monitoring.</dd>
-        <dt>What it does</dt><dd>Imports ZIP / GZ / XML reports, correlates bounce messages, classifies into six categories (Spoofing suspected / Config issue / Forwarded / Legitimate / Bounce / Unknown), shows trends, exports CSV.</dd>
+        <dt>What it does</dt><dd>Imports ZIP / GZ / XML reports, correlates bounce messages, summarizes sending servers by source IP, classifies into six categories (Spoofing suspected / Config issue / Forwarded / Legitimate / Bounce / Unknown), and exports CSV.</dd>
         <dt>What it doesn't do</dt><dd>No external transmission. No cloud analysis or AI inference. Never sends, deletes, or edits mail. Never changes DNS.</dd>
         <dt>Differentiators</dt><dd>Local-only, deterministic rule-based classification, optional Microsoft 365 integration with Mail.Read only, zero telemetry.</dd>
       </dl>
@@ -369,8 +374,8 @@
         <p>Import related bounce messages and correlate them with failing report entries. Helps distinguish forwarded traffic from real issues.</p>
       </div>
       <div class="feature-card">
-        <h3>Trend aggregation</h3>
-        <p>Visualize counts over time by domain, classification, and period. Useful for improvement tracking and management reporting.</p>
+        <h3>Sending server summary</h3>
+        <p>Group results by source IP and review mail volume, items needing attention, DMARC pass rate, provider hints, and configured server matching.</p>
       </div>
       <div class="feature-card">
         <h3>CSV export</h3>

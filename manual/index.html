@@ -30,9 +30,10 @@
         <li class="planned"><a>2. レポート取込（予定）</a></li>
         <li class="planned"><a>3. 分析画面（予定）</a></li>
         <li><a href="classification.html">4. 6 分類の読み方</a></li>
-        <li class="planned"><a>5. バウンス分析（予定）</a></li>
-        <li class="planned"><a>6. Microsoft 365 連携（予定）</a></li>
-        <li><a href="troubleshooting.html">7. トラブルシューティング</a></li>
+        <li><a href="sending-servers.html">5. 送信元サーバー</a></li>
+        <li class="planned"><a>6. バウンス分析（予定）</a></li>
+        <li class="planned"><a>7. Microsoft 365 連携（予定）</a></li>
+        <li><a href="troubleshooting.html">8. トラブルシューティング</a></li>
       </ul>
     </div>
     <div class="section-en">
@@ -43,9 +44,10 @@
         <li class="planned"><a>2. Importing reports (planned)</a></li>
         <li class="planned"><a>3. Analysis screen (planned)</a></li>
         <li><a href="classification.html?lang=en">4. Reading the six categories</a></li>
-        <li class="planned"><a>5. Bounce analysis (planned)</a></li>
-        <li class="planned"><a>6. Microsoft 365 integration (planned)</a></li>
-        <li><a href="troubleshooting.html?lang=en">7. Troubleshooting</a></li>
+        <li><a href="sending-servers.html?lang=en">5. Sending servers</a></li>
+        <li class="planned"><a>6. Bounce analysis (planned)</a></li>
+        <li class="planned"><a>7. Microsoft 365 integration (planned)</a></li>
+        <li><a href="troubleshooting.html?lang=en">8. Troubleshooting</a></li>
       </ul>
     </div>
   </nav>
@@ -59,20 +61,20 @@
     <!-- Japanese -->
     <div class="section-ja visible">
       <h2>DMARC 分析支援ツール マニュアル</h2>
-      <p>このマニュアルは DMARC 分析支援ツール v1.0.4 の操作を章ごとに説明します。左のメニューから章を選択してください。</p>
+      <p>このマニュアルは DMARC 分析支援ツール v1.0.5 の操作を章ごとに説明します。左のメニューから章を選択してください。</p>
 
       <h3>このツールの流れ</h3>
       <ol>
         <li><strong>同意</strong> — 初回起動時に利用規約・免責事項を確認し、同意する</li>
         <li><strong>取込</strong> — フォルダまたは Microsoft 365 から DMARC レポート（XML / ZIP / GZ）を取得</li>
         <li><strong>解析</strong> — 6 分類で自動判定（なりすまし疑い / 設定不備 / 転送由来 / 正常送信 / バウンス / 判定不能）</li>
-        <li><strong>確認</strong> — 一覧・フィルタ・トレンドで状況を把握</li>
+        <li><strong>確認</strong> — 一覧・フィルタ・送信元サーバー別集計で状況を把握</li>
         <li><strong>エクスポート</strong> — CSV で外部ツール（Excel / BI）連携</li>
       </ol>
 
       <h3>マニュアルの範囲</h3>
       <div class="note">
-        v1.0.4 更新候補では上記目次の <strong>0 / 1 / 4 / 7 章のみ</strong>を公開しています。「予定」と表示された章は、画面確定に合わせて順次公開します。当面はアプリ内ツールチップと、製品トップページの機能説明もあわせてご参照ください。
+        v1.0.5 更新候補では上記目次の <strong>0 / 1 / 4 / 5 / 7 章</strong>を公開しています。「予定」と表示された章は、画面確定に合わせて順次公開します。当面はアプリ内ツールチップと、製品トップページの機能説明もあわせてご参照ください。
       </div>
 
       <h3>関連リンク</h3>
@@ -87,20 +89,20 @@
     <!-- English -->
     <div class="section-en">
       <h2>DMARC Analysis Assistant Manual</h2>
-      <p>This manual walks through DMARC Analysis Assistant v1.0.4 chapter by chapter. Choose a chapter from the menu on the left.</p>
+      <p>This manual walks through DMARC Analysis Assistant v1.0.5 chapter by chapter. Choose a chapter from the menu on the left.</p>
 
       <h3>Workflow</h3>
       <ol>
         <li><strong>Consent</strong> — Review the Terms of Use &amp; Disclaimer on first launch and accept</li>
         <li><strong>Import</strong> — Load DMARC reports (XML / ZIP / GZ) from a folder or from Microsoft 365</li>
         <li><strong>Analyze</strong> — The six-category engine classifies each entry (Spoofing suspected / Config issue / Forwarded / Legitimate / Bounce / Unknown)</li>
-        <li><strong>Review</strong> — Inspect results with filters and trends</li>
+        <li><strong>Review</strong> — Inspect results with filters and sending-server summaries</li>
         <li><strong>Export</strong> — Export to CSV for Excel or BI tools</li>
       </ol>
 
       <h3>Scope of this manual</h3>
       <div class="note">
-        In the v1.0.4 update candidate, only chapters <strong>0 / 1 / 4 / 7</strong> are published. Chapters marked "planned" will be added as the screens are finalized. For now, please also consult the in-app tooltips and the feature overview on the product top page.
+        In the v1.0.5 update candidate, chapters <strong>0 / 1 / 4 / 5 / 7</strong> are published. Chapters marked "planned" will be added as the screens are finalized. For now, please also consult the in-app tooltips and the feature overview on the product top page.
       </div>
 
       <h3>Related links</h3>

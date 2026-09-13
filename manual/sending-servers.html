@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 5: Sending Servers — DMARC Analysis Assistant | Sumikko Lab</title>
+<meta name="description" content="DMARC 分析支援ツールの送信元サーバー画面。送信元 IP ごとのメール数、要確認件数、DMARC 成功率、推定サービス、設定照合の見方。">
+<link rel="canonical" href="https://dmarc-analysis.sumikkolab.com/manual/sending-servers.html">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="lang-toggle">
+  <button id="btn-ja" class="active" onclick="switchLang('ja')">日本語</button>
+  <button id="btn-en" onclick="switchLang('en')">English</button>
+</div>
+
+<div class="manual-header">
+  <a href="../">&larr; DMARC Analysis Assistant</a>
+  <div class="section-ja visible"><h1>Chapter 5: 送信元サーバー</h1></div>
+  <div class="section-en"><h1>Chapter 5: Sending Servers</h1></div>
+</div>
+
+<div class="manual-container">
+  <nav class="manual-nav">
+    <div class="section-ja visible">
+      <h2>目次</h2>
+      <ul>
+        <li><a href="index.html">0. 概要</a></li>
+        <li><a href="getting-started.html">1. はじめに</a></li>
+        <li class="planned"><a>2. レポート取込（予定）</a></li>
+        <li class="planned"><a>3. 分析画面（予定）</a></li>
+        <li><a href="classification.html">4. 6 分類の読み方</a></li>
+        <li><a href="sending-servers.html"><strong>5. 送信元サーバー</strong></a></li>
+        <li class="planned"><a>6. バウンス分析（予定）</a></li>
+        <li class="planned"><a>7. Microsoft 365 連携（予定）</a></li>
+        <li><a href="troubleshooting.html">8. トラブルシューティング</a></li>
+      </ul>
+    </div>
+    <div class="section-en">
+      <h2>Contents</h2>
+      <ul>
+        <li><a href="index.html?lang=en">0. Overview</a></li>
+        <li><a href="getting-started.html?lang=en">1. Getting Started</a></li>
+        <li class="planned"><a>2. Importing reports (planned)</a></li>
+        <li class="planned"><a>3. Analysis screen (planned)</a></li>
+        <li><a href="classification.html?lang=en">4. Reading the six categories</a></li>
+        <li><a href="sending-servers.html?lang=en"><strong>5. Sending servers</strong></a></li>
+        <li class="planned"><a>6. Bounce analysis (planned)</a></li>
+        <li class="planned"><a>7. Microsoft 365 integration (planned)</a></li>
+        <li><a href="troubleshooting.html?lang=en">8. Troubleshooting</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="manual-content">
+    <div class="nav-links">
+      <a href="classification.html">&larr; 前章: 6 分類の読み方</a>
+      <a href="troubleshooting.html">次章: トラブルシューティング &rarr;</a>
+    </div>
+
+    <div class="section-ja visible">
+      <h2>送信元サーバーで確認すること</h2>
+      <p>送信元サーバー画面では、保存済みの DMARC 解析結果を送信元 IP ごとに集計します。レコードを 1 件ずつ追う前に、問題が多い送信元から確認できます。</p>
+
+      <figure class="content-screenshot">
+        <img src="../images/ja/sending-servers.png" alt="送信元サーバー一覧。送信元 IP ごとにメール数、要確認件数、DMARC 成功率、推定サービス、設定照合を確認できます。">
+        <figcaption>送信元 IP ごとに集計し、要確認件数が多い送信元から確認できます。</figcaption>
+      </figure>
+
+      <h3>列の意味</h3>
+      <table>
+        <tr><th>列</th><th>意味</th></tr>
+        <tr><td>送信元 IP</td><td>DMARC レポートに記録されたメール送信元 IP アドレスです。</td></tr>
+        <tr><td>メール数</td><td>その IP から送信されたと報告されたメール件数です。</td></tr>
+        <tr><td>ドメイン数</td><td>その IP が関係した受信側ドメイン数です。</td></tr>
+        <tr><td>要確認</td><td>なりすまし疑い、設定不備、判定不能など、運用者が確認すべき件数です。</td></tr>
+        <tr><td>DMARC 成功率</td><td>DMARC 評価が pass になった割合です。0.0% の場合は認証失敗が集中していないか確認してください。</td></tr>
+        <tr><td>推定サービス</td><td>既知の Microsoft 365 や設定済みの自社中継サーバーなど、推定できる送信元の種類です。信頼度は詳細画面に分けて表示されます。</td></tr>
+        <tr><td>設定照合</td><td>設定画面に登録した自社 IP、既知サービス、転送 IP と一致しているかを示します。一致していても DMARC が失敗している場合は SPF / DKIM / DMARC 設定を確認してください。</td></tr>
+      </table>
+
+      <h3>確認の順番</h3>
+      <ol>
+        <li>まず <strong>要確認</strong> が多い行を確認します。</li>
+        <li><strong>設定照合</strong> が「登録なし」の行は、正規の送信元かどうかを確認します。</li>
+        <li><strong>自社IP登録あり</strong> で DMARC 成功率が低い場合は、自社メールサーバーの SPF / DKIM / DMARC 設定を確認します。</li>
+        <li>行を選択し、詳細の関連レコードから個別レコードの結論と対応案を確認します。</li>
+        <li>必要に応じて CSV エクスポートし、チーム内で送信元 IP の確認を分担します。</li>
+      </ol>
+    </div>
+
+    <div class="section-en">
+      <h2>What to check on Sending Servers</h2>
+      <p>The Sending Servers screen groups saved DMARC analysis results by source IP. It helps you start with the servers that have the most items needing attention.</p>
+
+      <h3>Column meanings</h3>
+      <table>
+        <tr><th>Column</th><th>Meaning</th></tr>
+        <tr><td>Source IP</td><td>The source IP reported in DMARC aggregate reports.</td></tr>
+        <tr><td>Mail count</td><td>The number of messages reported from that IP.</td></tr>
+        <tr><td>Domain count</td><td>The number of receiving domains related to that IP.</td></tr>
+        <tr><td>Needs review</td><td>Items such as possible spoofing, configuration issues, or records that need manual review.</td></tr>
+        <tr><td>DMARC pass rate</td><td>The percentage of records that passed DMARC evaluation.</td></tr>
+        <tr><td>Estimated service</td><td>A local hint such as Microsoft 365 or a configured internal relay. Confidence is shown separately in the detail area.</td></tr>
+        <tr><td>Configured match</td><td>Whether the IP matches configured own servers, known services, or forwarders. A match does not automatically mean there is no issue if DMARC fails.</td></tr>
+      </table>
+
+      <h3>Recommended order</h3>
+      <ol>
+        <li>Start with rows that have the highest <strong>Needs review</strong> count.</li>
+        <li>For rows with no configured match, confirm whether the source is legitimate.</li>
+        <li>If a configured own server has a low DMARC pass rate, review SPF / DKIM / DMARC settings for that server.</li>
+        <li>Select a row and open related record details to see the conclusion and recommended action.</li>
+        <li>Export CSV when you need to share the source-IP review with your team.</li>
+      </ol>
+    </div>
+  </main>
+</div>
+
+<div class="footer">&copy; 2026 Sumikko Lab. DMARC Analysis Assistant.</div>
+
+<script>
+function switchLang(lang) {
+  document.querySelectorAll('.section-ja, .section-en').forEach(function(el) { el.classList.remove('visible'); });
+  document.querySelectorAll('.section-' + lang).forEach(function(el) { el.classList.add('visible'); });
+  document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.documentElement.lang = lang;
+}
+(function() { if (location.search.indexOf('lang=en') >= 0) switchLang('en'); })();
+</script>
+</body>
+</html>

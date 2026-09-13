@@ -35,7 +35,12 @@
     {
       "@type": "Question",
       "name": "保存されたデータはどこにありますか？ 削除したい場合は？",
-      "acceptedAnswer": { "@type": "Answer", "text": "設定・解析結果は %LocalAppData%\\DmarcAnalysisAssistant 配下に保存されます。アプリ内の「データ削除」メニュー、フォルダの手動削除、アプリのアンインストールのいずれでも削除できます。" }
+      "acceptedAnswer": { "@type": "Answer", "text": "設定・解析結果は %LocalAppData%\\DmarcAnalysisAssistant 配下に保存されます。v1.0.5 以降では、設定画面の「保存済みDMARC解析データを削除」から保存済みDMARC解析結果と処理済みマーカーを削除できます。この操作では、設定情報、同意情報、管理区分メモ、バウンス分析データは削除されません。" }
+    },
+    {
+      "@type": "Question",
+      "name": "v1.0.5 では何が変わりましたか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "保存済み DMARC 解析結果の削除導線を復旧し、送信元サーバー別に問題の多い IP を確認できる画面を追加しました。日本語 UI の送信元サーバー表示とバウンス分類表示も見直しています。" }
     },
     {
       "@type": "Question",
@@ -145,7 +150,12 @@
 
     <div class="faq">
       <div class="faq-q">Q. 保存されたデータはどこにありますか？ 削除したい場合は？</div>
-      <div class="faq-a">A. 設定・解析結果は <code>%LocalAppData%\DmarcAnalysisAssistant</code> 配下に保存されます。アプリ内の「データ削除」メニュー、フォルダの手動削除、アプリのアンインストールのいずれでも削除できます。</div>
+      <div class="faq-a">A. 設定・解析結果は <code>%LocalAppData%\DmarcAnalysisAssistant</code> 配下に保存されます。v1.0.5 以降では、設定画面の「保存済みDMARC解析データを削除」から保存済みDMARC解析結果と処理済みマーカーを削除できます。この操作では、設定情報、同意情報、管理区分メモ、バウンス分析データは削除されません。</div>
+    </div>
+
+    <div class="faq">
+      <div class="faq-q">Q. v1.0.5 では何が変わりましたか？</div>
+      <div class="faq-a">A. 保存済み DMARC 解析結果の削除導線を復旧し、送信元サーバー別に問題の多い IP を確認できる画面を追加しました。日本語 UI の送信元サーバー表示とバウンス分類表示も見直しています。</div>
     </div>
 
     <div class="faq">
@@ -220,7 +230,12 @@
 
     <div class="faq">
       <div class="faq-q">Q. Where is stored data kept, and how can I delete it?</div>
-      <div class="faq-a">A. Settings and analysis results are stored under <code>%LocalAppData%\DmarcAnalysisAssistant</code>. You can delete them via the in-app "Delete data" menu, by manually removing the folder, or by uninstalling the app.</div>
+      <div class="faq-a">A. Settings and analysis results are stored locally under <code>%LocalAppData%\DmarcAnalysisAssistant</code>. In v1.0.5 and later, open Settings and use "Delete stored DMARC analysis data" to clear saved DMARC analysis results and processed markers. This keeps settings, consent information, management notes, and bounce analysis data.</div>
+    </div>
+
+    <div class="faq">
+      <div class="faq-q">Q. What changed in v1.0.5?</div>
+      <div class="faq-a">A. v1.0.5 restores the in-app action for clearing saved DMARC analysis results, adds a Sending Servers view to review problematic source IPs, and improves Japanese labels for sending-server and bounce-classification displays.</div>
     </div>
 
     <div class="faq">

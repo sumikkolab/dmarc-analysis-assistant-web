@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chapter 7: Troubleshooting — DMARC Analysis Assistant | Sumikko Lab</title>
+<title>Chapter 8: Troubleshooting — DMARC Analysis Assistant | Sumikko Lab</title>
 <meta name="description" content="DMARC 分析支援ツールのトラブルシューティング。起動・取込・Microsoft 365 連携・WebView2・CSV エクスポートなどの問題と対処法。">
 <link rel="canonical" href="https://dmarc-analysis.sumikkolab.com/manual/troubleshooting.html">
 <link rel="stylesheet" href="styles.css">
@@ -16,8 +16,8 @@
 
 <div class="manual-header">
   <a href="../">&larr; DMARC Analysis Assistant</a>
-  <div class="section-ja visible"><h1>Chapter 7: トラブルシューティング</h1></div>
-  <div class="section-en"><h1>Chapter 7: Troubleshooting</h1></div>
+  <div class="section-ja visible"><h1>Chapter 8: トラブルシューティング</h1></div>
+  <div class="section-en"><h1>Chapter 8: Troubleshooting</h1></div>
 </div>
 
 <div class="manual-container">
@@ -30,9 +30,10 @@
         <li class="planned"><a>2. レポート取込（予定）</a></li>
         <li class="planned"><a>3. 分析画面（予定）</a></li>
         <li><a href="classification.html">4. 6 分類の読み方</a></li>
-        <li class="planned"><a>5. バウンス分析（予定）</a></li>
-        <li class="planned"><a>6. Microsoft 365 連携（予定）</a></li>
-        <li><a href="troubleshooting.html"><strong>7. トラブルシューティング</strong></a></li>
+        <li><a href="sending-servers.html">5. 送信元サーバー</a></li>
+        <li class="planned"><a>6. バウンス分析（予定）</a></li>
+        <li class="planned"><a>7. Microsoft 365 連携（予定）</a></li>
+        <li><a href="troubleshooting.html"><strong>8. トラブルシューティング</strong></a></li>
       </ul>
     </div>
     <div class="section-en">
@@ -43,9 +44,10 @@
         <li class="planned"><a>2. Importing reports (planned)</a></li>
         <li class="planned"><a>3. Analysis screen (planned)</a></li>
         <li><a href="classification.html?lang=en">4. Reading the six categories</a></li>
-        <li class="planned"><a>5. Bounce analysis (planned)</a></li>
-        <li class="planned"><a>6. Microsoft 365 integration (planned)</a></li>
-        <li><a href="troubleshooting.html?lang=en"><strong>7. Troubleshooting</strong></a></li>
+        <li><a href="sending-servers.html?lang=en">5. Sending servers</a></li>
+        <li class="planned"><a>6. Bounce analysis (planned)</a></li>
+        <li class="planned"><a>7. Microsoft 365 integration (planned)</a></li>
+        <li><a href="troubleshooting.html?lang=en"><strong>8. Troubleshooting</strong></a></li>
       </ul>
     </div>
   </nav>
@@ -72,7 +74,7 @@
       <h4>起動直後に「利用規約・免責事項」画面が毎回表示される</h4>
       <ul>
         <li><strong>原因候補:</strong> ユーザーデータフォルダの書き込み権限不足、または規約改訂。</li>
-        <li><strong>対処:</strong> 規約改訂時は再同意が必要です（改訂版の公開履歴あり）。それ以外の場合は <code>%LocalAppData%\SumikkoLab\DmarcAnalysisAssistant</code> の書き込み権限を確認。</li>
+        <li><strong>対処:</strong> 規約改訂時は再同意が必要です（改訂版の公開履歴あり）。それ以外の場合は <code>%LocalAppData%\DmarcAnalysisAssistant</code> の書き込み権限を確認。</li>
       </ul>
 
       <h3>レポート取込関連</h3>
@@ -126,7 +128,7 @@
       </ul>
 
       <h3>データ保存先とリセット</h3>
-      <p>本ツールはユーザーデータを <code>%LocalAppData%\SumikkoLab\DmarcAnalysisAssistant</code> 配下に保存します。完全リセットが必要な場合はアプリ終了後にこのフォルダを削除してください。Microsoft 365 の認証トークンはメモリ上のみで、ディスクには保存されません。</p>
+      <p>本ツールはユーザーデータを <code>%LocalAppData%\DmarcAnalysisAssistant</code> 配下に保存します。v1.0.5 以降では、DMARC の保存済み解析結果が残っている場合、設定画面の「保存済みDMARC解析データを削除」から削除できます。この操作では、設定情報、同意情報、管理区分メモ、バウンス分析データは削除されません。Microsoft 365 の認証トークンはメモリ上のみで、ディスクには保存されません。</p>
 
       <h3>それでも解決しない場合</h3>
       <ul>
@@ -151,7 +153,7 @@
       <h4>The Terms of Use screen appears on every launch</h4>
       <ul>
         <li><strong>Likely cause:</strong> Lack of write permission to user data folder, or a terms revision.</li>
-        <li><strong>Fix:</strong> Re-consent is required after a terms revision (version history is published). Otherwise, check write permission on <code>%LocalAppData%\SumikkoLab\DmarcAnalysisAssistant</code>.</li>
+        <li><strong>Fix:</strong> Re-consent is required after a terms revision (version history is published). Otherwise, check write permission on <code>%LocalAppData%\DmarcAnalysisAssistant</code>.</li>
       </ul>
 
       <h3>Report import issues</h3>
@@ -205,7 +207,7 @@
       </ul>
 
       <h3>Data location and reset</h3>
-      <p>User data is stored under <code>%LocalAppData%\SumikkoLab\DmarcAnalysisAssistant</code>. For a full reset, close the app and delete this folder. Microsoft 365 authentication tokens are held in memory only and never persisted.</p>
+      <p>User data is stored under <code>%LocalAppData%\DmarcAnalysisAssistant</code>. In v1.0.5 and later, if saved DMARC analysis results remain, open Settings and use "Delete stored DMARC analysis data" to delete them. This action does not delete settings, consent information, management notes, or bounce analysis data. Microsoft 365 authentication tokens are held in memory only and never persisted.</p>
 
       <h3>Still stuck?</h3>
       <ul>
