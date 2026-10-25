@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual — DMARC Analysis Assistant | Sumikko Lab</title>
+<meta name="description" content="DMARC 分析支援ツールのマニュアル。インストール、初回同意、レポート取込、6 分類の確認、CSV エクスポート、データ削除の操作手順。">
+<link rel="canonical" href="https://dmarc-analysis.sumikkolab.com/manual/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:site_name" content="DMARC Analysis Assistant — Sumikko Lab">
+<meta property="og:title" content="Manual — DMARC Analysis Assistant | Sumikko Lab">
+<meta property="og:description" content="DMARC 分析支援ツールのマニュアル。インストール、初回同意、レポート取込、6 分類の確認、CSV エクスポート、データ削除の操作手順。">
+<meta property="og:url" content="https://dmarc-analysis.sumikkolab.com/manual/">
+<meta property="og:image" content="https://dmarc-analysis.sumikkolab.com/images/en/findings.png">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1032">
+<meta property="og:image:alt" content="DMARC 分析支援ツールの検出結果の画面">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Manual — DMARC Analysis Assistant | Sumikko Lab">
+<meta name="twitter:description" content="DMARC 分析支援ツールのマニュアル。インストール、初回同意、レポート取込、6 分類の確認、CSV エクスポート、データ削除の操作手順。">
+<meta name="twitter:image" content="https://dmarc-analysis.sumikkolab.com/images/en/findings.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="lang-toggle">
+  <button id="btn-ja" class="active" onclick="switchLang('ja')">日本語</button>
+  <button id="btn-en" onclick="switchLang('en')">English</button>
+</div>
+
+<div class="manual-header">
+  <a href="../">&larr; DMARC Analysis Assistant</a>
+  <div class="section-ja visible"><h1>マニュアル</h1></div>
+  <div class="section-en"><h1>Manual</h1></div>
+</div>
+
+<div class="manual-container">
+  <nav class="manual-nav">
+    <div class="section-ja visible">
+      <h2>目次</h2>
+      <ul>
+        <li><a href="index.html"><strong>0. 概要</strong></a></li>
+        <li><a href="getting-started.html">1. はじめに</a></li>
+        <li class="planned"><a>2. レポート取込（予定）</a></li>
+        <li class="planned"><a>3. 分析画面（予定）</a></li>
+        <li><a href="classification.html">4. 6 分類の読み方</a></li>
+        <li><a href="sending-servers.html">5. 送信元サーバー</a></li>
+        <li class="planned"><a>6. バウンス分析（予定）</a></li>
+        <li class="planned"><a>7. Microsoft 365 連携（予定）</a></li>
+        <li><a href="troubleshooting.html">8. トラブルシューティング</a></li>
+      </ul>
+    </div>
+    <div class="section-en">
+      <h2>Contents</h2>
+      <ul>
+        <li><a href="index.html?lang=en"><strong>0. Overview</strong></a></li>
+        <li><a href="getting-started.html?lang=en">1. Getting Started</a></li>
+        <li class="planned"><a>2. Importing reports (planned)</a></li>
+        <li class="planned"><a>3. Analysis screen (planned)</a></li>
+        <li><a href="classification.html?lang=en">4. Reading the six categories</a></li>
+        <li><a href="sending-servers.html?lang=en">5. Sending servers</a></li>
+        <li class="planned"><a>6. Bounce analysis (planned)</a></li>
+        <li class="planned"><a>7. Microsoft 365 integration (planned)</a></li>
+        <li><a href="troubleshooting.html?lang=en">8. Troubleshooting</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="manual-content">
+    <div class="nav-links">
+      <a href="../">&larr; 製品情報 / Product</a>
+      <a href="../support.html">サポート / Support</a>
+    </div>
+
+    <!-- Japanese -->
+    <div class="section-ja visible">
+      <h2>DMARC 分析支援ツール マニュアル</h2>
+      <p>このマニュアルは DMARC 分析支援ツール v1.0.6 の操作を章ごとに説明します。左のメニューから章を選択してください。</p>
+
+      <h3>このツールの流れ</h3>
+      <ol>
+        <li><strong>同意</strong> — 初回起動時に利用規約・免責事項を確認し、同意する</li>
+        <li><strong>取込</strong> — フォルダまたは Microsoft 365 から DMARC レポート（XML / ZIP / GZ）を取得</li>
+        <li><strong>解析</strong> — 6 分類で自動判定（なりすまし疑い / 設定不備 / 転送由来 / 正常送信 / バウンス / 判定不能）</li>
+        <li><strong>確認</strong> — 一覧・フィルタ・送信元サーバー別集計で状況を把握</li>
+        <li><strong>エクスポート</strong> — CSV で外部ツール（Excel / BI）連携</li>
+      </ol>
+
+      <h3>マニュアルの範囲</h3>
+      <div class="note">
+        v1.0.6 時点では上記目次の <strong>0 / 1 / 4 / 5 / 7 章</strong>を公開しています。「予定」と表示された章は、画面確定に合わせて順次公開します。当面はアプリ内ツールチップと、製品トップページの機能説明もあわせてご参照ください。
+      </div>
+
+      <h3>関連リンク</h3>
+      <ul>
+        <li><a href="../">製品情報トップ</a></li>
+        <li><a href="../terms-of-use.html">利用規約・免責事項</a></li>
+        <li><a href="../privacy-policy.html">プライバシーポリシー</a></li>
+        <li><a href="../support.html">サポート・FAQ</a></li>
+      </ul>
+    </div>
+
+    <!-- English -->
+    <div class="section-en">
+      <h2>DMARC Analysis Assistant Manual</h2>
+      <p>This manual walks through DMARC Analysis Assistant v1.0.6 chapter by chapter. Choose a chapter from the menu on the left.</p>
+
+      <h3>Workflow</h3>
+      <ol>
+        <li><strong>Consent</strong> — Review the Terms of Use &amp; Disclaimer on first launch and accept</li>
+        <li><strong>Import</strong> — Load DMARC reports (XML / ZIP / GZ) from a folder or from Microsoft 365</li>
+        <li><strong>Analyze</strong> — The six-category engine classifies each entry (Spoofing suspected / Config issue / Forwarded / Legitimate / Bounce / Unknown)</li>
+        <li><strong>Review</strong> — Inspect results with filters and sending-server summaries</li>
+        <li><strong>Export</strong> — Export to CSV for Excel or BI tools</li>
+      </ol>
+
+      <h3>Scope of this manual</h3>
+      <div class="note">
+        As of v1.0.6, chapters <strong>0 / 1 / 4 / 5 / 7</strong> are published. Chapters marked "planned" will be added as the screens are finalized. For now, please also consult the in-app tooltips and the feature overview on the product top page.
+      </div>
+
+      <h3>Related links</h3>
+      <ul>
+        <li><a href="../?lang=en">Product top page</a></li>
+        <li><a href="../terms-of-use.html?lang=en">Terms of Use &amp; Disclaimer</a></li>
+        <li><a href="../privacy-policy.html?lang=en">Privacy Policy</a></li>
+        <li><a href="../support.html?lang=en">Support &amp; FAQ</a></li>
+      </ul>
+    </div>
+  </main>
+</div>
+
+<div class="footer">&copy; 2026 Sumikko Lab. DMARC Analysis Assistant.</div>
+
+<script>
+function switchLang(lang) {
+  document.querySelectorAll('.section-ja, .section-en').forEach(function(el) { el.classList.remove('visible'); });
+  document.querySelectorAll('.section-' + lang).forEach(function(el) { el.classList.add('visible'); });
+  document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.documentElement.lang = lang;
+}
+(function() { if (location.search.indexOf('lang=en') >= 0) switchLang('en'); })();
+</script>
+</body>
+</html>
