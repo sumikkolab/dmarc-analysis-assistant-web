@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Terms of Use &amp; Disclaimer — DMARC Analysis Assistant | Sumikko Lab</title>
+<title>利用規約・免責事項 — DMARC 分析支援ツール | Sumikko Lab</title>
 <meta name="description" content="DMARC 分析支援ツールの利用規約・免責事項。ローカル動作・Mail.Read 限定・読み取り専用・外部送信なしの条件を明記。アプリ内表示の条文と同一内容。">
 <link rel="canonical" href="https://dmarc-analysis.sumikkolab.com/terms-of-use.html">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ja_JP">
 <meta property="og:site_name" content="DMARC Analysis Assistant — Sumikko Lab">
-<meta property="og:title" content="Terms of Use &amp; Disclaimer — DMARC Analysis Assistant | Sumikko Lab">
+<meta property="og:title" content="利用規約・免責事項 — DMARC 分析支援ツール | Sumikko Lab">
 <meta property="og:description" content="DMARC 分析支援ツールの利用規約・免責事項。ローカル動作・Mail.Read 限定・読み取り専用・外部送信なしの条件を明記。アプリ内表示の条文と同一内容。">
 <meta property="og:url" content="https://dmarc-analysis.sumikkolab.com/terms-of-use.html">
 <meta property="og:image" content="https://dmarc-analysis.sumikkolab.com/images/en/findings.png">
@@ -17,7 +17,7 @@
 <meta property="og:image:height" content="1032">
 <meta property="og:image:alt" content="DMARC 分析支援ツールの検出結果の画面">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Terms of Use &amp; Disclaimer — DMARC Analysis Assistant | Sumikko Lab">
+<meta name="twitter:title" content="利用規約・免責事項 — DMARC 分析支援ツール | Sumikko Lab">
 <meta name="twitter:description" content="DMARC 分析支援ツールの利用規約・免責事項。ローカル動作・Mail.Read 限定・読み取り専用・外部送信なしの条件を明記。アプリ内表示の条文と同一内容。">
 <meta name="twitter:image" content="https://dmarc-analysis.sumikkolab.com/images/en/findings.png">
 <style>
@@ -171,6 +171,11 @@ function switchLang(lang) {
   document.querySelectorAll('.section-' + lang).forEach(function(el) { el.classList.add('visible'); });
   document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
   document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.documentElement.lang = lang;
+  var titles = { ja: '利用規約・免責事項 — DMARC 分析支援ツール | Sumikko Lab', en: 'Terms of Use & Disclaimer — DMARC Analysis Assistant | Sumikko Lab' };
+  document.title = titles[lang];
+  document.querySelector('meta[property="og:title"]').content = titles[lang];
+  document.querySelector('meta[name="twitter:title"]').content = titles[lang];
 }
 (function() { if (location.search.indexOf('lang=en') >= 0) switchLang('en'); })();
 </script>

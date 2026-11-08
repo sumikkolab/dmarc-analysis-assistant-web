@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Manual — DMARC Analysis Assistant | Sumikko Lab</title>
+<title>マニュアル — DMARC 分析支援ツール | Sumikko Lab</title>
 <meta name="description" content="DMARC 分析支援ツールのマニュアル。インストール、初回同意、レポート取込、6 分類の確認、CSV エクスポート、データ削除の操作手順。">
 <link rel="canonical" href="https://dmarc-analysis.sumikkolab.com/manual/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ja_JP">
 <meta property="og:site_name" content="DMARC Analysis Assistant — Sumikko Lab">
-<meta property="og:title" content="Manual — DMARC Analysis Assistant | Sumikko Lab">
+<meta property="og:title" content="マニュアル — DMARC 分析支援ツール | Sumikko Lab">
 <meta property="og:description" content="DMARC 分析支援ツールのマニュアル。インストール、初回同意、レポート取込、6 分類の確認、CSV エクスポート、データ削除の操作手順。">
 <meta property="og:url" content="https://dmarc-analysis.sumikkolab.com/manual/">
 <meta property="og:image" content="https://dmarc-analysis.sumikkolab.com/images/en/findings.png">
@@ -17,7 +17,7 @@
 <meta property="og:image:height" content="1032">
 <meta property="og:image:alt" content="DMARC 分析支援ツールの検出結果の画面">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Manual — DMARC Analysis Assistant | Sumikko Lab">
+<meta name="twitter:title" content="マニュアル — DMARC 分析支援ツール | Sumikko Lab">
 <meta name="twitter:description" content="DMARC 分析支援ツールのマニュアル。インストール、初回同意、レポート取込、6 分類の確認、CSV エクスポート、データ削除の操作手順。">
 <meta name="twitter:image" content="https://dmarc-analysis.sumikkolab.com/images/en/findings.png">
 <link rel="stylesheet" href="styles.css">
@@ -139,6 +139,10 @@ function switchLang(lang) {
   document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
   document.getElementById('btn-en').classList.toggle('active', lang === 'en');
   document.documentElement.lang = lang;
+  var titles = { ja: 'マニュアル — DMARC 分析支援ツール | Sumikko Lab', en: 'Manual — DMARC Analysis Assistant | Sumikko Lab' };
+  document.title = titles[lang];
+  document.querySelector('meta[property="og:title"]').content = titles[lang];
+  document.querySelector('meta[name="twitter:title"]').content = titles[lang];
 }
 (function() { if (location.search.indexOf('lang=en') >= 0) switchLang('en'); })();
 </script>

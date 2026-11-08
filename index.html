@@ -182,7 +182,7 @@
     <button id="btn-ja" class="active" onclick="switchLang('ja')">日本語</button>
     <button id="btn-en" onclick="switchLang('en')">English</button>
   </div>
-  <h1>DMARC 分析支援ツール</h1>
+  <h1 id="page-h1">DMARC 分析支援ツール</h1>
 
   <div class="section-ja visible">
     <p class="tagline">DMARC レポートを、対応すべきものが見える形で可視化。</p>
@@ -468,15 +468,25 @@ function switchLang(lang) {
   document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
   document.getElementById('btn-en').classList.toggle('active', lang === 'en');
   document.documentElement.lang = lang;
-  if (lang === 'en') {
-    document.title = 'DMARC Analysis Assistant — Local DMARC report visualization';
-    var meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.content = 'Analyze DMARC aggregate reports and bounce messages locally. Separate spoofing, configuration issues, and forwarded traffic. No external data transmission.';
-  } else {
-    document.title = 'DMARC 分析支援ツール — DMARC レポートをローカルで可視化';
-    var meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.content = 'DMARC 集約レポートとバウンスメールをローカル端末だけで可視化。なりすまし疑い / 設定不備 / 転送由来を区別して、対応すべきものが見える。外部サーバーに送信しません。';
-  }
+  var text = {
+    ja: {
+      h1: 'DMARC 分析支援ツール',
+      title: 'DMARC 分析支援ツール — DMARC レポートをローカルで可視化',
+      description: 'DMARC 集約レポートとバウンスメールをローカル端末だけで可視化。なりすまし疑い / 設定不備 / 転送由来を区別して、対応すべきものが見える。外部サーバーに送信しません。'
+    },
+    en: {
+      h1: 'DMARC Analysis Assistant',
+      title: 'DMARC Analysis Assistant — Local DMARC report visualization',
+      description: 'Analyze DMARC aggregate reports and bounce messages locally. Separate spoofing, configuration issues, and forwarded traffic. No external data transmission.'
+    }
+  }[lang];
+  document.getElementById('page-h1').textContent = text.h1;
+  document.title = text.title;
+  document.querySelector('meta[name="description"]').content = text.description;
+  document.querySelector('meta[property="og:title"]').content = text.title;
+  document.querySelector('meta[property="og:description"]').content = text.description;
+  document.querySelector('meta[name="twitter:title"]').content = text.title;
+  document.querySelector('meta[name="twitter:description"]').content = text.description;
 }
 (function() { if (location.search.indexOf('lang=en') >= 0) switchLang('en'); })();
 </script>

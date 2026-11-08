@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Privacy Policy — DMARC Analysis Assistant | Sumikko Lab</title>
+<title>プライバシーポリシー — DMARC 分析支援ツール | Sumikko Lab</title>
 <meta name="description" content="DMARC 分析支援ツールのプライバシーポリシー。ローカル動作・外部送信なし・テレメトリなし・認証トークン非永続化。Mail.Read のみ、読み取り専用。保存先と削除方法も明記。">
 <link rel="canonical" href="https://dmarc-analysis.sumikkolab.com/privacy-policy.html">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ja_JP">
 <meta property="og:site_name" content="DMARC Analysis Assistant — Sumikko Lab">
-<meta property="og:title" content="Privacy Policy — DMARC Analysis Assistant | Sumikko Lab">
+<meta property="og:title" content="プライバシーポリシー — DMARC 分析支援ツール | Sumikko Lab">
 <meta property="og:description" content="DMARC 分析支援ツールのプライバシーポリシー。ローカル動作・外部送信なし・テレメトリなし・認証トークン非永続化。Mail.Read のみ、読み取り専用。保存先と削除方法も明記。">
 <meta property="og:url" content="https://dmarc-analysis.sumikkolab.com/privacy-policy.html">
 <meta property="og:image" content="https://dmarc-analysis.sumikkolab.com/images/en/findings.png">
@@ -17,7 +17,7 @@
 <meta property="og:image:height" content="1032">
 <meta property="og:image:alt" content="DMARC 分析支援ツールの検出結果の画面">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Privacy Policy — DMARC Analysis Assistant | Sumikko Lab">
+<meta name="twitter:title" content="プライバシーポリシー — DMARC 分析支援ツール | Sumikko Lab">
 <meta name="twitter:description" content="DMARC 分析支援ツールのプライバシーポリシー。ローカル動作・外部送信なし・テレメトリなし・認証トークン非永続化。Mail.Read のみ、読み取り専用。保存先と削除方法も明記。">
 <meta name="twitter:image" content="https://dmarc-analysis.sumikkolab.com/images/en/findings.png">
 <style>
@@ -203,6 +203,11 @@ function switchLang(lang) {
   document.querySelectorAll('.section-' + lang).forEach(function(el) { el.classList.add('visible'); });
   document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
   document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.documentElement.lang = lang;
+  var titles = { ja: 'プライバシーポリシー — DMARC 分析支援ツール | Sumikko Lab', en: 'Privacy Policy — DMARC Analysis Assistant | Sumikko Lab' };
+  document.title = titles[lang];
+  document.querySelector('meta[property="og:title"]').content = titles[lang];
+  document.querySelector('meta[name="twitter:title"]').content = titles[lang];
 }
 (function() { if (location.search.indexOf('lang=en') >= 0) switchLang('en'); })();
 </script>
