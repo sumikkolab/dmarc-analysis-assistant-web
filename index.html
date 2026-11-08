@@ -3,22 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DMARC 分析支援ツール — DMARC レポートをローカルで可視化</title>
-<meta name="description" content="DMARC 集約レポートとバウンスメールをローカル端末だけで可視化。なりすまし疑い / 設定不備 / 転送由来を区別して、対応すべきものが見える。外部サーバーに送信しません。">
+<title>DMARC レポートでなりすまし・設定不備・転送を切り分ける | DMARC 分析支援ツール</title>
+<meta name="description" content="DMARC 集約レポート（XML）で SPF/DKIM が fail した送信元が、なりすましか自社の設定不備か転送かを判別できず困っていませんか。送信元 IP ごとの集計と 6 分類で対応すべきものを絞り込め、解析はローカル端末だけで完結してレポートを外部に送信しません。">
 <link rel="canonical" href="https://dmarc-analysis.sumikkolab.com/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ja_JP">
 <meta property="og:site_name" content="DMARC 分析支援ツール — Sumikko Lab">
-<meta property="og:title" content="DMARC 分析支援ツール — DMARC レポートをローカルで可視化">
-<meta property="og:description" content="DMARC 集約レポートとバウンスメールをローカル端末だけで可視化。なりすまし疑い / 設定不備 / 転送由来を区別して、対応すべきものが見える。外部サーバーに送信しません。">
+<meta property="og:title" content="DMARC レポートでなりすまし・設定不備・転送を切り分ける | DMARC 分析支援ツール">
+<meta property="og:description" content="DMARC 集約レポート（XML）で SPF/DKIM が fail した送信元が、なりすましか自社の設定不備か転送かを判別できず困っていませんか。送信元 IP ごとの集計と 6 分類で対応すべきものを絞り込め、解析はローカル端末だけで完結してレポートを外部に送信しません。">
 <meta property="og:url" content="https://dmarc-analysis.sumikkolab.com/">
 <meta property="og:image" content="https://dmarc-analysis.sumikkolab.com/images/en/findings.png">
 <meta property="og:image:width" content="1920">
 <meta property="og:image:height" content="1032">
 <meta property="og:image:alt" content="DMARC 分析支援ツールの検出結果の画面">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="DMARC 分析支援ツール — DMARC レポートをローカルで可視化">
-<meta name="twitter:description" content="DMARC 集約レポートとバウンスメールをローカル端末だけで可視化。なりすまし疑い / 設定不備 / 転送由来を区別して、対応すべきものが見える。外部サーバーに送信しません。">
+<meta name="twitter:title" content="DMARC レポートでなりすまし・設定不備・転送を切り分ける | DMARC 分析支援ツール">
+<meta name="twitter:description" content="DMARC 集約レポート（XML）で SPF/DKIM が fail した送信元が、なりすましか自社の設定不備か転送かを判別できず困っていませんか。送信元 IP ごとの集計と 6 分類で対応すべきものを絞り込め、解析はローカル端末だけで完結してレポートを外部に送信しません。">
 <meta name="twitter:image" content="https://dmarc-analysis.sumikkolab.com/images/en/findings.png">
 <script type="application/ld+json">
 {
@@ -51,18 +51,20 @@
       "url": "https://dmarc-analysis.sumikkolab.com/",
       "downloadUrl": "https://apps.microsoft.com/detail/9MW671KFZL9B",
       "installUrl": "https://apps.microsoft.com/detail/9MW671KFZL9B",
-      "description": "Analyzes DMARC aggregate reports and related bounce messages entirely on the local device, classifying each entry into six categories (Spoofing suspected / Config issue / Forwarded / Legitimate / Bounce / Unknown). Uses a deterministic rule-based engine, with no cloud analysis or external AI. Microsoft 365 integration is optional and read-only (Mail.Read).",
+      "description": "Helps tell spoofing, misconfiguration, and forwarding apart in DMARC aggregate reports (XML), by classifying each entry into six categories (Spoofing suspected / Config issue / Forwarded / Legitimate / Bounce / Unknown) and summarizing results by source IP. Runs entirely on the local device with a deterministic rule-based engine, with no cloud analysis or external AI. Microsoft 365 integration is optional and read-only (Mail.Read).",
       "inLanguage": ["ja", "en"],
       "dateModified": "2026-10-26",
       "featureList": [
-        "DMARC aggregate report analysis (XML / ZIP / GZ)",
-        "Bounce message correlation",
-        "Sending server summary by source IP",
-        "Six-category rule-based classification",
-        "Domain / category / period trend aggregation",
-        "CSV export",
-        "Local-only execution, no external transmission",
-        "Optional Microsoft 365 read-only integration (Mail.Read)"
+        "Read DMARC aggregate reports (XML / ZIP / GZ) without parsing the XML by hand",
+        "Tell spoofing suspected (SPF and DKIM both fail, external IP) apart from config issues and forwarded mail",
+        "Find why your own mail fails DMARC: SPF include gaps and missing SaaS DKIM signing",
+        "Decide whether forwarding-related failures need action",
+        "Review the sources with the most items needing attention first, using a summary by source IP",
+        "Check whether an unfamiliar source IP matches your registered servers",
+        "Correlate bounce messages with failing report entries to find why delivery failed",
+        "Tag domains as Managed / Monitored / External for multi-domain operation",
+        "Export results to CSV for analysis in Excel or BI tools",
+        "Analyze locally with no external transmission; optional Microsoft 365 read-only integration (Mail.Read)"
       ],
       "offers": {
         "@type": "Offer",
@@ -182,7 +184,7 @@
     <button id="btn-ja" class="active" onclick="switchLang('ja')">日本語</button>
     <button id="btn-en" onclick="switchLang('en')">English</button>
   </div>
-  <h1 id="page-h1">DMARC 分析支援ツール</h1>
+  <h1 id="page-h1">DMARC 分析支援ツール — なりすまし・設定不備・転送を切り分け</h1>
 
   <div class="section-ja visible">
     <p class="tagline">DMARC レポートを、対応すべきものが見える形で可視化。</p>
@@ -238,6 +240,53 @@
         <dt>何をしない</dt><dd>外部送信しない。クラウド解析・AI 推論を使わない。メールを送信・削除・編集しない。DNS を変更しない。</dd>
         <dt>差別化</dt><dd>ローカル完結・決定論的ルール判定・Microsoft 365 連携は任意で Mail.Read のみ・テレメトリなし。</dd>
       </dl>
+    </div>
+
+    <div class="value-section">
+      <h2>こんな課題を解決します</h2>
+      <div class="features">
+        <div class="feature-card">
+          <h3>DMARC レポートの XML をどう読めばいいか分からないとき</h3>
+          <p>DMARC 集約レポート（ZIP / GZ / XML）を取り込むと、送信元 IP・SPF/DKIM の結果・件数を読み取り、6 分類に自動で振り分けます。XML を直接読まなくても、対応すべきものと対応不要なものを区別できます。</p>
+        </div>
+        <div class="feature-card">
+          <h3>SPF/DKIM が fail した送信元がなりすましか調べたいとき</h3>
+          <p>SPF と DKIM がともに fail し、送信元 IP が自社管理外のものを「なりすまし疑い」として優先度高で表示します。送信元 IP と ASN を確認しながら、なりすまし送信の可能性を調査できます。</p>
+        </div>
+        <div class="feature-card">
+          <h3>自社メールが DMARC に失敗する原因を知りたいとき</h3>
+          <p>自社や正規 SaaS の送信元なのに SPF または DKIM が fail したものを「設定不備」に分類します。SPF レコードの include: / ip4: の漏れや、SaaS 側の DKIM 署名設定の抜けを確認する手掛かりになります。</p>
+        </div>
+        <div class="feature-card">
+          <h3>転送されたメールの DMARC fail を放置してよいか判断したいとき</h3>
+          <p>SPF が fail でも DKIM が pass のものや、転送に特徴的な中継 IP を経由したものを「転送由来」に分類します。通常は対応不要で、件数が異常に多い場合のみ確認します。</p>
+        </div>
+        <div class="feature-card">
+          <h3>送信元 IP が多く、どこから確認すべきか分からないとき</h3>
+          <p>送信元サーバー別集計が、送信元 IP ごとにメール数・要確認件数・DMARC 成功率をまとめます。問題が多い送信元から順に確認できます。</p>
+        </div>
+        <div class="feature-card">
+          <h3>見覚えのない送信元 IP が正規か確認したいとき</h3>
+          <p>送信元サーバー画面の「設定照合」で、設定画面に登録した自社 IP・既知サービス・転送 IP との一致を確認できます。「登録なし」の行から、正規の送信元かどうかを確認します。</p>
+        </div>
+        <div class="feature-card">
+          <h3>宛先不達の原因を確認したいとき</h3>
+          <p>関連するバウンスメールを取り込み、レポート上の fail エントリと突合します。突合できたものは「バウンス」に分類され、存在しないアドレスや受信側の拒否といった原因を確認できます。大量に出る場合は、送信リストの見直しの手掛かりになります。</p>
+        </div>
+        <div class="feature-card">
+          <h3>複数ドメインを管理対象と監視対象に分けて整理したいとき</h3>
+          <p>複数の受信ドメインをまとめて扱い、Managed / Monitored / External のタグを運用メモとして付けられます。組織としての DMARC の管理状況を整理して確認できます。</p>
+        </div>
+        <div class="feature-card">
+          <h3>分析結果を CSV にして Excel で見たいとき</h3>
+          <p>分類結果を CSV で出力でき、Excel や BI ツールでさらに分析できます。送信元 IP の確認をチーム内で分担したいときにも使えます。</p>
+        </div>
+        <div class="feature-card">
+          <h3>レポートを外部に出さずに解析したいとき</h3>
+          <p>解析はローカル端末だけで行い、レポート本文・IP 情報・認証結果・ドメイン情報を外部サーバーに送信しません。Microsoft 365 からの取り込みは任意で、使用する権限は Mail.Read のみ（読み取り専用）です。</p>
+        </div>
+      </div>
+      <p style="font-size:0.82rem;color:#475569;margin-top:8px">分類は一次トリアージの目安で、すべてを正確に分けるとは限りません。実際の被害の有無や攻撃者の意図は示しません。メールの送信・削除・編集と DNS の変更は行いません。</p>
     </div>
 
     <div class="problem-section">
@@ -348,6 +397,53 @@
         <dt>What it doesn't do</dt><dd>No external transmission. No cloud analysis or AI inference. Never sends, deletes, or edits mail. Never changes DNS.</dd>
         <dt>Differentiators</dt><dd>Local-only, deterministic rule-based classification, optional Microsoft 365 integration with Mail.Read only, zero telemetry.</dd>
       </dl>
+    </div>
+
+    <div class="value-section">
+      <h2>Problems this solves</h2>
+      <div class="features">
+        <div class="feature-card">
+          <h3>How do I read a DMARC aggregate report in XML?</h3>
+          <p>Import DMARC aggregate reports (ZIP / GZ / XML) and the tool reads the source IPs, SPF/DKIM results, and counts, then sorts each entry into one of six categories. You can tell what needs action from what doesn't without reading the XML yourself.</p>
+        </div>
+        <div class="feature-card">
+          <h3>How can I tell whether a sender failing SPF and DKIM is spoofing?</h3>
+          <p>Entries where both SPF and DKIM fail and the source IP is outside your own infrastructure appear as "Spoofing suspected" with high priority. You can then check the source IP and ASN to investigate possible spoofed sending.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Why does my own mail fail DMARC?</h3>
+          <p>Mail from your own or a legitimate SaaS source that fails SPF or DKIM is classed as "Config issue". It points you to gaps in the SPF record (include: / ip4:) and missing DKIM signing on the SaaS side.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Does email forwarding cause DMARC to fail, and can I ignore it?</h3>
+          <p>Entries with SPF fail but DKIM pass, or routed through relay IPs typical of forwarding, are classed as "Forwarded". They usually need no action; check them only when the count is unusually high.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Which source IPs should I check first?</h3>
+          <p>The sending server summary groups results by source IP, with mail volume, items needing attention, and DMARC pass rate. You can start with the sources that have the most problems.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Is an unfamiliar source IP legitimate?</h3>
+          <p>The "server matching" column on the Sending Servers screen shows whether an IP matches the own IPs, known services, or forwarding IPs you registered in settings. Start with rows marked as not registered and confirm whether the sender is legitimate.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Why did my messages bounce?</h3>
+          <p>Import related bounce messages and the tool correlates them with failing report entries. Matched entries are classed as "Bounce", so you can check causes such as nonexistent addresses or recipient-side rejection. A large volume is a cue to review your send list.</p>
+        </div>
+        <div class="feature-card">
+          <h3>How do I organize DMARC across multiple domains?</h3>
+          <p>Handle several receiving domains together and tag each one as Managed, Monitored, or External as an operational note. This keeps your organization's DMARC posture organized in one place.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Can I analyze DMARC results in Excel?</h3>
+          <p>Export classification results to CSV and analyze them further in Excel or BI tools. It also helps when your team splits up the review of source IPs.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Can I analyze DMARC reports without uploading them anywhere?</h3>
+          <p>Analysis runs only on your local device. Report contents, IP information, authentication results, and domain information are never sent to an external server. Microsoft 365 import is optional and uses the Mail.Read permission only (read-only).</p>
+        </div>
+      </div>
+      <p style="font-size:0.82rem;color:#475569;margin-top:8px">Classification is a guide for first-pass triage and may not sort every entry correctly. It does not show whether harm occurred or what an attacker intended. The tool never sends, deletes, or edits mail, and never changes DNS.</p>
     </div>
 
     <div class="problem-section">
@@ -470,14 +566,14 @@ function switchLang(lang) {
   document.documentElement.lang = lang;
   var text = {
     ja: {
-      h1: 'DMARC 分析支援ツール',
-      title: 'DMARC 分析支援ツール — DMARC レポートをローカルで可視化',
-      description: 'DMARC 集約レポートとバウンスメールをローカル端末だけで可視化。なりすまし疑い / 設定不備 / 転送由来を区別して、対応すべきものが見える。外部サーバーに送信しません。'
+      h1: 'DMARC 分析支援ツール — なりすまし・設定不備・転送を切り分け',
+      title: 'DMARC レポートでなりすまし・設定不備・転送を切り分ける | DMARC 分析支援ツール',
+      description: 'DMARC 集約レポート（XML）で SPF/DKIM が fail した送信元が、なりすましか自社の設定不備か転送かを判別できず困っていませんか。送信元 IP ごとの集計と 6 分類で対応すべきものを絞り込め、解析はローカル端末だけで完結してレポートを外部に送信しません。'
     },
     en: {
-      h1: 'DMARC Analysis Assistant',
-      title: 'DMARC Analysis Assistant — Local DMARC report visualization',
-      description: 'Analyze DMARC aggregate reports and bounce messages locally. Separate spoofing, configuration issues, and forwarded traffic. No external data transmission.'
+      h1: 'DMARC Analysis Assistant — Tell spoofing, misconfiguration, and forwarding apart',
+      title: 'Tell Spoofing from Misconfiguration and Forwarding in DMARC Reports | DMARC Analysis Assistant',
+      description: 'Got DMARC aggregate reports in XML but can\'t tell whether SPF/DKIM failures come from spoofing, your own misconfiguration, or forwarding? This tool groups results by source IP and sorts them into six categories, entirely on your local device with no report data sent externally.'
     }
   }[lang];
   document.getElementById('page-h1').textContent = text.h1;
