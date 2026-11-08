@@ -61,7 +61,6 @@
         "Decide whether forwarding-related failures need action",
         "Review the sources with the most items needing attention first, using a summary by source IP",
         "Check whether an unfamiliar source IP matches your registered servers",
-        "Correlate bounce messages with failing report entries to find why delivery failed",
         "Tag domains as Managed / Monitored / External for multi-domain operation",
         "Export results to CSV for analysis in Excel or BI tools",
         "Analyze locally with no external transmission; optional Microsoft 365 read-only integration (Mail.Read)"
@@ -270,10 +269,6 @@
           <p>送信元サーバー画面の「設定照合」で、設定画面に登録した自社 IP・既知サービス・転送 IP との一致を確認できます。「登録なし」の行から、正規の送信元かどうかを確認します。</p>
         </div>
         <div class="feature-card">
-          <h3>宛先不達の原因を確認したいとき</h3>
-          <p>関連するバウンスメールを取り込み、レポート上の fail エントリと突合します。突合できたものは「バウンス」に分類され、存在しないアドレスや受信側の拒否といった原因を確認できます。大量に出る場合は、送信リストの見直しの手掛かりになります。</p>
-        </div>
-        <div class="feature-card">
           <h3>複数ドメインを管理対象と監視対象に分けて整理したいとき</h3>
           <p>複数の受信ドメインをまとめて扱い、Managed / Monitored / External のタグを運用メモとして付けられます。組織としての DMARC の管理状況を整理して確認できます。</p>
         </div>
@@ -425,10 +420,6 @@
         <div class="feature-card">
           <h3>Is an unfamiliar source IP legitimate?</h3>
           <p>The "server matching" column on the Sending Servers screen shows whether an IP matches the own IPs, known services, or forwarding IPs you registered in settings. Start with rows marked as not registered and confirm whether the sender is legitimate.</p>
-        </div>
-        <div class="feature-card">
-          <h3>Why did my messages bounce?</h3>
-          <p>Import related bounce messages and the tool correlates them with failing report entries. Matched entries are classed as "Bounce", so you can check causes such as nonexistent addresses or recipient-side rejection. A large volume is a cue to review your send list.</p>
         </div>
         <div class="feature-card">
           <h3>How do I organize DMARC across multiple domains?</h3>
