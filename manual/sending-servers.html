@@ -87,7 +87,7 @@
         <tr><td>送信元 IP</td><td>DMARC レポートに記録されたメール送信元 IP アドレスです。</td></tr>
         <tr><td>メール数</td><td>その IP から送信されたと報告されたメール件数です。</td></tr>
         <tr><td>ドメイン数</td><td>その IP が関係した受信側ドメイン数です。</td></tr>
-        <tr><td>要確認</td><td>なりすまし疑い、設定不備、判定不能など、運用者が確認すべき件数です。</td></tr>
+        <tr><td>要確認</td><td>なりすまし疑い・設定不備・要確認・読取エラーに分類されたメールの合計で、運用者が確認すべき件数です。</td></tr>
         <tr><td>DMARC 成功率</td><td>DMARC 評価が pass になった割合です。0.0% の場合は認証失敗が集中していないか確認してください。</td></tr>
         <tr><td>推定サービス</td><td>既知の Microsoft 365 や設定済みの自社中継サーバーなど、推定できる送信元の種類です。信頼度は詳細画面に分けて表示されます。</td></tr>
         <tr><td>設定照合</td><td>設定画面に登録した自社 IP、既知サービス、転送 IP と一致しているかを示します。一致していても DMARC が失敗している場合は SPF / DKIM / DMARC 設定を確認してください。</td></tr>
@@ -101,6 +101,14 @@
         <li>行を選択し、詳細の関連レコードから個別レコードの結論と対応案を確認します。</li>
         <li>必要に応じて CSV エクスポートし、チーム内で送信元 IP の確認を分担します。</li>
       </ol>
+
+      <h3>CSV の列</h3>
+      <p>CSV は UTF-8（BOM 付き）で出力され、Excel でそのまま開けます。列名は英語で固定です。</p>
+      <table>
+        <tr><th>出力元</th><th>列（左から順）</th></tr>
+        <tr><td>レコード一覧（20 列）</td><td><code>record_hash</code>, <code>report_id</code>, <code>org_name</code>, <code>source_ip</code>, <code>count</code>, <code>header_from</code>, <code>spf_result</code>, <code>dkim_result</code>, <code>spf_aligned</code>, <code>dkim_aligned</code>, <code>dmarc_pass</code>, <code>classification</code>, <code>severity</code>, <code>internal_asset_match</code>, <code>known_forwarder_match</code>, <code>known_sender_service_match</code>, <code>provider_name</code>, <code>provider_confidence</code>, <code>date_range_begin</code>, <code>date_range_end</code></td></tr>
+        <tr><td>送信元サーバー一覧（22 列）</td><td><code>source_ip</code>, <code>total_messages</code>, <code>record_count</code>, <code>domain_count</code>, <code>header_from_domains</code>, <code>success_messages</code>, <code>suspicious_messages</code>, <code>config_error_messages</code>, <code>forwarded_messages</code>, <code>needs_review_messages</code>, <code>parser_error_messages</code>, <code>dmarc_fail_messages</code>, <code>spf_fail_messages</code>, <code>dkim_fail_messages</code>, <code>dmarc_pass_rate</code>, <code>last_seen_unix</code>, <code>provider_name</code>, <code>provider_confidence</code>, <code>internal_asset_match</code>, <code>known_forwarder_match</code>, <code>known_sender_service_match</code>, <code>highest_severity</code></td></tr>
+      </table>
     </div>
 
     <div class="section-en">
@@ -113,8 +121,8 @@
         <tr><td>Source IP</td><td>The source IP reported in DMARC aggregate reports.</td></tr>
         <tr><td>Mail count</td><td>The number of messages reported from that IP.</td></tr>
         <tr><td>Domain count</td><td>The number of receiving domains related to that IP.</td></tr>
-        <tr><td>Needs review</td><td>Items such as possible spoofing, configuration issues, or records that need manual review.</td></tr>
-        <tr><td>DMARC pass rate</td><td>The percentage of records that passed DMARC evaluation.</td></tr>
+        <tr><td>Needs review</td><td>The total number of emails classed as Spoofing suspected, Config issue, Needs review, or Read error — the items an operator should check.</td></tr>
+        <tr><td>DMARC pass rate</td><td>The percentage of emails that passed DMARC evaluation.</td></tr>
         <tr><td>Estimated service</td><td>A local hint such as Microsoft 365 or a configured internal relay. Confidence is shown separately in the detail area.</td></tr>
         <tr><td>Configured match</td><td>Whether the IP matches configured own servers, known services, or forwarders. A match does not automatically mean there is no issue if DMARC fails.</td></tr>
       </table>
@@ -127,6 +135,14 @@
         <li>Select a row and open related record details to see the conclusion and recommended action.</li>
         <li>Export CSV when you need to share the source-IP review with your team.</li>
       </ol>
+
+      <h3>CSV columns</h3>
+      <p>CSV files are written in UTF-8 with a BOM, so Excel opens them directly. Column names are fixed in English.</p>
+      <table>
+        <tr><th>Exported from</th><th>Columns (left to right)</th></tr>
+        <tr><td>Findings (20 columns)</td><td><code>record_hash</code>, <code>report_id</code>, <code>org_name</code>, <code>source_ip</code>, <code>count</code>, <code>header_from</code>, <code>spf_result</code>, <code>dkim_result</code>, <code>spf_aligned</code>, <code>dkim_aligned</code>, <code>dmarc_pass</code>, <code>classification</code>, <code>severity</code>, <code>internal_asset_match</code>, <code>known_forwarder_match</code>, <code>known_sender_service_match</code>, <code>provider_name</code>, <code>provider_confidence</code>, <code>date_range_begin</code>, <code>date_range_end</code></td></tr>
+        <tr><td>Sending Servers (22 columns)</td><td><code>source_ip</code>, <code>total_messages</code>, <code>record_count</code>, <code>domain_count</code>, <code>header_from_domains</code>, <code>success_messages</code>, <code>suspicious_messages</code>, <code>config_error_messages</code>, <code>forwarded_messages</code>, <code>needs_review_messages</code>, <code>parser_error_messages</code>, <code>dmarc_fail_messages</code>, <code>spf_fail_messages</code>, <code>dkim_fail_messages</code>, <code>dmarc_pass_rate</code>, <code>last_seen_unix</code>, <code>provider_name</code>, <code>provider_confidence</code>, <code>internal_asset_match</code>, <code>known_forwarder_match</code>, <code>known_sender_service_match</code>, <code>highest_severity</code></td></tr>
+      </table>
     </div>
   </main>
 </div>

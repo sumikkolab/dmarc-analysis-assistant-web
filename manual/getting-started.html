@@ -80,9 +80,9 @@
       <h3>このツールができること（再掲）</h3>
       <ul>
         <li>DMARC 集約レポート（RUA / XML・ZIP・GZ）をローカルで解析</li>
-        <li>バウンスメールと突合して転送由来を切り分ける</li>
         <li>各エントリを 6 分類で自動判定（ルールベース・決定論）</li>
-        <li>ドメイン別・期間別のトレンドを可視化</li>
+        <li>DMARC の分類とは別の機能として、バウンスメールを確定バウンス / 未分類バウンス / 検知器が要確認と判定 / 通常メール（分類対象外）の 4 区分に整理</li>
+        <li>ダッシュボードに、分類内訳のグラフ、指標（メール認証の成功率・なりすまし防御率）、ドメイン別サマリを表示</li>
         <li>CSV でエクスポート</li>
       </ul>
 
@@ -134,7 +134,7 @@
       </figure>
 
       <h3>Microsoft 365 から直接取得する場合（任意）</h3>
-      <p>Microsoft 365 の受信トレイから DMARC レポートを直接取り込むこともできます。この機能は任意で、<strong>使用する権限スコープは <code>Mail.Read</code> のみ（読み取り専用）</strong>です。メールの送信・削除・編集は行いません。詳細は将来の「Microsoft 365 連携」章で説明します。</p>
+      <p>Microsoft 365 の受信トレイから DMARC レポートを直接取り込むこともできます。この機能は任意で、<strong>使用する権限スコープは <code>Mail.Read</code> のみ（読み取り専用）</strong>です。メールの送信・削除・編集は行いません。詳細は第 7 章「Microsoft 365 連携」（公開予定）で説明します。</p>
       <div class="note">
         認証トークンはメモリ上にのみ保持され、ディスクに保存されません。アプリを終了するとトークンは破棄されます。
       </div>
@@ -142,7 +142,7 @@
       <h3>次にやること</h3>
       <ul>
         <li><a href="classification.html">第 4 章 6 分類の読み方</a>で判定ラベルの意味を確認する</li>
-        <li><a href="troubleshooting.html">第 7 章 トラブルシューティング</a>で起動や取込で問題が出たときの対処を確認する</li>
+        <li><a href="troubleshooting.html">第 8 章 トラブルシューティング</a>で起動や取込で問題が出たときの対処を確認する</li>
       </ul>
     </div>
 
@@ -154,9 +154,9 @@
       <h3>What this tool does (recap)</h3>
       <ul>
         <li>Analyzes DMARC aggregate reports (RUA / XML, ZIP, or GZ) locally</li>
-        <li>Correlates bounce messages to distinguish forwarded traffic from real issues</li>
         <li>Classifies each entry into six categories with a deterministic rule-based engine</li>
-        <li>Visualizes trends by domain and period</li>
+        <li>As a separate feature from DMARC classification, sorts bounce messages into four buckets: Confirmed bounce, Unmapped bounce, Detector flagged for review, and Normal mail (excluded)</li>
+        <li>Shows a classification breakdown chart, key metrics (email authentication success rate and spoofing protection rate), and a per-domain summary on the dashboard</li>
         <li>Exports results as CSV</li>
       </ul>
 
@@ -208,7 +208,7 @@
       </figure>
 
       <h3>Importing from Microsoft 365 directly (optional)</h3>
-      <p>You can also import DMARC reports directly from a Microsoft 365 mailbox. This feature is optional and <strong>uses only the <code>Mail.Read</code> scope (read-only)</strong>. The tool never sends, deletes, or edits mail. See the future "Microsoft 365 integration" chapter for details.</p>
+      <p>You can also import DMARC reports directly from a Microsoft 365 mailbox. This feature is optional and <strong>uses only the <code>Mail.Read</code> scope (read-only)</strong>. The tool never sends, deletes, or edits mail. Details will be covered in Chapter 7 "Microsoft 365 integration" (planned).</p>
       <div class="note">
         Authentication tokens are held in memory only and are never persisted to disk. They are discarded when the application exits.
       </div>

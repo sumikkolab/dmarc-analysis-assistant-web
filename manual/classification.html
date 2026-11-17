@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chapter 4: 6 分類の読み方 — DMARC 分析支援ツール | Sumikko Lab</title>
-<meta name="description" content="DMARC 分析支援ツールの 6 分類（なりすまし疑い / 設定不備 / 転送由来 / 正常送信 / バウンス / 判定不能）の読み方と推奨アクション。">
+<meta name="description" content="DMARC 分析支援ツールの 6 分類（正常 / なりすまし疑い / 設定不備 / 転送 / 要確認 / 読取エラー）の判定条件、対応の目安と手順、DMARC で防げないこと。">
 <link rel="canonical" href="https://dmarc-analysis.sumikkolab.com/manual/classification.html">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ja_JP">
 <meta property="og:site_name" content="DMARC Analysis Assistant — Sumikko Lab">
 <meta property="og:title" content="Chapter 4: 6 分類の読み方 — DMARC 分析支援ツール | Sumikko Lab">
-<meta property="og:description" content="DMARC 分析支援ツールの 6 分類（なりすまし疑い / 設定不備 / 転送由来 / 正常送信 / バウンス / 判定不能）の読み方と推奨アクション。">
+<meta property="og:description" content="DMARC 分析支援ツールの 6 分類（正常 / なりすまし疑い / 設定不備 / 転送 / 要確認 / 読取エラー）の判定条件、対応の目安と手順、DMARC で防げないこと。">
 <meta property="og:url" content="https://dmarc-analysis.sumikkolab.com/manual/classification.html">
 <meta property="og:image" content="https://dmarc-analysis.sumikkolab.com/images/en/findings.png">
 <meta property="og:image:width" content="1920">
@@ -18,7 +18,7 @@
 <meta property="og:image:alt" content="DMARC 分析支援ツールの検出結果の画面">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Chapter 4: 6 分類の読み方 — DMARC 分析支援ツール | Sumikko Lab">
-<meta name="twitter:description" content="DMARC 分析支援ツールの 6 分類（なりすまし疑い / 設定不備 / 転送由来 / 正常送信 / バウンス / 判定不能）の読み方と推奨アクション。">
+<meta name="twitter:description" content="DMARC 分析支援ツールの 6 分類（正常 / なりすまし疑い / 設定不備 / 転送 / 要確認 / 読取エラー）の判定条件、対応の目安と手順、DMARC で防げないこと。">
 <meta name="twitter:image" content="https://dmarc-analysis.sumikkolab.com/images/en/findings.png">
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -79,61 +79,80 @@
 
       <h3>判定に使用する情報</h3>
       <ul>
-        <li>SPF 認証結果（pass / fail / softfail / none）</li>
-        <li>DKIM 認証結果（pass / fail / none）</li>
-        <li>送信元 IP アドレス（自社/外部の判別）</li>
-        <li>ヘッダ From ドメインと Envelope From ドメインの一致</li>
-        <li>関連バウンスメールの有無（取り込み済みの場合）</li>
+        <li>SPF 認証結果（pass / fail / softfail / none など）と、エンベロープ From のドメインがヘッダー From のドメインと一致しているか</li>
+        <li>DKIM 認証結果（pass / fail / none など）と、署名のドメインがヘッダー From のドメインと一致しているか</li>
+        <li>レポートに記録された適用除外の理由（転送 <code>trusted_forwarder</code> / メーリングリスト <code>mailing_list</code>）</li>
+        <li>送信元 IP と、設定画面に登録した自社メールサーバー・既知の転送サーバーの IP 範囲、および既知の送信サービスとの照合</li>
+        <li>レポートの XML を読み取れたかどうか</li>
       </ul>
+      <p>SPF と DKIM のどちらかが pass し、かつドメインが一致していれば、DMARC は pass（「正常」）です。どちらも満たさない場合が DMARC の fail で、残りの 4 分類のどれに当たるかを判定します。</p>
 
-      <h3>6 ラベル一覧</h3>
+      <h3>6 分類の判定条件と対応の目安</h3>
+      <p>判定は上の行から順に行い、最初に当てはまった分類で確定します。「対応の目安」と「手順の要点」は、アプリの詳細画面に表示される内容です。</p>
       <table>
         <thead>
-          <tr><th>ラベル</th><th>条件の概要</th><th>優先度</th><th>推奨アクション</th></tr>
+          <tr><th>分類</th><th>判定条件</th><th>対応の目安</th><th>手順の要点</th></tr>
         </thead>
         <tbody>
           <tr>
-            <td><span class="label-dot dot-red"></span><strong>なりすまし疑い</strong></td>
-            <td>SPF / DKIM 両方 fail、送信元 IP が自社管理外。From ドメインは自社。</td>
-            <td>高</td>
-            <td>送信元 IP と ASN を確認し、なりすまし送信の可能性を調査。必要なら DMARC ポリシーを <code>p=reject</code> へ強化。</td>
+            <td><span class="label-dot dot-purple"></span><strong>読取エラー</strong></td>
+            <td>レポートの XML を読み取れなかった。</td>
+            <td>今週中に対応</td>
+            <td>元のメールから添付ファイルを再ダウンロードし、ZIP / GZ を展開して XML を確認する。問題が続く場合はレポートの送信元に問い合わせる。</td>
+          </tr>
+          <tr>
+            <td><span class="label-dot dot-green"></span><strong>正常</strong></td>
+            <td>SPF または DKIM が pass し、送信元ドメインと一致している（DMARC が pass）。SPF が fail でも、DKIM が pass してドメインが一致していれば正常。</td>
+            <td>対応不要</td>
+            <td>定期的な確認を続ける。DMARC ポリシーが <code>p=none</code> の場合は、段階的な強化を検討する。</td>
           </tr>
           <tr>
             <td><span class="label-dot dot-amber"></span><strong>設定不備</strong></td>
-            <td>送信元 IP は自社/正規 SaaS だが、SPF または DKIM が fail。</td>
-            <td>中</td>
-            <td>SPF レコード（include: / ip4:）や DKIM セレクタの設定漏れを確認。SaaS 側の DKIM 署名設定の抜けが多い。</td>
+            <td>DMARC が fail し、送信元 IP が設定画面に登録した自社メールサーバーの IP 範囲に含まれる。</td>
+            <td>今週中に対応</td>
+            <td>送信元 IP がどのサーバーかを特定し、サーバー管理者（自社 IT またはメール運用ベンダー）と共有する。SPF レコードに送信元 IP を追加するか、DKIM 署名を有効にする。サーバーの停止は不要。</td>
           </tr>
           <tr>
-            <td><span class="label-dot dot-blue"></span><strong>転送由来</strong></td>
-            <td>SPF fail / DKIM pass、または転送に特徴的な中継 IP を経由。</td>
-            <td>低</td>
-            <td>通常は対応不要。DKIM が通っていれば DMARC としては合格扱い。件数が異常に多い場合のみ確認。</td>
+            <td><span class="label-dot dot-blue"></span><strong>転送</strong></td>
+            <td>DMARC が fail し、自社メールサーバーには一致しないが、レポートに転送・メーリングリストの適用除外の理由がある、または送信元 IP が登録した転送サーバーの IP 範囲に含まれる。</td>
+            <td>対応不要</td>
+            <td>特に対応は不要。件数が急増した場合だけ転送経路を確認する。転送メールをブロックすると、メーリングリストのメールが届かなくなる。</td>
           </tr>
           <tr>
-            <td><span class="label-dot dot-green"></span><strong>正常送信</strong></td>
-            <td>SPF / DKIM のいずれかが pass かつ DMARC 整合（aligned）。</td>
-            <td>-</td>
-            <td>対応不要。記録としてトレンド確認のみ。</td>
+            <td><span class="label-dot dot-red"></span><strong>なりすまし疑い</strong></td>
+            <td>DMARC が fail し、自社メールサーバーにも既知の送信サービスにも一致せず、転送の手掛かりも無い。</td>
+            <td>早期対応</td>
+            <td>詳細画面で送信元 IP を確認し、自社や利用中の SaaS のものでないかを確かめる。正当な送信元でなければ DMARC ポリシーを <code>quarantine</code> に変更し、問題がなければ <code>reject</code> へ段階的に移行する。いきなり reject にしない。</td>
           </tr>
           <tr>
-            <td><span class="label-dot dot-purple"></span><strong>バウンス</strong></td>
-            <td>取り込んだバウンスメールと突合できた fail エントリ。</td>
-            <td>中</td>
-            <td>宛先不達の原因（存在しないアドレス / 受信側の拒否）を確認。大量の場合は送信リスト衛生を見直す。</td>
-          </tr>
-          <tr>
-            <td><span class="label-dot dot-gray"></span><strong>判定不能</strong></td>
-            <td>情報不足（IP 逆引きできない、DKIM セレクタ不明など）で自動判定不可。</td>
-            <td>-</td>
-            <td>分類対象の件数が多い場合、レポート元プロバイダの仕様を確認。通常は放置してよい。</td>
+            <td><span class="label-dot dot-gray"></span><strong>要確認</strong></td>
+            <td>DMARC が fail し、既知の送信サービスには一致するが、自社メールサーバーにも転送にも当たらない。</td>
+            <td>今週中に対応</td>
+            <td>送信元 IP が自社のサーバーか確認する。自社なら設定画面の「自社メールサーバーの IP アドレス」に、転送サーバーなら「既知の転送サーバー」に登録する。不明ならネットワーク管理者に確認する。</td>
           </tr>
         </tbody>
       </table>
+
+      <h3>詳細画面に表示される内容</h3>
+      <p>レコード一覧で「詳細」を選ぶと、次の項目が表示されます。</p>
+      <ul>
+        <li><strong>結論</strong>と<strong>何が起きているか</strong></li>
+        <li><strong>具体的な対応</strong>: 手順、対応の目安（早期対応 / 今週中に対応 / 対応不要）、なぜこの対応が必要か、注意</li>
+        <li><strong>DMARC で対応できること / 防げないこと</strong></li>
+        <li><strong>技術者向け詳細</strong>: 送信元サーバーの IP アドレス、メールの送信元ドメイン、該当メール数、SPF / DKIM の結果とドメイン一致の有無、DMARC の結果、判定根拠</li>
+      </ul>
       <figure class="content-screenshot">
-        <img src="../images/ja/dashboard.png" alt="ダッシュボードには 6 分類ごとの件数がカードで並び、どのラベルに何件あるかを一目で確認できます。">
-        <figcaption>ダッシュボード：6 分類それぞれの件数が KPI カードで表示され、優先度の高いラベルを素早く見つけられます。</figcaption>
+        <img src="../images/ja/dashboard.png" alt="ダッシュボードには分類ごとの件数がカードで並び、どの分類に何件あるかを一目で確認できます。">
+        <figcaption>ダッシュボード：分類ごとの件数がカードで表示され、対応が必要な分類を素早く見つけられます。</figcaption>
       </figure>
+
+      <h3>DMARC で防げないこと</h3>
+      <p>DMARC は、自社ドメインを名乗るメールの送信元を検証する仕組みです。次のような攻撃は DMARC の対象外で、本ツールの分類でも検出できません。詳細画面の「DMARC で対応できること / 防げないこと」にも、分類ごとに表示されます。</p>
+      <ul>
+        <li>自社に似せた別のドメイン（類似ドメイン、typosquatting）からの攻撃メール</li>
+        <li>本文だけで受信者を欺くフィッシングメール</li>
+        <li>送信者の意図の判定（DMARC レポートだけでは判断できず、運用担当者による確認が必要）</li>
+      </ul>
 
       <h3>ラベルが示すもの・示さないもの</h3>
       <div class="note">
@@ -143,9 +162,8 @@
 
       <h3>判定が直感と違うとき</h3>
       <ul>
-        <li><strong>自社送信なのに「なりすまし疑い」:</strong> SPF / DKIM が未設定 or 間違っている可能性。「設定不備」に寄せるため SPF / DKIM を整備する。</li>
-        <li><strong>明らかに転送なのに「設定不備」:</strong> 中継 IP のパターンが本ツールの既知リストにない場合。件数が多ければ report@ に情報提供を歓迎します。</li>
-        <li><strong>バウンスが取り込めていない:</strong> バウンスメールのフォルダ指定を確認。件名や送信者が標準的でないバウンスは未対応。</li>
+        <li><strong>自社から送ったメールが「なりすまし疑い」:</strong> 送信元 IP が設定画面に登録されていない可能性があります。「自社メールサーバーの IP アドレス」に IP 範囲を登録すると、次の分析から、その IP からの DMARC fail は「設定不備」に分類されます。あわせて SPF / DKIM を整備すると「正常」になります。</li>
+        <li><strong>転送のはずが「なりすまし疑い」または「要確認」:</strong> 転送サーバーの IP が登録されていない可能性があります。「既知の転送サーバー」に IP 範囲を登録すると、次の分析から「転送」に分類されます。ただし、自社メールサーバーとしても登録した IP は「設定不備」が優先されます。</li>
       </ul>
       <figure class="content-screenshot">
         <img src="../images/ja/findings.png" alt="分類フィルタで特定のラベルだけに絞り込み、送信元 IP・ドメイン・SPF / DKIM の結果を 1 レコードずつ確認できます。">
@@ -154,7 +172,7 @@
 
       <h3>次にやること</h3>
       <ul>
-        <li><a href="troubleshooting.html">第 7 章 トラブルシューティング</a>: 取込・起動時の問題</li>
+        <li><a href="troubleshooting.html">第 8 章 トラブルシューティング</a>: 取込・起動時の問題</li>
         <li><a href="../support.html">サポート・FAQ</a>: よくある質問</li>
       </ul>
     </div>
@@ -166,61 +184,80 @@
 
       <h3>Inputs used for classification</h3>
       <ul>
-        <li>SPF result (pass / fail / softfail / none)</li>
-        <li>DKIM result (pass / fail / none)</li>
-        <li>Source IP address (whether it belongs to your org or not)</li>
-        <li>Alignment between header-From and envelope-From domains</li>
-        <li>Whether a correlated bounce message exists (if imported)</li>
+        <li>SPF result (pass / fail / softfail / none, etc.) and whether the envelope-From domain matches the header-From domain</li>
+        <li>DKIM result (pass / fail / none, etc.) and whether the signing domain matches the header-From domain</li>
+        <li>Override reasons recorded in the report (forwarding <code>trusted_forwarder</code> / mailing list <code>mailing_list</code>)</li>
+        <li>Whether the source IP matches the own mail server or forwarding server ranges registered in Settings, or a known sending service</li>
+        <li>Whether the report XML could be read</li>
       </ul>
+      <p>If either SPF or DKIM passes and its domain matches, DMARC passes and the entry is "OK". If neither does, DMARC fails, and the entry falls into one of the remaining four categories.</p>
 
-      <h3>The six labels</h3>
+      <h3>Conditions and timeframes for the six categories</h3>
+      <p>The rows are evaluated from top to bottom, and the first match decides the category. The timeframe and key steps are what the app shows on the detail screen.</p>
       <table>
         <thead>
-          <tr><th>Label</th><th>Condition</th><th>Priority</th><th>Recommended action</th></tr>
+          <tr><th>Category</th><th>Condition</th><th>Timeframe</th><th>Key steps</th></tr>
         </thead>
         <tbody>
           <tr>
-            <td><span class="label-dot dot-red"></span><strong>Spoofing suspected</strong></td>
-            <td>Both SPF and DKIM fail; source IP is outside your org; From domain is yours.</td>
-            <td>High</td>
-            <td>Review source IP and ASN; investigate possible spoofing. Consider tightening DMARC to <code>p=reject</code> if appropriate.</td>
+            <td><span class="label-dot dot-purple"></span><strong>Read error</strong></td>
+            <td>The report XML could not be read.</td>
+            <td>Address this week</td>
+            <td>Re-download the attachment from the original email, unzip the ZIP / GZ, and inspect the XML. If the problem persists, contact the report sender.</td>
+          </tr>
+          <tr>
+            <td><span class="label-dot dot-green"></span><strong>OK</strong></td>
+            <td>SPF or DKIM passes and matches the sender domain (DMARC passes). Mail failing SPF is still OK if DKIM passes and matches.</td>
+            <td>No action needed</td>
+            <td>Continue regular monitoring. If your DMARC policy is <code>p=none</code>, consider tightening it gradually.</td>
           </tr>
           <tr>
             <td><span class="label-dot dot-amber"></span><strong>Config issue</strong></td>
-            <td>Source IP belongs to your org or a known SaaS, but SPF or DKIM fails.</td>
-            <td>Medium</td>
-            <td>Check SPF record (<code>include:</code> / <code>ip4:</code>) and DKIM selector configuration. Missing SaaS-side DKIM signing is common.</td>
+            <td>Fails DMARC, and the source IP falls within a range you registered in Settings as your own mail server.</td>
+            <td>Address this week</td>
+            <td>Identify which server the source IP belongs to and share the findings with its administrator (internal IT or your mail operations vendor). Add the IP to your SPF record or enable DKIM signing. No server shutdown is needed.</td>
           </tr>
           <tr>
             <td><span class="label-dot dot-blue"></span><strong>Forwarded</strong></td>
-            <td>SPF fail with DKIM pass, or a forwarding-typical relay IP.</td>
-            <td>Low</td>
-            <td>Usually no action. If DKIM passes, DMARC overall passes. Investigate only if counts are abnormally high.</td>
+            <td>Fails DMARC and does not match your own mail servers, but the report records a forwarding or mailing-list override, or the source IP falls within a registered forwarding server range.</td>
+            <td>No action needed</td>
+            <td>No specific action. Check the forwarding path only if the count spikes. Blocking forwarded mail would also drop mailing list messages.</td>
           </tr>
           <tr>
-            <td><span class="label-dot dot-green"></span><strong>Legitimate</strong></td>
-            <td>SPF or DKIM passes and is DMARC-aligned.</td>
-            <td>-</td>
-            <td>No action. Keep for trend tracking.</td>
+            <td><span class="label-dot dot-red"></span><strong>Spoofing suspected</strong></td>
+            <td>Fails DMARC, matches neither your own mail servers nor a known sending service, and shows no sign of forwarding.</td>
+            <td>Address promptly</td>
+            <td>Check the source IP on the detail screen and confirm it does not belong to your organization or a SaaS service you use. If it is not legitimate, change the DMARC policy to <code>quarantine</code>, then move gradually to <code>reject</code> once no issues appear. Do not jump straight to reject.</td>
           </tr>
           <tr>
-            <td><span class="label-dot dot-purple"></span><strong>Bounce</strong></td>
-            <td>Failing entries correlated with imported bounce messages.</td>
-            <td>Medium</td>
-            <td>Investigate bounce causes (nonexistent address, recipient rejection). Review list hygiene if high volume.</td>
-          </tr>
-          <tr>
-            <td><span class="label-dot dot-gray"></span><strong>Unknown</strong></td>
-            <td>Insufficient information (reverse DNS unavailable, unknown DKIM selector, etc.).</td>
-            <td>-</td>
-            <td>Generally leave alone. If counts are large, check whether the report provider uses a nonstandard format.</td>
+            <td><span class="label-dot dot-gray"></span><strong>Needs review</strong></td>
+            <td>Fails DMARC and matches a known sending service, but matches neither your own mail servers nor forwarding.</td>
+            <td>Address this week</td>
+            <td>Check whether the source IP is one of your servers. If it is, add it to "Your mail server IP addresses" in Settings; if it is a forwarder, add it to "Known forwarding servers". If unsure, consult your network administrator.</td>
           </tr>
         </tbody>
       </table>
+
+      <h3>What the detail screen shows</h3>
+      <p>Select "Detail" on a record in the Findings list to see:</p>
+      <ul>
+        <li><strong>Conclusion</strong> and <strong>What is happening</strong></li>
+        <li><strong>What to do</strong>: steps, a timeframe (Address promptly / Address this week / No action needed), why the action is needed, and cautions</li>
+        <li><strong>What DMARC can and cannot protect against</strong></li>
+        <li><strong>Technical details</strong>: sending server IP address, sender domain, number of emails, SPF / DKIM results with domain match, DMARC result, and evidence</li>
+      </ul>
       <figure class="content-screenshot">
-        <img src="../images/en/dashboard.png" alt="The dashboard shows counts per category as KPI cards, so you can see at a glance which labels have the most entries.">
-        <figcaption>Dashboard: counts for each of the six categories are shown as KPI cards, making it easy to spot high-priority labels.</figcaption>
+        <img src="../images/en/dashboard.png" alt="The dashboard shows counts per category as cards, so you can see at a glance which categories have the most entries.">
+        <figcaption>Dashboard: counts per category are shown as cards, making it easy to spot the categories that need action.</figcaption>
       </figure>
+
+      <h3>What DMARC cannot prevent</h3>
+      <p>DMARC verifies the senders of mail that claims to come from your domain. The following are outside DMARC's scope, so this tool's classification cannot detect them either. The detail screen also shows this for each category under "What DMARC can and cannot protect against".</p>
+      <ul>
+        <li>Attacks from look-alike domains (typosquatting)</li>
+        <li>Phishing that deceives recipients through the message body alone</li>
+        <li>Sender intent — DMARC reports alone cannot determine it, so human review is still required</li>
+      </ul>
 
       <h3>What the labels do and do not indicate</h3>
       <div class="note">
@@ -230,9 +267,8 @@
 
       <h3>When the result feels wrong</h3>
       <ul>
-        <li><strong>Your own traffic marked "Spoofing suspected":</strong> SPF/DKIM likely missing or misconfigured. Fix them, and the classification moves to "Config issue" or "Legitimate".</li>
-        <li><strong>Obvious forwards marked "Config issue":</strong> The relay IP may not match our known-forwarder heuristics. High-volume examples are welcome at support.</li>
-        <li><strong>Bounces not being correlated:</strong> Check that the bounce folder is specified. Non-standard bounce subjects/senders may be unsupported.</li>
+        <li><strong>Your own mail marked "Spoofing suspected":</strong> The source IP may not be registered. Add its range to "Your mail server IP addresses" in Settings, and from the next analysis onward DMARC failures from that IP are classed as "Config issue". Once SPF / DKIM are fixed, the entries become "OK".</li>
+        <li><strong>Forwarded mail marked "Spoofing suspected" or "Needs review":</strong> The forwarding server IP may not be registered. Add its range to "Known forwarding servers" in Settings, and from the next analysis onward it is classed as "Forwarded". An IP also registered as your own mail server is classed as "Config issue" first.</li>
       </ul>
       <figure class="content-screenshot">
         <img src="../images/en/findings.png" alt="Filter by a specific label and inspect each record — source IP, domain, SPF, and DKIM results on a single screen.">

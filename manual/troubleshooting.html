@@ -117,14 +117,6 @@
         <li><strong>対処:</strong> v1.0.6 で修正済みです。アプリを最新版に更新し、対象のレポートを再度取り込んでください。同じレポートを再度取り込むと、確認なしで自動的に最新の内容へ置き換わります。</li>
       </ul>
 
-      <h3>バウンス突合関連</h3>
-
-      <h4>「バウンス」ラベルが 1 件もつかない</h4>
-      <ul>
-        <li><strong>原因候補:</strong> バウンスフォルダが未指定、またはバウンスメールの件名が非標準。</li>
-        <li><strong>対処:</strong> バウンスフォルダを明示的に指定。ISP によっては多言語件名の場合があり、未対応の可能性あり。</li>
-      </ul>
-
       <h3>Microsoft 365 連携関連</h3>
 
       <h4>サインインに失敗する</h4>
@@ -200,14 +192,6 @@
       <ul>
         <li><strong>Likely cause:</strong> In v1.0.5 and earlier, RFC 9990 namespace-qualified DMARC reports could fail to parse, and distinct records with similar content could be collapsed into a single saved record.</li>
         <li><strong>Fix:</strong> Fixed in v1.0.6. Update the app and re-import the affected reports. Re-importing an already-imported report automatically replaces the saved content with the latest parse, with no confirmation step.</li>
-      </ul>
-
-      <h3>Bounce correlation</h3>
-
-      <h4>No entry is labeled "Bounce"</h4>
-      <ul>
-        <li><strong>Likely cause:</strong> Bounce folder not specified, or bounce subjects are nonstandard.</li>
-        <li><strong>Fix:</strong> Specify the bounce folder explicitly. Some ISPs use localized subject lines that may be unsupported.</li>
       </ul>
 
       <h3>Microsoft 365 integration</h3>
