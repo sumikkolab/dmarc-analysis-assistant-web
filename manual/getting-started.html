@@ -3,23 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chapter 1: はじめに — DMARC 分析支援ツール | Sumikko Lab</title>
-<meta name="description" content="DMARC 分析支援ツールのインストール、初回同意、レポートの準備、初回取込までの手順。">
+<title>Chapter 1: はじめに（インストールと初回のレポート取込） — DMARC 分析支援ツール | Sumikko Lab</title>
+<meta name="description" content="DMARC 分析支援ツールのインストール、初回同意、DMARC 集約レポート（XML / ZIP / GZ）の取込、Microsoft 365 の共有メールボックスからの取得までの手順。取り込んだら「reject 移行準備」で判定を確認します。">
 <link rel="canonical" href="https://dmarc-analysis.sumikkolab.com/manual/getting-started.html">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ja_JP">
 <meta property="og:site_name" content="DMARC Analysis Assistant — Sumikko Lab">
-<meta property="og:title" content="Chapter 1: はじめに — DMARC 分析支援ツール | Sumikko Lab">
-<meta property="og:description" content="DMARC 分析支援ツールのインストール、初回同意、レポートの準備、初回取込までの手順。">
+<meta property="og:title" content="Chapter 1: はじめに（インストールと初回のレポート取込） — DMARC 分析支援ツール | Sumikko Lab">
+<meta property="og:description" content="DMARC 分析支援ツールのインストール、初回同意、DMARC 集約レポートの取込、Microsoft 365 の共有メールボックスからの取得までの手順。">
 <meta property="og:url" content="https://dmarc-analysis.sumikkolab.com/manual/getting-started.html">
-<meta property="og:image" content="https://dmarc-analysis.sumikkolab.com/images/en/findings.png">
-<meta property="og:image:width" content="1920">
-<meta property="og:image:height" content="1032">
-<meta property="og:image:alt" content="DMARC 分析支援ツールの検出結果の画面">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Chapter 1: はじめに — DMARC 分析支援ツール | Sumikko Lab">
-<meta name="twitter:description" content="DMARC 分析支援ツールのインストール、初回同意、レポートの準備、初回取込までの手順。">
-<meta name="twitter:image" content="https://dmarc-analysis.sumikkolab.com/images/en/findings.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 1: はじめに（インストールと初回のレポート取込） — DMARC 分析支援ツール | Sumikko Lab">
+<meta name="twitter:description" content="DMARC 分析支援ツールのインストール、初回同意、DMARC 集約レポートの取込、Microsoft 365 の共有メールボックスからの取得までの手順。">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -42,8 +37,8 @@
         <li><a href="./">0. 概要</a></li>
         <li><a href="getting-started.html"><strong>1. はじめに</strong></a></li>
         <li class="planned"><a>2. レポート取込（予定）</a></li>
-        <li class="planned"><a>3. 分析画面（予定）</a></li>
-        <li><a href="classification.html">4. 6 分類の読み方</a></li>
+        <li><a href="readiness.html">3. reject 移行準備</a></li>
+        <li><a href="classification.html">4. 分類の読み方</a></li>
         <li><a href="sending-servers.html">5. 送信元サーバー</a></li>
         <li class="planned"><a>6. バウンス分析（予定）</a></li>
         <li class="planned"><a>7. Microsoft 365 連携（予定）</a></li>
@@ -56,8 +51,8 @@
         <li><a href="./?lang=en">0. Overview</a></li>
         <li><a href="getting-started.html?lang=en"><strong>1. Getting Started</strong></a></li>
         <li class="planned"><a>2. Importing reports (planned)</a></li>
-        <li class="planned"><a>3. Analysis screen (planned)</a></li>
-        <li><a href="classification.html?lang=en">4. Reading the six categories</a></li>
+        <li><a href="readiness.html?lang=en">3. Readiness for reject</a></li>
+        <li><a href="classification.html?lang=en">4. Reading the categories</a></li>
         <li><a href="sending-servers.html?lang=en">5. Sending servers</a></li>
         <li class="planned"><a>6. Bounce analysis (planned)</a></li>
         <li class="planned"><a>7. Microsoft 365 integration (planned)</a></li>
@@ -69,21 +64,22 @@
   <main class="manual-content">
     <div class="nav-links">
       <a href="./">&larr; 目次 / Contents</a>
-      <a href="classification.html">次章: 6 分類の読み方 &rarr;</a>
+      <a href="readiness.html">次章: reject 移行準備 &rarr;</a>
     </div>
 
     <!-- Japanese -->
     <div class="section-ja visible">
+      <div class="note">このページは 1.1.0.0 向けです。reject 移行準備・転送の影響は 1.1.0.0 以降の機能です。</div>
       <h2>はじめに</h2>
-      <p>本章では、DMARC 分析支援ツールのインストールから初回レポート取込までを説明します。</p>
+      <p>本章では、DMARC 分析支援ツールのインストールから初回レポート取込までを説明します。取り込んだ後は、「reject 移行準備」で p=reject に上げてよいかを確認します（<a href="readiness.html">第 3 章</a>）。</p>
 
       <h3>このツールができること（再掲）</h3>
       <ul>
-        <li>DMARC 集約レポート（RUA / XML・ZIP・GZ）をローカルで解析</li>
-        <li>各エントリを 6 分類で自動判定（ルールベース・決定論）</li>
-        <li>DMARC の分類とは別の機能として、バウンスメールを確定バウンス / 未分類バウンス / 検知器が要確認と判定 / 通常メール（分類対象外）の 4 区分に整理</li>
-        <li>ダッシュボードに、分類内訳のグラフ、指標（メール認証の成功率・なりすまし防御率）、ドメイン別サマリを表示</li>
-        <li>CSV でエクスポート</li>
+        <li>DMARC 集約レポート（XML・ZIP・GZ）を取り込み、このドメインを p=reject に上げてよいかを判断できるように示す</li>
+        <li>各レコードを、正常・なりすまし疑い・自社送信元の認証失敗・転送経由の可能性などに判定（ルールベース・決定論）</li>
+        <li>ダッシュボード、レコード一覧、送信元サーバー別集計で状況を把握</li>
+        <li>DMARC とは別の機能として、バウンスメールの分析（Microsoft 365 または EML フォルダから取り込み）</li>
+        <li>技術レポート・経営レポート（PDF）、Excel、CSV で出力</li>
       </ul>
 
       <h3>システム要件</h3>
@@ -100,64 +96,59 @@
         <li>スタートメニューからアプリを起動します。</li>
         <li>初回起動時に「利用規約・免責事項」画面が表示されます。</li>
       </ol>
-      <figure class="content-screenshot">
-        <img src="../images/ja/welcome.png" alt="同意後に表示される最初の画面。手元の DMARC レポートをフォルダから読み込むか、Microsoft 365 メールボックスから自動取得するかを選択できます。">
-        <figcaption>同意後に表示される最初の画面。ここからレポートの取込方法を選びます（フォルダ / Microsoft 365）。</figcaption>
-      </figure>
 
       <h3>初回同意</h3>
       <ol>
         <li>画面に表示される利用規約および免責事項をご確認ください。</li>
-        <li>画面下部の「利用規約と免責事項を確認し、同意します」にチェックを入れます。</li>
+        <li>画面下部の「利用規約と免責事項を確認し、同意します。」にチェックを入れます。</li>
         <li>「同意してはじめる」ボタンをクリックすると本体 UI に進みます。</li>
         <li>同意しない場合は「同意しない（アプリを終了する）」でアプリが終了します。</li>
       </ol>
       <div class="note">
-        規約本文は <a href="../terms-of-use.html">利用規約・免責事項</a> ページと同一です。同意状態はローカルに保存され、次回以降は同意画面が表示されません（規約改訂時は再同意を求めます）。
+        規約は <a href="../terms-of-use.html">利用規約・免責事項</a> ページに掲載しています。規約が改訂された場合は、改訂版への同意が必要になります。
       </div>
 
       <h3>DMARC レポートの準備</h3>
       <p>DMARC レポートを取得するには、自社の DNS TXT レコードに DMARC ポリシーを設定し、<code>rua=</code> タグでレポート受信用メールアドレスを指定しておく必要があります。</p>
       <p>例: <code>v=DMARC1; p=none; rua=mailto:dmarc-reports&#64;example.com</code></p>
-      <p>Gmail / Microsoft / Yahoo などの主要メールプロバイダーから、1 日数本〜数十本の集約レポートが届きます。届いたレポート（ZIP または GZ 添付）をフォルダに保存してください。</p>
+      <p>受信側の事業者から届いた集約レポート（ZIP または GZ 添付）をフォルダに保存してください。</p>
 
       <h3>初回取込</h3>
       <ol>
-        <li>アプリの「レポート取込」画面を開きます。</li>
-        <li>取込元フォルダを指定します（DMARC レポートが保存されているフォルダ）。</li>
-        <li>「取込」ボタンを押すと、XML / ZIP / GZ を自動展開して解析が始まります。</li>
-        <li>完了後、ダッシュボードに集計結果が表示されます。</li>
+        <li>最初の画面で「レポートファイルから確認する」を選ぶか、左のメニューの「DMARC ローカル取込」を開きます。</li>
+        <li>「フォルダを選択」で、DMARC レポートが保存されているフォルダを指定します。</li>
+        <li>「分析を開始する」を押すと、XML / ZIP / GZ を展開して解析が始まります。</li>
+        <li>完了後、ダッシュボードに集計結果が表示されます。左のメニューの「reject 移行準備」で、判定と次の一手を確認します。</li>
       </ol>
-      <figure class="content-screenshot">
-        <img src="../images/ja/dashboard.png" alt="メールセキュリティの状態がひと目でわかるダッシュボード。DMARC の結果を 6 分類で自動整理し、問題の種類と件数をすぐ把握できます。">
-        <figcaption>取込完了後のダッシュボード：6 分類で自動整理され、問題の種類と件数が一目で把握できます。</figcaption>
-      </figure>
+      <p>同じレポートをもう一度取り込むと、保存済みの内容が最新の取り込み結果に置き換わります。</p>
 
-      <h3>Microsoft 365 から直接取得する場合（任意）</h3>
-      <p>Microsoft 365 の受信トレイから DMARC レポートを直接取り込むこともできます。この機能は任意で、<strong>使用する権限スコープは <code>Mail.Read</code> のみ（読み取り専用）</strong>です。メールの送信・削除・編集は行いません。詳細は第 7 章「Microsoft 365 連携」（公開予定）で説明します。</p>
-      <div class="note">
-        認証トークンはメモリ上にのみ保持され、ディスクに保存されません。アプリを終了するとトークンは破棄されます。
-      </div>
+      <h3>設定画面で登録しておくこと</h3>
+      <p>設定画面の「自社メールサーバーの IP アドレス」と「既知の転送サーバー」に IP アドレス範囲（例: <code>203.0.113.0/24</code>）を登録すると、その IP からの認証失敗は、それぞれ「自社送信元の認証失敗」「転送経由の可能性」に分類されます。保存した内容は、次の分析から反映されます（<a href="classification.html">第 4 章</a>）。</p>
+
+      <h3>Microsoft 365 の共有メールボックスから取得する場合（任意）</h3>
+      <p>Microsoft 365 の共有メールボックスから DMARC レポートを直接取り込むこともできます。この機能は任意で、設定画面でテナント ID とクライアント ID を設定します（Azure Portal でのアプリ登録が必要です）。<strong>画面からの取得では、読み取りの権限（<code>Mail.Read.Shared</code>）だけを使い、メールの削除・移動・既読化・送信は行いません。</strong>コマンドライン（CLI）には、取得後にメールを削除するモードがあります。画面は、このモードを使いません。</p>
 
       <h3>次にやること</h3>
       <ul>
-        <li><a href="classification.html">第 4 章 6 分類の読み方</a>で判定ラベルの意味を確認する</li>
+        <li><a href="readiness.html">第 3 章 reject 移行準備</a>で、p=reject に上げてよいかの判定と次の一手を確認する</li>
+        <li><a href="classification.html">第 4 章 分類の読み方</a>で判定ラベルの意味を確認する</li>
         <li><a href="troubleshooting.html">第 8 章 トラブルシューティング</a>で起動や取込で問題が出たときの対処を確認する</li>
       </ul>
     </div>
 
     <!-- English -->
     <div class="section-en">
+      <div class="note">This page is for version 1.1.0.0. The reject readiness screen and the forwarding impact view are features of 1.1.0.0 and later.</div>
       <h2>Getting Started</h2>
-      <p>This chapter walks through installing the DMARC Analysis Assistant, giving first-launch consent, and importing your first DMARC reports.</p>
+      <p>This chapter walks through installing the DMARC Analysis Assistant, giving first-launch consent, and importing your first DMARC reports. After importing, use "Readiness for reject" to check whether you can move to p=reject (<a href="readiness.html?lang=en">Chapter 3</a>).</p>
 
       <h3>What this tool does (recap)</h3>
       <ul>
-        <li>Analyzes DMARC aggregate reports (RUA / XML, ZIP, or GZ) locally</li>
-        <li>Classifies each entry into six categories with a deterministic rule-based engine</li>
-        <li>As a separate feature from DMARC classification, sorts bounce messages into four buckets: Confirmed bounce, Unmapped bounce, Detector flagged for review, and Normal mail (excluded)</li>
-        <li>Shows a classification breakdown chart, key metrics (email authentication success rate and spoofing protection rate), and a per-domain summary on the dashboard</li>
-        <li>Exports results as CSV</li>
+        <li>Imports DMARC aggregate reports (XML, ZIP, or GZ) and shows whether this domain can move to p=reject</li>
+        <li>Classifies each record as OK, Spoofing suspected, Authentication failures from your own senders, Possible forwarding, and so on, with a deterministic rule-based engine</li>
+        <li>Shows the status on the dashboard, the Findings list, and the sending-server summary</li>
+        <li>As a separate feature from DMARC, analyzes bounce messages (imported from Microsoft 365 or a local EML folder)</li>
+        <li>Exports technical and executive PDF reports, Excel, and CSV</li>
       </ul>
 
       <h3>System requirements</h3>
@@ -174,48 +165,42 @@
         <li>Launch the app from the Start menu.</li>
         <li>The "Terms of Use &amp; Disclaimer" screen appears on first launch.</li>
       </ol>
-      <figure class="content-screenshot">
-        <img src="../images/en/welcome.png" alt="The first screen after consent, where you choose how to import reports — from a local folder or directly from a Microsoft 365 mailbox.">
-        <figcaption>The first screen after consent — choose how to import DMARC reports (local folder or Microsoft 365).</figcaption>
-      </figure>
 
       <h3>First-launch consent</h3>
       <ol>
         <li>Review the Terms of Use and Disclaimer displayed on screen.</li>
-        <li>Check "I have read and agree to the Terms of Use and Disclaimer above" at the bottom.</li>
-        <li>Click "Agree and continue" to proceed to the main UI.</li>
-        <li>If you do not agree, click "Decline (exit the app)" and the app will close.</li>
+        <li>Check the agreement box at the bottom (you have read and agree to the Terms of Use and Disclaimer).</li>
+        <li>Click the agree button to proceed to the main UI.</li>
+        <li>If you do not agree, choose the decline option and the app will close.</li>
       </ol>
       <div class="note">
-        The full text matches the <a href="../terms-of-use.html?lang=en">Terms of Use &amp; Disclaimer</a> page. Consent state is stored locally and will not be prompted again unless the terms are revised.
+        The terms are published on the <a href="../terms-of-use.html?lang=en">Terms of Use &amp; Disclaimer</a> page. If the terms are revised, agreement to the revised version will be required.
       </div>
 
       <h3>Preparing DMARC reports</h3>
       <p>To receive DMARC reports, publish a DMARC policy in your DNS TXT record and specify a mailbox with the <code>rua=</code> tag.</p>
       <p>Example: <code>v=DMARC1; p=none; rua=mailto:dmarc-reports&#64;example.com</code></p>
-      <p>Major providers such as Gmail, Microsoft, and Yahoo will send several to dozens of aggregate reports per day. Save received reports (ZIP or GZ attachments) to a folder.</p>
+      <p>Save the aggregate reports (ZIP or GZ attachments) sent by receiving mail providers to a folder.</p>
 
       <h3>First import</h3>
       <ol>
-        <li>Open the "Import reports" screen in the app.</li>
-        <li>Specify the folder containing DMARC reports.</li>
-        <li>Click "Import" — XML / ZIP / GZ files will be expanded and parsed automatically.</li>
-        <li>Aggregated results will appear on the dashboard when import completes.</li>
+        <li>On the first screen choose the option to check from report files, or open "Local DMARC import" in the left menu.</li>
+        <li>Select the folder that contains the DMARC reports.</li>
+        <li>Start the analysis — XML / ZIP / GZ files are expanded and parsed.</li>
+        <li>When it completes, the results appear on the dashboard. Open "Readiness for reject" in the left menu to see the verdict and the next step.</li>
       </ol>
-      <figure class="content-screenshot">
-        <img src="../images/en/dashboard.png" alt="See your email security status at a glance. The dashboard auto-sorts DMARC results into six plain-language classes, so you know exactly what needs attention.">
-        <figcaption>Dashboard after import: results are auto-sorted into six categories, showing what needs attention at a glance.</figcaption>
-      </figure>
+      <p>If you import the same report again, the saved content is replaced with the latest import result.</p>
 
-      <h3>Importing from Microsoft 365 directly (optional)</h3>
-      <p>You can also import DMARC reports directly from a Microsoft 365 mailbox. This feature is optional and <strong>uses only the <code>Mail.Read</code> scope (read-only)</strong>. The tool never sends, deletes, or edits mail. Details will be covered in Chapter 7 "Microsoft 365 integration" (planned).</p>
-      <div class="note">
-        Authentication tokens are held in memory only and are never persisted to disk. They are discarded when the application exits.
-      </div>
+      <h3>What to register on the settings screen</h3>
+      <p>If you register IP address ranges (for example <code>203.0.113.0/24</code>) under "IP addresses of your own mail servers" and "Known forwarding servers" on the settings screen, authentication failures from those IPs are classed as "Authentication failures from your own senders" and "Possible forwarding" respectively. Saved settings apply from the next analysis (<a href="classification.html?lang=en">Chapter 4</a>).</p>
+
+      <h3>Importing from a Microsoft 365 shared mailbox (optional)</h3>
+      <p>You can also import DMARC reports directly from a Microsoft 365 shared mailbox. This feature is optional; you set the tenant ID and client ID on the settings screen (an app registration in the Azure Portal is required). <strong>Fetching from the app screen uses only the read permission (<code>Mail.Read.Shared</code>) and never deletes, moves, marks as read, or sends mail.</strong> The command-line interface (CLI) has a mode that deletes mail after fetching it; the app screen does not use this mode.</p>
 
       <h3>Next steps</h3>
       <ul>
-        <li>See <a href="classification.html?lang=en">Chapter 4 Reading the six categories</a> to learn what each label means.</li>
+        <li>See <a href="readiness.html?lang=en">Chapter 3 Readiness for reject</a> for the verdict and the next step</li>
+        <li>See <a href="classification.html?lang=en">Chapter 4 Reading the categories</a> to learn what each label means.</li>
         <li>See <a href="troubleshooting.html?lang=en">Chapter 8 Troubleshooting</a> if launch or import fails.</li>
       </ul>
     </div>
@@ -231,7 +216,7 @@ function switchLang(lang) {
   document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
   document.getElementById('btn-en').classList.toggle('active', lang === 'en');
   document.documentElement.lang = lang;
-  var titles = { ja: 'Chapter 1: はじめに — DMARC 分析支援ツール | Sumikko Lab', en: 'Chapter 1: Getting Started — DMARC Analysis Assistant | Sumikko Lab' };
+  var titles = { ja: 'Chapter 1: はじめに（インストールと初回のレポート取込） — DMARC 分析支援ツール | Sumikko Lab', en: 'Chapter 1: Getting Started (install and first import) — DMARC Analysis Assistant | Sumikko Lab' };
   document.title = titles[lang];
   document.querySelector('meta[property="og:title"]').content = titles[lang];
   document.querySelector('meta[name="twitter:title"]').content = titles[lang];

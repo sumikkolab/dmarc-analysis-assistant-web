@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 3: p=reject に上げてよいかを判断する（reject 移行準備） — DMARC 分析支援ツール | Sumikko Lab</title>
+<meta name="description" content="DMARC のポリシーを p=reject に上げてよいか分からないときの、reject 移行準備画面の見方。判定 4 値、通過率の帯（運用目安）、推奨アクション、reject にした場合に拒否される見込み、転送の影響、転送サーバーの登録を説明します。">
+<link rel="canonical" href="https://dmarc-analysis.sumikkolab.com/manual/readiness.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:site_name" content="DMARC Analysis Assistant — Sumikko Lab">
+<meta property="og:title" content="Chapter 3: p=reject に上げてよいかを判断する（reject 移行準備） — DMARC 分析支援ツール | Sumikko Lab">
+<meta property="og:description" content="DMARC のポリシーを p=reject に上げてよいか分からないときの、reject 移行準備画面の見方。判定 4 値、通過率の帯（運用目安）、推奨アクション、拒否される見込み、転送の影響を説明します。">
+<meta property="og:url" content="https://dmarc-analysis.sumikkolab.com/manual/readiness.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 3: p=reject に上げてよいかを判断する（reject 移行準備） — DMARC 分析支援ツール | Sumikko Lab">
+<meta name="twitter:description" content="DMARC のポリシーを p=reject に上げてよいか分からないときの、reject 移行準備画面の見方。判定 4 値、通過率の帯（運用目安）、推奨アクション、拒否される見込み、転送の影響を説明します。">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="lang-toggle">
+  <button id="btn-ja" class="active" onclick="switchLang('ja')">日本語</button>
+  <button id="btn-en" onclick="switchLang('en')">English</button>
+</div>
+
+<div class="manual-header">
+  <a href="../">&larr; DMARC Analysis Assistant</a>
+  <div class="section-ja visible"><h1>Chapter 3: reject 移行準備</h1></div>
+  <div class="section-en"><h1>Chapter 3: Readiness for reject</h1></div>
+</div>
+
+<div class="manual-container">
+  <nav class="manual-nav">
+    <div class="section-ja visible">
+      <h2>目次</h2>
+      <ul>
+        <li><a href="./">0. 概要</a></li>
+        <li><a href="getting-started.html">1. はじめに</a></li>
+        <li class="planned"><a>2. レポート取込（予定）</a></li>
+        <li><a href="readiness.html"><strong>3. reject 移行準備</strong></a></li>
+        <li><a href="classification.html">4. 分類の読み方</a></li>
+        <li><a href="sending-servers.html">5. 送信元サーバー</a></li>
+        <li class="planned"><a>6. バウンス分析（予定）</a></li>
+        <li class="planned"><a>7. Microsoft 365 連携（予定）</a></li>
+        <li><a href="troubleshooting.html">8. トラブルシューティング</a></li>
+      </ul>
+    </div>
+    <div class="section-en">
+      <h2>Contents</h2>
+      <ul>
+        <li><a href="./?lang=en">0. Overview</a></li>
+        <li><a href="getting-started.html?lang=en">1. Getting Started</a></li>
+        <li class="planned"><a>2. Importing reports (planned)</a></li>
+        <li><a href="readiness.html?lang=en"><strong>3. Readiness for reject</strong></a></li>
+        <li><a href="classification.html?lang=en">4. Reading the categories</a></li>
+        <li><a href="sending-servers.html?lang=en">5. Sending servers</a></li>
+        <li class="planned"><a>6. Bounce analysis (planned)</a></li>
+        <li class="planned"><a>7. Microsoft 365 integration (planned)</a></li>
+        <li><a href="troubleshooting.html?lang=en">8. Troubleshooting</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="manual-content">
+    <div class="nav-links">
+      <a href="getting-started.html">&larr; 前章: はじめに</a>
+      <a href="classification.html">次章: 分類の読み方 &rarr;</a>
+    </div>
+
+    <!-- Japanese -->
+    <div class="section-ja visible">
+      <div class="note">このページは 1.1.0.0 向けです。reject 移行準備・転送の影響は 1.1.0.0 以降の機能です。</div>
+      <h2>このドメインを p=reject に上げてよいか判断する</h2>
+      <p>DMARC のポリシーを p=reject に上げてよいか分からないときは、アプリの左のメニューの「reject 移行準備」を開きます。取り込んだ集約レポートをもとに、画面の最上部に判定と次の一手が表示されます。上げられない場合は、何が原因で、何をすればよいかも同じ画面に示されます。分析の期間は、最新のレポートの日から遡って 90 日です。</p>
+
+      <h3>判定の 4 つの値と、次の一手</h3>
+      <table>
+        <thead><tr><th>判定</th><th>意味（画面の文言）</th><th>次の一手</th></tr></thead>
+        <tbody>
+          <tr><td><strong>移行可能</strong></td><td>通過率が 99% 以上の帯で、自社送信元の認証失敗と判定保留のメールがなく、reject へ移行しても正当なメールが拒否される可能性は低い状況です。</td><td>公開ポリシーが quarantine のときに、reject への変更を促します。すでに p=reject のときは、reject の運用を続け、集約レポートで失敗の内訳を確認します。</td></tr>
+          <tr><td><strong>条件つき（要対応あり）</strong></td><td>通過率は 90% 以上ですが、reject へ移行する前に確認が必要な点が残っています。</td><td>quarantine で運用しながら、失敗の原因を解消します。reject への変更は促しません。</td></tr>
+          <tr><td><strong>準備未完了</strong></td><td>通過率が 90% 未満です。reject にすると正当なメールが拒否される可能性があります。</td><td>先に失敗の原因を解消します。75% 以上は p=none のまま原因を解消し、75% 未満は送信元の洗い出しを優先します。</td></tr>
+          <tr><td><strong>判断材料が不足しています</strong></td><td>分析に使えるデータが足りず、判断できません。</td><td>不足している情報と確認方法が推奨アクションに表示されます（次の節）。</td></tr>
+        </tbody>
+      </table>
+      <p>「移行可能」になるのは、通過率が 99% 以上の帯であることに加えて、自社送信元の認証失敗が 0 件、判定保留が 0 件、SPF だけで DMARC に合格したメールが 0 件、公開ポリシーが quarantine または reject、受信側の判定との食い違いが 0 件、受信側の例外の理由（reason）が保存済み、のすべてを満たすときです。</p>
+
+      <h3>通過率のゲージと帯（運用目安）</h3>
+      <p>通過率のゲージには 75%・90%・99% の目盛りがあり、現在値と、次の帯までの差が表示されます。帯の判定には、転送経由の可能性を除いた通過率を使います（全体の通過率も並べて表示されます）。</p>
+      <div class="warn"><strong>通過率の帯の値（75%・90%・99%）は、運用目安（公式の根拠なし）です。</strong>RFC などの公式の基準ではありません。</div>
+      <table>
+        <thead><tr><th>帯</th><th>画面の案内</th></tr></thead>
+        <tbody>
+          <tr><td>99% 以上</td><td>reject への移行を検討できる帯です。ほかの条件がそろった場合に、移行可能と判定します。</td></tr>
+          <tr><td>90% 以上 99% 未満</td><td>quarantine で運用しながら、失敗の原因を解消してください。</td></tr>
+          <tr><td>75% 以上 90% 未満</td><td>p=none のまま失敗の原因を解消してから、quarantine へ進んでください。</td></tr>
+          <tr><td>75% 未満</td><td>p=none を継続し、送信元の洗い出しを優先してください。</td></tr>
+        </tbody>
+      </table>
+
+      <h3>判断材料が不足しているとき</h3>
+      <p>次のいずれかに当てはまるとき、判定は「判断材料が不足しています」になり、帯は確定しません。件数・日数・社数は運用目安（公式の根拠なし）です。</p>
+      <ul>
+        <li>分析期間にレポートがない → DMARC レコードの <code>rua</code> の宛先を確認し、レポートが届いたら取り込みます。</li>
+        <li>レポート提供元（受信側の事業者）が 2 社未満 → 受信側からのレポートが増えるまで待ち、<code>rua</code> の宛先を確認します。</li>
+        <li>レポートを受信した日数が 30 日未満（RFC 9989 の「少なくとも 1 か月」を受信日数に当てはめた、このアプリの解釈）→ 不足分の取り込みを続けます。</li>
+        <li>レポートが届いていない日がある → 該当日のレポートメールを再取り込みし、届いていなければ <code>rua</code> の宛先と受信側の送信状況を確認します。</li>
+        <li>メッセージ総数が 100 件未満 → 不足分のレポートが届くまで取り込みを続けます。</li>
+      </ul>
+
+      <h3>推奨アクション</h3>
+      <p>判定と矛盾しない形で、次にやることが表示されます。たとえば次のものです。</p>
+      <ul>
+        <li>自社送信元の認証失敗を修正する（SPF・DKIM の設定。該当のレコードはダッシュボードの「自社送信元の認証失敗」で確認します）</li>
+        <li>判定保留の送信元を確認する</li>
+        <li>SPF の整合だけで合格している送信元に DKIM 署名を設定する</li>
+        <li>転送経由の可能性があるメールの送信元を確認し、reject による影響を許容できるか判断する</li>
+        <li>公開ポリシーを quarantine に変更する／reject に変更する（reject への変更を促すのは「移行可能」のときだけです）</li>
+      </ul>
+
+      <h3>reject にした場合に拒否される見込み</h3>
+      <p>reject にすると、DMARC に失敗している件数が、受信側で拒否される可能性があります。画面は、その件数を次の区分の内訳で示します。</p>
+      <ul>
+        <li>自社送信元の認証失敗（正当なメールの可能性が高い）</li>
+        <li>判定保留</li>
+        <li>なりすまし疑い</li>
+        <li>転送経由の可能性</li>
+      </ul>
+      <p>見込みは範囲で表示されます。最小は「なりすまし疑いだけが拒否される場合」、最大は「DMARC に失敗した全件が拒否される場合」です。範囲を確定するための確認事項（自社送信元の認証失敗の解消、判定保留の送信元の確認、転送経由の可能性の送信元の登録）も表示されます。実際に拒否するかどうかは、受信側の判断によります。データが少ないときは、「確定できません」と表示されます。</p>
+
+      <h3>転送の影響</h3>
+      <p>メールの転送やメーリングリストを経由すると、SPF が崩れて DMARC に失敗することがあります。画面は、通過率を「全体」と「転送経由の可能性を除く」の 2 本で並べ、除いた件数を併記します。「全体」の値は、除かずに計算しています。</p>
+      <ul>
+        <li><strong>除く対象:</strong> 登録した転送サーバーからの失敗と、受信側が <code>mailing_list</code> または <code>trusted_forwarder</code> と報告した失敗です（旧形式の <code>forwarded</code> もあわせて扱われます）。<code>local_policy</code>・<code>other</code> は転送と断定できないため除きません。</li>
+        <li><strong>失敗した転送の送信元の一覧:</strong> 送信元、失敗件数、転送と判断した根拠が表示されます。</li>
+        <li><strong>転送サーバーとして登録:</strong> 正当な転送サーバーなら、一覧の「転送サーバーとして登録」で登録します。次回の分析から転送として扱われ、保存済みの記録も再判定されます。区分ごとの件数の変化が表示されます。登録できる範囲は、IPv4 が /24 から /32、IPv6 が /64 から /128 です。設定ファイルが使用できないときは、記録を書き換えずに中止します。</li>
+      </ul>
+
+      <h3>判定の根拠</h3>
+      <p>「判定の根拠」のタブでは、各項目が「公式」か「運用目安（公式の根拠なし）」かを区別して表示します。「公式」は、RFC 9989・RFC 9990、Microsoft・Google の文書に根拠がある項目で、出典が付きます。たとえば、認証に失敗する正当な送信を強化の前に解消すること、none → quarantine → reject の順に強化することなどです。通過率の帯、レポート提供元の社数、メッセージ総数などは運用目安です。RFC 9989 では pct が廃止されており、受信側の対応は事業者の文書によると案内されます。</p>
+      <p>このアプリは、整合の判定を relaxed でのみ行います。adkim・aspf が strict の公開ポリシーの結果は参考値で、strict の整合は、レポートの XML にある受信側の判定で確認します。</p>
+
+      <h3>未登録の送信元（署名は有効）</h3>
+      <p>DKIM の署名は有効で DMARC は pass ですが、送信元が未登録のメールは、「なりすまし疑い」や「再送の疑い」とは書かず、「未登録の送信元（署名は有効）」として中立に表示されます。正当な送信元なら「正当な送信元として登録」できます。同じ DKIM セレクタの件数が突出した日は、「件数の急増」として別に表示されます（運用目安）。</p>
+
+      <h3>保存されていない情報があるとき</h3>
+      <p>公開ポリシー（p・pct・adkim・aspf）や受信側の判定（disposition・reason）を保存する前に取り込んだレポートがあるときは、「保存されていない情報があります」と表示されます。「DMARC ローカル取込」または Microsoft 365 から再取り込みすると表示されます。</p>
+
+      <div class="note">判定・見込みは、取り込んだレポートに基づく目安です。最終的な判断は利用者の責任で行ってください。</div>
+
+      <h3>次にやること</h3>
+      <ul>
+        <li><a href="classification.html">第 4 章 分類の読み方</a>で、自社送信元の認証失敗・転送経由の可能性・なりすまし疑いの意味を確認する</li>
+        <li><a href="sending-servers.html">第 5 章 送信元サーバー</a>で、失敗が多い送信元から確認する</li>
+      </ul>
+    </div>
+
+    <!-- English -->
+    <div class="section-en">
+      <div class="note">This page is for version 1.1.0.0. The reject readiness screen and the forwarding impact view are features of 1.1.0.0 and later.</div>
+      <h2>Deciding whether this domain can move to p=reject</h2>
+      <p>If you are not sure whether your DMARC policy can move to p=reject, open "Readiness for reject" in the left menu of the app. Based on the aggregate reports you have imported, the top of the screen shows a verdict and the next step. If the domain is not ready, the same screen shows what is causing the failures and what to do about them. The analysis period is the 90 days leading up to the date of the latest report.</p>
+
+      <h3>The four verdicts and the next step</h3>
+      <table>
+        <thead><tr><th>Verdict</th><th>Meaning (as shown on screen)</th><th>Next step</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Ready to move</strong></td><td>The pass rate is in the 99% or higher band, there are no authentication failures from your own senders and no messages pending review, so moving to reject is unlikely to cause legitimate email to be rejected.</td><td>When the published policy is quarantine, the screen recommends changing it to reject. If it is already p=reject, keep running with reject and check the failure breakdown in the aggregate reports.</td></tr>
+          <tr><td><strong>Conditional (action needed)</strong></td><td>The pass rate is 90% or higher, but some points remain to be checked before moving to reject.</td><td>Run with quarantine while resolving the causes of the failures. The screen does not recommend reject yet.</td></tr>
+          <tr><td><strong>Not ready</strong></td><td>The pass rate is below 90%. With reject, legitimate email may be rejected.</td><td>Resolve the causes of the failures first. From 75%, stay on p=none while resolving them; below 75%, identify your senders first.</td></tr>
+          <tr><td><strong>Not enough information to decide</strong></td><td>There is not enough data to decide.</td><td>The missing information and how to check it are shown in the recommended actions (next sections).</td></tr>
+        </tbody>
+      </table>
+      <p>"Ready to move" requires all of the following: the pass rate is in the 99% or higher band; 0 authentication failures from your own senders; 0 messages pending review; 0 messages that pass DMARC through SPF alone; the published policy is quarantine or reject; 0 mismatches with the receiver's decision; and the exception reasons (reason) reported by receivers are stored.</p>
+
+      <h3>The pass-rate gauge and bands (operational guideline)</h3>
+      <p>The gauge has marks at 75%, 90%, and 99%, and shows the current value and the gap to the next band. The band is decided with the pass rate excluding possible forwarding (the overall pass rate is shown next to it).</p>
+      <div class="warn"><strong>The band values (75%, 90%, 99%) are operational guidelines (no official basis).</strong> They are not an official standard such as an RFC.</div>
+      <table>
+        <thead><tr><th>Band</th><th>Guidance on screen</th></tr></thead>
+        <tbody>
+          <tr><td>99% or higher</td><td>A band in which you can consider moving to reject. It is judged "Ready to move" when the other conditions are also met.</td></tr>
+          <tr><td>90% to under 99%</td><td>Run with quarantine while resolving the causes of the failures.</td></tr>
+          <tr><td>75% to under 90%</td><td>Resolve the causes of the failures while staying on p=none, then move to quarantine.</td></tr>
+          <tr><td>Under 75%</td><td>Stay on p=none and prioritize identifying your senders.</td></tr>
+        </tbody>
+      </table>
+
+      <h3>When there is not enough information</h3>
+      <p>If any of the following applies, the verdict is "Not enough information to decide" and the band is not fixed. The counts, days, and numbers of providers are operational guidelines (no official basis).</p>
+      <ul>
+        <li>No reports in the analysis period: check the <code>rua</code> address of your DMARC record and import the reports once they arrive.</li>
+        <li>Fewer than 2 report providers (receiving mail providers): wait for more providers to send reports and check the <code>rua</code> address.</li>
+        <li>Reports received on fewer than 30 days (this app's interpretation of the "at least one month" in RFC 9989, applied to days with reports): keep importing.</li>
+        <li>There are days with no report: re-import the report mail for those days; if it never arrived, check the <code>rua</code> address and the receiver's sending status.</li>
+        <li>Fewer than 100 messages in total: keep importing until enough reports arrive.</li>
+      </ul>
+
+      <h3>Recommended actions</h3>
+      <p>The screen shows what to do next, consistent with the verdict. Examples:</p>
+      <ul>
+        <li>Fix authentication failures from your own senders (SPF and DKIM settings; the records are listed under "Authentication failures from your own senders" on the dashboard)</li>
+        <li>Review the senders pending review</li>
+        <li>Set up DKIM signing for senders that pass only through SPF alignment</li>
+        <li>Check the senders of possibly forwarded mail and decide whether you can accept the impact of reject</li>
+        <li>Change the published policy to quarantine / to reject (the screen recommends reject only for "Ready to move")</li>
+      </ul>
+
+      <h3>Expected rejections if you move to reject</h3>
+      <p>With reject, the messages that fail DMARC may be rejected by receivers. The screen breaks that count down by category:</p>
+      <ul>
+        <li>Authentication failures from your own senders (likely legitimate)</li>
+        <li>Pending review</li>
+        <li>Possible spoofing</li>
+        <li>Possible forwarding</li>
+      </ul>
+      <p>The outlook is shown as a range. The minimum is "only suspected spoofing is rejected"; the maximum is "all messages that fail DMARC are rejected". The screen also lists what to check to narrow the range (resolving authentication failures from your own senders, reviewing the senders pending review, registering legitimate forwarding servers). Whether a receiver actually rejects them is up to the receiver. When data is limited, the screen says the count cannot be determined.</p>
+
+      <h3>Impact of forwarding</h3>
+      <p>Forwarding and mailing lists can break SPF and cause DMARC to fail. The screen shows the pass rate two ways, "All messages" and "Excluding possible forwarding", and shows how many messages were excluded. The "all messages" value is calculated without excluding anything.</p>
+      <ul>
+        <li><strong>What is excluded:</strong> failures from registered forwarding servers, and failures that the receiver reported as <code>mailing_list</code> or <code>trusted_forwarder</code> (the older <code>forwarded</code> value is handled the same way). <code>local_policy</code> and <code>other</code> cannot be assumed to be forwarding and are not excluded.</li>
+        <li><strong>List of failing forwarding sources:</strong> shows the source, the number of failures, and the basis for treating it as forwarding.</li>
+        <li><strong>Register as a forwarding server:</strong> if a source is a legitimate forwarding server, register it from the list. From the next analysis it is treated as forwarding, and saved records are re-evaluated; the change in counts per category is shown. The accepted range is /24 to /32 for IPv4 and /64 to /128 for IPv6. If the settings file cannot be used, the re-evaluation is stopped and saved records are left unchanged.</li>
+      </ul>
+
+      <h3>Basis for the decision</h3>
+      <p>The "Basis for the decision" tab shows whether each item is "Official" or an "Operational guideline (no official basis)". "Official" items are backed by RFC 9989, RFC 9990, or Microsoft and Google documents, and show their source. Examples are resolving legitimate senders' authentication failures before strengthening the policy, and strengthening in the order none, quarantine, reject. The pass-rate bands, the number of report providers, and the total message count are operational guidelines. The screen also notes that pct is deprecated in RFC 9989 and that receivers' handling of it depends on each vendor's documentation.</p>
+      <p>This app evaluates alignment in relaxed mode only. Results for published policies with strict adkim or aspf are reference values; check strict alignment with the receiver's decision in the report XML.</p>
+
+      <h3>Unregistered senders (valid signature)</h3>
+      <p>Mail whose DKIM signature is valid and which passes DMARC, but whose sender is not registered, is not labeled "spoofing suspected" or "replay suspected". It is shown neutrally as "Unregistered senders (valid signature)". If a sender is legitimate, you can register it with "Register as a legitimate sender". A day on which the count for the same DKIM selector spikes is shown separately as a surge (an operational guideline).</p>
+
+      <h3>When some information is not stored</h3>
+      <p>If a report was imported before the published policy (p, pct, adkim, aspf) or the receiver's decision (disposition, reason) was stored, the screen shows "Some information is not stored". Re-import from "Local DMARC import" or from Microsoft 365 to see it.</p>
+
+      <div class="note">The verdict and the outlook are guides based on the reports you imported. The final judgment rests with you.</div>
+
+      <h3>Next steps</h3>
+      <ul>
+        <li>See <a href="classification.html?lang=en">Chapter 4 Reading the categories</a> for what authentication failures from your own senders, possible forwarding, and spoofing suspected mean</li>
+        <li>See <a href="sending-servers.html?lang=en">Chapter 5 Sending servers</a> to start with the sources that have the most failures</li>
+      </ul>
+    </div>
+  </main>
+</div>
+
+<div class="footer">&copy; 2026 Sumikko Lab. DMARC Analysis Assistant.</div>
+
+<script>
+function switchLang(lang) {
+  document.querySelectorAll('.section-ja, .section-en').forEach(function(el) { el.classList.remove('visible'); });
+  document.querySelectorAll('.section-' + lang).forEach(function(el) { el.classList.add('visible'); });
+  document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.documentElement.lang = lang;
+  var titles = { ja: 'Chapter 3: p=reject に上げてよいかを判断する（reject 移行準備） — DMARC 分析支援ツール | Sumikko Lab', en: 'Chapter 3: Can this domain move to p=reject? (Readiness for reject) — DMARC Analysis Assistant | Sumikko Lab' };
+  document.title = titles[lang];
+  document.querySelector('meta[property="og:title"]').content = titles[lang];
+  document.querySelector('meta[name="twitter:title"]').content = titles[lang];
+}
+(function() { if (location.search.indexOf('lang=en') >= 0) switchLang('en'); })();
+</script>
+</body>
+</html>

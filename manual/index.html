@@ -3,23 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>マニュアル — DMARC 分析支援ツール | Sumikko Lab</title>
-<meta name="description" content="DMARC 分析支援ツールのマニュアル。インストール、初回同意、レポート取込、6 分類の確認、CSV エクスポート、データ削除の操作手順。">
+<title>マニュアル — p=reject に上げてよいかを判断する | DMARC 分析支援ツール</title>
+<meta name="description" content="DMARC 分析支援ツールのマニュアル。p=reject に上げてよいか分からないときに、reject 移行準備画面の判定と次の一手を読む手順、インストール、レポート取込、分類の読み方、転送の影響、データ削除の操作手順。">
 <link rel="canonical" href="https://dmarc-analysis.sumikkolab.com/manual/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ja_JP">
 <meta property="og:site_name" content="DMARC Analysis Assistant — Sumikko Lab">
-<meta property="og:title" content="マニュアル — DMARC 分析支援ツール | Sumikko Lab">
-<meta property="og:description" content="DMARC 分析支援ツールのマニュアル。インストール、初回同意、レポート取込、6 分類の確認、CSV エクスポート、データ削除の操作手順。">
+<meta property="og:title" content="マニュアル — p=reject に上げてよいかを判断する | DMARC 分析支援ツール">
+<meta property="og:description" content="DMARC 分析支援ツールのマニュアル。reject 移行準備画面の判定と次の一手を読む手順、レポート取込、分類の読み方、転送の影響の見方。">
 <meta property="og:url" content="https://dmarc-analysis.sumikkolab.com/manual/">
-<meta property="og:image" content="https://dmarc-analysis.sumikkolab.com/images/en/findings.png">
-<meta property="og:image:width" content="1920">
-<meta property="og:image:height" content="1032">
-<meta property="og:image:alt" content="DMARC 分析支援ツールの検出結果の画面">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="マニュアル — DMARC 分析支援ツール | Sumikko Lab">
-<meta name="twitter:description" content="DMARC 分析支援ツールのマニュアル。インストール、初回同意、レポート取込、6 分類の確認、CSV エクスポート、データ削除の操作手順。">
-<meta name="twitter:image" content="https://dmarc-analysis.sumikkolab.com/images/en/findings.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="マニュアル — p=reject に上げてよいかを判断する | DMARC 分析支援ツール">
+<meta name="twitter:description" content="DMARC 分析支援ツールのマニュアル。reject 移行準備画面の判定と次の一手を読む手順、レポート取込、分類の読み方、転送の影響の見方。">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -42,8 +37,8 @@
         <li><a href="./"><strong>0. 概要</strong></a></li>
         <li><a href="getting-started.html">1. はじめに</a></li>
         <li class="planned"><a>2. レポート取込（予定）</a></li>
-        <li class="planned"><a>3. 分析画面（予定）</a></li>
-        <li><a href="classification.html">4. 6 分類の読み方</a></li>
+        <li><a href="readiness.html">3. reject 移行準備</a></li>
+        <li><a href="classification.html">4. 分類の読み方</a></li>
         <li><a href="sending-servers.html">5. 送信元サーバー</a></li>
         <li class="planned"><a>6. バウンス分析（予定）</a></li>
         <li class="planned"><a>7. Microsoft 365 連携（予定）</a></li>
@@ -56,8 +51,8 @@
         <li><a href="./?lang=en"><strong>0. Overview</strong></a></li>
         <li><a href="getting-started.html?lang=en">1. Getting Started</a></li>
         <li class="planned"><a>2. Importing reports (planned)</a></li>
-        <li class="planned"><a>3. Analysis screen (planned)</a></li>
-        <li><a href="classification.html?lang=en">4. Reading the six categories</a></li>
+        <li><a href="readiness.html?lang=en">3. Readiness for reject</a></li>
+        <li><a href="classification.html?lang=en">4. Reading the categories</a></li>
         <li><a href="sending-servers.html?lang=en">5. Sending servers</a></li>
         <li class="planned"><a>6. Bounce analysis (planned)</a></li>
         <li class="planned"><a>7. Microsoft 365 integration (planned)</a></li>
@@ -74,21 +69,31 @@
 
     <!-- Japanese -->
     <div class="section-ja visible">
+      <div class="note">このページは 1.1.0.0 向けです。reject 移行準備・転送の影響は 1.1.0.0 以降の機能です。</div>
       <h2>DMARC 分析支援ツール マニュアル</h2>
-      <p>このマニュアルは DMARC 分析支援ツール v1.0.6 の操作を章ごとに説明します。左のメニューから章を選択してください。</p>
+      <p>このマニュアルは DMARC 分析支援ツール 1.1.0.0 の操作を章ごとに説明します。左のメニューから章を選択してください。</p>
+
+      <h3>「このドメインを p=reject に上げてよいか」を判断したいとき</h3>
+      <ol>
+        <li>集約レポートを取り込みます（<a href="getting-started.html">第 1 章</a>）。</li>
+        <li>左のメニューの「reject 移行準備」を開きます。画面の最上部に、判定（移行可能 / 条件つき（要対応あり） / 準備未完了 / 判断材料が不足しています）と、通過率のゲージ、推奨アクションが表示されます。</li>
+        <li>判定ごとの次の一手を確認します（<a href="readiness.html">第 3 章</a>）。「判断材料が不足しています」なら取り込みを続け、「準備未完了」なら失敗の原因を解消し、「条件つき」なら quarantine で運用しながら残りの点を解消し、「移行可能」なら reject への変更を検討します。</li>
+        <li>失敗の原因は、「reject にした場合の影響」の内訳（自社送信元の認証失敗・判定保留・なりすまし疑い・転送経由の可能性）で見分けます。転送が原因なら、通過率を「全体」と「転送経由の可能性を除く」で比べ、正当な転送サーバーを登録します。</li>
+      </ol>
+      <div class="warn">通過率の帯の値（75%・90%・99%）は運用目安（公式の根拠なし）です。実際に拒否するかどうかは、受信側の判断によります。</div>
 
       <h3>このツールの流れ</h3>
       <ol>
         <li><strong>同意</strong> — 初回起動時に利用規約・免責事項を確認し、同意する</li>
-        <li><strong>取込</strong> — フォルダまたは Microsoft 365 から DMARC レポート（XML / ZIP / GZ）を取得</li>
-        <li><strong>解析</strong> — 6 分類で自動判定（正常 / なりすまし疑い / 設定不備 / 転送 / 要確認 / 読取エラー）</li>
-        <li><strong>確認</strong> — 一覧・フィルタ・送信元サーバー別集計で状況を把握</li>
-        <li><strong>エクスポート</strong> — CSV で外部ツール（Excel / BI）連携</li>
+        <li><strong>取込</strong> — フォルダまたは Microsoft 365 の共有メールボックスから DMARC レポート（XML / ZIP / GZ）を取得</li>
+        <li><strong>判定</strong> — 各レコードを、正常・なりすまし疑い・自社送信元の認証失敗・転送経由の可能性などの区分に判定（<a href="classification.html">第 4 章</a>）</li>
+        <li><strong>確認</strong> — 「reject 移行準備」、ダッシュボード、レコード一覧、送信元サーバー別集計で状況を把握</li>
+        <li><strong>エクスポート</strong> — 技術レポート・経営レポート（PDF）、Excel、CSV で出力</li>
       </ol>
 
       <h3>マニュアルの範囲</h3>
       <div class="note">
-        v1.0.6 時点では上記目次の <strong>0 / 1 / 4 / 5 / 8 章</strong>を公開しています。「予定」と表示された章は、画面確定に合わせて順次公開します。当面はアプリ内ツールチップと、製品トップページの機能説明もあわせてご参照ください。
+        1.1.0.0 では上記目次の <strong>0 / 1 / 3 / 4 / 5 / 8 章</strong>を公開しています。「予定」と表示された章は、画面確定に合わせて順次公開します。当面はアプリ内の説明と、製品トップページの機能説明もあわせてご参照ください。
       </div>
 
       <h3>関連リンク</h3>
@@ -102,21 +107,31 @@
 
     <!-- English -->
     <div class="section-en">
+      <div class="note">This page is for version 1.1.0.0. The reject readiness screen and the forwarding impact view are features of 1.1.0.0 and later.</div>
       <h2>DMARC Analysis Assistant Manual</h2>
-      <p>This manual walks through DMARC Analysis Assistant v1.0.6 chapter by chapter. Choose a chapter from the menu on the left.</p>
+      <p>This manual walks through DMARC Analysis Assistant 1.1.0.0 chapter by chapter. Choose a chapter from the menu on the left.</p>
+
+      <h3>When you want to know whether this domain can move to p=reject</h3>
+      <ol>
+        <li>Import your aggregate reports (<a href="getting-started.html?lang=en">Chapter 1</a>).</li>
+        <li>Open "Readiness for reject" in the left menu. The top of the screen shows the verdict (Ready to move / Conditional (action needed) / Not ready / Not enough information to decide), the pass-rate gauge, and recommended actions.</li>
+        <li>Check the next step for your verdict (<a href="readiness.html?lang=en">Chapter 3</a>). For "Not enough information to decide", keep importing; for "Not ready", resolve the causes of the failures; for "Conditional", run with quarantine while resolving the remaining points; for "Ready to move", consider changing to reject.</li>
+        <li>Tell the causes apart in the breakdown under "Impact of moving to reject" (authentication failures from your own senders, pending review, spoofing suspected, possible forwarding). If forwarding is the cause, compare the pass rate "All messages" with "Excluding possible forwarding", and register legitimate forwarding servers.</li>
+      </ol>
+      <div class="warn">The band values (75%, 90%, 99%) are operational guidelines (no official basis). Whether a receiver actually rejects mail is up to the receiver.</div>
 
       <h3>Workflow</h3>
       <ol>
         <li><strong>Consent</strong> — Review the Terms of Use &amp; Disclaimer on first launch and accept</li>
-        <li><strong>Import</strong> — Load DMARC reports (XML / ZIP / GZ) from a folder or from Microsoft 365</li>
-        <li><strong>Analyze</strong> — The six-category engine classifies each entry (OK / Spoofing suspected / Config issue / Forwarded / Needs review / Read error)</li>
-        <li><strong>Review</strong> — Inspect results with filters and sending-server summaries</li>
-        <li><strong>Export</strong> — Export to CSV for Excel or BI tools</li>
+        <li><strong>Import</strong> — Load DMARC reports (XML / ZIP / GZ) from a folder or from a Microsoft 365 shared mailbox</li>
+        <li><strong>Classify</strong> — Each record is classed as OK, Spoofing suspected, Authentication failures from your own senders, Possible forwarding, and so on (<a href="classification.html?lang=en">Chapter 4</a>)</li>
+        <li><strong>Review</strong> — Use "Readiness for reject", the dashboard, the Findings list, and the sending-server summary</li>
+        <li><strong>Export</strong> — Technical and executive PDF reports, Excel, and CSV</li>
       </ol>
 
       <h3>Scope of this manual</h3>
       <div class="note">
-        As of v1.0.6, chapters <strong>0 / 1 / 4 / 5 / 8</strong> are published. Chapters marked "planned" will be added as the screens are finalized. For now, please also consult the in-app tooltips and the feature overview on the product top page.
+        In 1.1.0.0, chapters <strong>0 / 1 / 3 / 4 / 5 / 8</strong> are published. Chapters marked "planned" will be added as the screens are finalized. For now, please also consult the in-app descriptions and the feature overview on the product top page.
       </div>
 
       <h3>Related links</h3>
@@ -139,7 +154,7 @@ function switchLang(lang) {
   document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
   document.getElementById('btn-en').classList.toggle('active', lang === 'en');
   document.documentElement.lang = lang;
-  var titles = { ja: 'マニュアル — DMARC 分析支援ツール | Sumikko Lab', en: 'Manual — DMARC Analysis Assistant | Sumikko Lab' };
+  var titles = { ja: 'マニュアル — p=reject に上げてよいかを判断する | DMARC 分析支援ツール', en: 'Manual — Deciding whether to move to p=reject | DMARC Analysis Assistant' };
   document.title = titles[lang];
   document.querySelector('meta[property="og:title"]').content = titles[lang];
   document.querySelector('meta[name="twitter:title"]').content = titles[lang];

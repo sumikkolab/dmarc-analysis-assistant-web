@@ -1,67 +1,57 @@
 # DMARC Analysis Assistant
 
-**DMARC reports, reclassified so you see what to fix.**
+**Can this domain move to p=reject? If not, what is causing the failures, and what should you do?**
 
 [日本語版 README](README_ja.md)
 
+This README is for version 1.1.0.0. The reject readiness screen and the forwarding impact view are features of 1.1.0.0 and later.
+
 ## What is this tool?
 
-DMARC Analysis Assistant is a Windows desktop tool that analyzes DMARC aggregate reports (RUA) and related bounce messages **entirely on your local device**, classifies each entry into six categories, and makes it clear which rows need action and which can be safely ignored.
+DMARC Analysis Assistant is a Windows desktop tool that imports DMARC aggregate reports (XML / ZIP / GZ) and related bounce messages, and shows whether a domain can move its DMARC policy to p=reject. If it cannot, the tool shows what is causing the failures and what to do next.
 
-This is not a cloud service. Report contents, IP addresses, authentication results, and domain information are never transmitted externally.
+Analysis results are stored on your PC and are not sent to external AI or cloud analysis services.
 
-## Why this tool exists
+## Readiness for reject
 
-DMARC aggregate reports arrive as XML and list source IPs, SPF/DKIM results, and counts — but they don't tell you which entries are:
+Open "Readiness for reject" in the left menu after importing reports.
 
-- **Spoofing suspicions** that need investigation
-- **Configuration issues** in your own legitimate sending paths
-- **Forwarded traffic** that can usually be ignored
+- **Verdict (four values):** Ready to move / Conditional (action needed) / Not ready / Not enough information to decide
+- **Pass-rate gauge:** marks at 75%, 90%, and 99%. **These band values are operational guidelines (no official basis).**
+- **Recommended actions:** the next step consistent with the verdict. The screen recommends changing to reject only when the verdict is "Ready to move".
+- **Expected rejections if you move to reject:** broken down into authentication failures from your own senders, pending review, spoofing suspected, and possible forwarding, as a range from the minimum (only suspected spoofing) to the maximum (all messages that fail DMARC).
+- **Basis for the decision:** official items (RFC 9989 / RFC 9990, Microsoft and Google documents, with sources) are separated from operational guidelines.
+- **Impact of forwarding:** the pass rate for all messages and excluding possible forwarding, with the number of excluded messages. Failing forwarding sources can be registered as forwarding servers.
 
-This tool applies a deterministic, rule-based classification so operators can spend their time on real problems, not on reading XML.
+## Classification
 
-## What this tool does
+Each record is classified by a deterministic rule-based engine, using the DMARC result, the exception reasons reported by receivers, and the IP ranges you register on the settings screen. Registered settings apply from the next analysis; mailbox import and the CLI use the same settings.
 
-### Workflow: Import → Parse → Classify → Review → Export
+| Category | Condition |
+|----------|-----------|
+| **OK** | DMARC passes. |
+| **Authentication failures from your own senders** | DMARC fails and the source IP is within the own mail server IP ranges you registered. |
+| **Possible forwarding** | DMARC fails and the source IP is within a registered forwarding server range, or the receiver reported `trusted_forwarder` or `mailing_list`. |
+| **Spoofing suspected** | DMARC fails and none of the above applies. |
+| **Pending review** | DMARC fails, none of the above applies, and the source matched a known sending service. The current settings screen has no field to register these, so this is normally not assigned. |
 
-| Step | What it does |
-|------|-------------|
-| **Import** | Load DMARC aggregate reports (XML / ZIP / GZ) from a folder, or fetch from Microsoft 365 inbox (optional) |
-| **Parse** | Extract source IP, authentication results (SPF/DKIM), count, policy evaluations, and header metadata |
-| **Classify** | Apply a six-category rule-based engine to each entry |
-| **Review** | See entries as a list with filters, plus per-domain / per-category trends over time |
-| **Export** | Export classification results to CSV for further analysis in Excel or BI tools |
+## Key features
 
-### Six classification labels
-
-| Label | Meaning |
-|-------|---------|
-| **Spoofing suspected** | Both SPF and DKIM fail, originating from external IP. Highest priority. |
-| **Config issue** | Legitimate sender failing auth — DNS or sending path needs review. |
-| **Forwarded** | Failure caused by forwarding. Usually no action needed. |
-| **Legitimate** | Pass. Kept for record. |
-| **Bounce** | Correlated with matched bounce messages. |
-| **Unknown** | Insufficient information for automatic classification. |
-
-### Key features
-
-- DMARC aggregate report analysis with ZIP / GZ / XML support
-- Bounce message correlation to distinguish forwarded traffic from real issues
-- Trend aggregation by domain, classification, and period
-- CSV export for further analysis
-- Full Japanese / English bilingual UI
-- **All data stored locally** — no external server transmission
-- Deterministic rule-based classification — no AI inference, no cloud analysis
+- Reads DMARC aggregate reports (XML / ZIP / GZ) from a folder or a Microsoft 365 shared mailbox
+- Dashboard, Findings list, and a summary by sending server and by domain
+- Bounce message analysis (Microsoft 365 or a local EML folder), separate from DMARC classification
+- Technical and executive PDF reports, Excel, and CSV export
+- Management tags (Managed / Monitored / External) per domain; they do not affect classification or totals
+- Japanese / English UI
 
 ## Privacy & Security
 
-- The tool runs locally on your device
-- Report contents, IP addresses, authentication results, and domain information are **never sent** to any external service
-- Microsoft 365 integration is **optional** — enabled only when the user configures it
-- Permission scope is limited to `User.Read` + `Mail.Read` (read-only — no send, delete, or edit)
+- Analysis results are stored on your PC and are not sent to external AI or cloud analysis services
+- Microsoft 365 connections are made only when you configure them
+- Fetching from the app screen uses only the read permission `Mail.Read.Shared` and never deletes, moves, marks as read, or sends mail. The command-line interface (CLI) has a mode that deletes mail after fetching it
 - Authentication tokens are held in memory only and are never persisted to disk
 - Telemetry, crash reports, and usage history are **not collected**
-- Stored data lives under `%LocalAppData%\DmarcAnalysisAssistant` and can be deleted by the user at any time
+- Stored data lives under `%LocalAppData%\DmarcAnalysisAssistant` and can be deleted by the user
 - Consent required on first launch; re-consent on terms update
 
 ## System requirements
@@ -81,7 +71,7 @@ This tool applies a deterministic, rule-based classification so operators can sp
 
 ## Disclaimer
 
-Classifications, verdicts, and inferences shown by this tool are rule-based analyses derived from report contents and mail headers. They do not confirm sender intent or actual DNS configuration. Labels such as "Spoofing suspected", "Config issue", and "Forwarded" are machine-produced estimates and may not classify every case correctly. The final judgment rests with the user.
+Classifications, verdicts, and inferences shown by this tool are rule-based analyses derived from report contents and mail headers. They do not confirm sender intent or actual DNS configuration. Labels such as "Spoofing suspected", "Authentication failures from your own senders", and "Possible forwarding" are machine-produced estimates and may not classify every case correctly. The final judgment rests with the user.
 
 ---
 

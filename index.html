@@ -3,23 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DMARC レポートでなりすまし・設定不備・転送を切り分ける | DMARC 分析支援ツール</title>
-<meta name="description" content="DMARC 集約レポート（XML）で SPF/DKIM が fail した送信元が、なりすましか自社の設定不備か転送かを判別できず困っていませんか。送信元 IP ごとの集計と 6 分類で対応すべきものを絞り込め、解析はローカル端末だけで完結してレポートを外部に送信しません。">
+<title>DMARC を p=reject に上げてよいか判断し、失敗の原因と次の一手を知る | DMARC 分析支援ツール</title>
+<meta name="description" content="自社ドメインの DMARC ポリシーを p=reject に上げてよいか分からず困っていませんか。集約レポートから、移行可能・条件つき・準備未完了の判定と、失敗の原因（自社送信元の認証失敗・転送経由の可能性・なりすまし疑い）、次の一手を示します。">
 <link rel="canonical" href="https://dmarc-analysis.sumikkolab.com/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ja_JP">
 <meta property="og:site_name" content="DMARC 分析支援ツール — Sumikko Lab">
-<meta property="og:title" content="DMARC レポートでなりすまし・設定不備・転送を切り分ける | DMARC 分析支援ツール">
-<meta property="og:description" content="DMARC 集約レポート（XML）で SPF/DKIM が fail した送信元が、なりすましか自社の設定不備か転送かを判別できず困っていませんか。送信元 IP ごとの集計と 6 分類で対応すべきものを絞り込め、解析はローカル端末だけで完結してレポートを外部に送信しません。">
+<meta property="og:title" content="DMARC を p=reject に上げてよいか判断し、失敗の原因と次の一手を知る | DMARC 分析支援ツール">
+<meta property="og:description" content="自社ドメインの DMARC ポリシーを p=reject に上げてよいか分からず困っていませんか。集約レポートから、判定と、失敗の原因、次の一手を示します。">
 <meta property="og:url" content="https://dmarc-analysis.sumikkolab.com/">
-<meta property="og:image" content="https://dmarc-analysis.sumikkolab.com/images/en/findings.png">
-<meta property="og:image:width" content="1920">
-<meta property="og:image:height" content="1032">
-<meta property="og:image:alt" content="DMARC 分析支援ツールの検出結果の画面">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="DMARC レポートでなりすまし・設定不備・転送を切り分ける | DMARC 分析支援ツール">
-<meta name="twitter:description" content="DMARC 集約レポート（XML）で SPF/DKIM が fail した送信元が、なりすましか自社の設定不備か転送かを判別できず困っていませんか。送信元 IP ごとの集計と 6 分類で対応すべきものを絞り込め、解析はローカル端末だけで完結してレポートを外部に送信しません。">
-<meta name="twitter:image" content="https://dmarc-analysis.sumikkolab.com/images/en/findings.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DMARC を p=reject に上げてよいか判断し、失敗の原因と次の一手を知る | DMARC 分析支援ツール">
+<meta name="twitter:description" content="自社ドメインの DMARC ポリシーを p=reject に上げてよいか分からず困っていませんか。集約レポートから、判定と、失敗の原因、次の一手を示します。">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -37,7 +32,7 @@
       "url": "https://dmarc-analysis.sumikkolab.com/",
       "name": "DMARC Analysis Assistant",
       "inLanguage": ["ja", "en"],
-      "dateModified": "2026-11-17",
+      "dateModified": "2026-11-19",
       "publisher": { "@id": "https://dmarc-analysis.sumikkolab.com/#organization" }
     },
     {
@@ -45,36 +40,28 @@
       "@id": "https://dmarc-analysis.sumikkolab.com/#software",
       "name": "DMARC Analysis Assistant",
       "alternateName": "DMARC 分析支援ツール",
+      "softwareVersion": "1.1.0.0",
       "applicationCategory": "SecurityApplication",
       "applicationSubCategory": "Email Security",
       "operatingSystem": "Windows 10, Windows 11",
       "url": "https://dmarc-analysis.sumikkolab.com/",
       "downloadUrl": "https://apps.microsoft.com/detail/9MW671KFZL9B",
       "installUrl": "https://apps.microsoft.com/detail/9MW671KFZL9B",
-      "description": "Helps tell spoofing, misconfiguration, and forwarding apart in DMARC aggregate reports (XML), by classifying each entry into six categories (OK / Spoofing suspected / Config issue / Forwarded / Needs review / Read error) and summarizing results by source IP. For each entry, the app shows a conclusion, what is happening, concrete steps, how soon to act, and the evidence behind the result. Bounce message analysis is available as a separate feature. Runs entirely on the local device with a deterministic rule-based engine, with no cloud analysis or external AI. Microsoft 365 integration is optional and read-only (Mail.Read).",
+      "description": "Helps you decide whether a domain can move its DMARC policy to p=reject, and if not, what is causing the failures and what to do. From DMARC aggregate reports (XML / ZIP / GZ), the app shows a verdict (Ready to move / Conditional / Not ready / Not enough information to decide), a pass-rate gauge, recommended actions, the expected rejections by category (authentication failures from your own senders, pending review, spoofing suspected, possible forwarding), and the impact of forwarding. Pass-rate bands (75 / 90 / 99%) are operational guidelines with no official basis. Analysis results are stored on the PC and are not sent to external AI or cloud analysis services. Fetching from the app screen uses only the read permission Mail.Read.Shared for Microsoft 365 shared mailboxes and never deletes, moves, marks as read, or sends mail; the command-line interface has a delete mode. Bounce message analysis is available as a separate feature.",
       "inLanguage": ["ja", "en"],
-      "dateModified": "2026-11-17",
+      "dateModified": "2026-11-19",
       "featureList": [
-        "Read DMARC aggregate reports (XML / ZIP / GZ) without parsing the XML by hand",
-        "Flag DMARC failures that match neither your registered mail servers nor a known sending service, with no sign of forwarding, as spoofing suspected",
-        "Flag DMARC failures from your registered mail server IPs as config issues, with steps to add the IP to SPF or enable DKIM signing",
-        "Classify DMARC failures as forwarded when the report records a trusted-forwarder or mailing-list override, or the source IP is a registered forwarding server",
-        "Show a conclusion, concrete steps, and how soon to act (promptly / this week / no action needed) for each entry",
-        "See an overall status line and next actions on the dashboard, plus a per-domain table of email volume, spoofing suspected, and DMARC pass rate",
-        "Review the sources with the most items needing attention first, using a summary by source IP",
-        "Check whether an unfamiliar source IP matches your registered servers",
+        "Not sure whether to move to p=reject: see a verdict (Ready to move / Conditional / Not ready / Not enough information to decide) and the next step",
+        "See the DMARC pass rate on a gauge with 75 / 90 / 99% marks (operational guideline, no official basis)",
+        "See the expected number of rejected messages if you move to reject, broken down by category",
+        "Compare the pass rate for all messages with the rate excluding possible forwarding, and register forwarding servers",
+        "See the basis for each decision item, separated into official (RFC 9989 / 9990, vendor documents) and operational guideline",
+        "Classify DMARC failures as authentication failures from your own senders, possible forwarding, or spoofing suspected, using the own IP ranges and forwarding servers you register",
+        "Review the sending servers with the most failures first, using a summary by source IP",
+        "Read DMARC aggregate reports (XML / ZIP / GZ) from a folder or a Microsoft 365 shared mailbox",
         "Tag domains as Managed / Monitored / External for multi-domain operation",
-        "Export records (20 columns) to UTF-8 CSV for Excel or BI tools",
-        "Export the sending server summary by source IP (22 columns) to UTF-8 CSV to share source IP reviews across your team",
-        "Analyze locally with no external transmission; optional Microsoft 365 read-only integration (Mail.Read)"
+        "Export technical and executive PDF reports, Excel, and CSV"
       ],
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "JPY",
-        "availability": "https://schema.org/InStock",
-        "url": "https://apps.microsoft.com/detail/9MW671KFZL9B"
-      },
       "publisher": { "@id": "https://dmarc-analysis.sumikkolab.com/#organization" }
     }
   ]
@@ -86,7 +73,7 @@
 
   /* Hero */
   .hero { background: linear-gradient(135deg, #1e3a5f 0%, #1e40af 50%, #3b82f6 100%); color: #fff; padding: 60px 24px 48px; text-align: center; position: relative; }
-  .hero h1 { font-size: 2.2rem; margin-bottom: 8px; letter-spacing: 0.5px; }
+  .hero h1 { font-size: 2rem; margin-bottom: 8px; letter-spacing: 0.5px; }
   .hero .tagline { font-size: 1.15rem; color: #bfdbfe; margin-bottom: 12px; font-weight: 500; }
   .hero .sub-tagline { font-size: 0.95rem; color: #93c5fd; margin-bottom: 28px; max-width: 680px; margin-left: auto; margin-right: auto; }
   .hero .subtitle { font-size: 0.85rem; color: #93c5fd; margin-bottom: 16px; }
@@ -95,11 +82,6 @@
   .hero-buttons a { display: inline-block; margin: 6px 8px; padding: 10px 24px; border-radius: 6px; text-decoration: none; font-size: 0.9rem; font-weight: 600; }
   .hero-buttons .manual-btn { background: transparent; color: #bfdbfe; border: 1px solid #93c5fd; }
   .hero-buttons .store-btn { background: #fff; color: #1e40af; border: none; }
-
-  /* Hero screenshot */
-  .hero-screenshot { max-width: 720px; margin: 24px auto 0; border-radius: 8px; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
-  .hero-screenshot img { width: 100%; display: block; }
-  .screenshot-placeholder { background: #1e3a5f; border: 2px dashed #60a5fa; border-radius: 8px; padding: 48px 20px; text-align: center; color: #93c5fd; font-size: 0.9rem; }
 
   /* Lang toggle */
   .lang-toggle-hero { position: absolute; top: 12px; right: 24px; }
@@ -113,6 +95,9 @@
   /* Sections */
   .section-ja, .section-en { display: none; }
   .section-ja.visible, .section-en.visible { display: block; }
+
+  /* Version note */
+  .version-note { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 12px 16px; font-size: 0.88rem; color: #1e3a5f; margin-bottom: 20px; }
 
   /* At-a-glance fact block */
   .at-a-glance { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px 22px; margin: 8px 0 24px; }
@@ -131,12 +116,6 @@
   .value-section { background: #eff6ff; border-radius: 8px; padding: 24px; margin: 28px 0; }
   .value-section h2 { margin-top: 0; }
 
-  /* Classification flow */
-  .flow { display: flex; align-items: center; justify-content: center; gap: 4px; flex-wrap: wrap; margin: 20px 0; }
-  .flow-step { display: flex; align-items: center; gap: 6px; padding: 6px 14px; border: 1px solid #e2e8f0; border-radius: 20px; font-size: 0.85rem; background: #fff; }
-  .flow-num { display: inline-flex; width: 20px; height: 20px; border-radius: 50%; background: #3b82f6; color: #fff; font-size: 0.7rem; font-weight: 700; align-items: center; justify-content: center; }
-  .flow-arrow { color: #94a3b8; font-size: 1rem; }
-
   /* Classification labels */
   .labels { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 20px 0; }
   @media (max-width: 600px) { .labels { grid-template-columns: 1fr 1fr; } }
@@ -149,7 +128,6 @@
   .dot-blue { background: #3b82f6; }
   .dot-gray { background: #94a3b8; }
   .dot-green { background: #10b981; }
-  .dot-purple { background: #8b5cf6; }
 
   /* Feature cards */
   .features { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
@@ -158,17 +136,18 @@
   .feature-card h3 { font-size: 0.95rem; color: #1e3a5f; margin-bottom: 6px; }
   .feature-card p { font-size: 0.85rem; color: #475569; }
 
-  /* Screenshot in content */
-  .content-screenshot { margin: 20px 0; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; background: #fff; }
-  .content-screenshot img { width: 100%; display: block; }
-  .content-screenshot figcaption { padding: 10px 14px; background: #f8fafc; font-size: 0.85rem; color: #475569; border-top: 1px solid #e2e8f0; }
+  /* Verdict table */
+  table.verdicts { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.85rem; background: #fff; }
+  table.verdicts th, table.verdicts td { border: 1px solid #e2e8f0; padding: 8px 10px; text-align: left; vertical-align: top; }
+  table.verdicts th { background: #f1f5f9; color: #1e3a5f; }
+  .guideline-note { background: #fef3c7; border-left: 3px solid #f59e0b; padding: 10px 14px; font-size: 0.85rem; color: #92400e; margin: 12px 0; border-radius: 4px; }
 
   ul { padding-left: 20px; margin: 8px 0 16px; }
   li { font-size: 0.9rem; margin-bottom: 4px; }
 
   /* Privacy note */
   .privacy-note { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 16px; margin: 24px 0; }
-  .privacy-note p { font-size: 0.9rem; color: #166534; }
+  .privacy-note p { font-size: 0.9rem; color: #166534; margin-bottom: 6px; }
 
   /* System req */
   .sysreq { font-size: 0.85rem; color: #475569; }
@@ -186,44 +165,30 @@
     <button id="btn-ja" class="active" onclick="switchLang('ja')">日本語</button>
     <button id="btn-en" onclick="switchLang('en')">English</button>
   </div>
-  <h1 id="page-h1">DMARC 分析支援ツール — なりすまし・設定不備・転送を切り分け</h1>
+  <h1 id="page-h1">DMARC 分析支援ツール — p=reject に上げてよいかを判断</h1>
 
   <div class="section-ja visible">
-    <p class="tagline">DMARC レポートを、対応すべきものが見える形で可視化。</p>
-    <p class="sub-tagline">DMARC 集約レポートをローカル端末だけで解析し、なりすまし疑い / 設定不備 / 転送 を区別して、1 件ごとに対応の手順と目安を表示します。バウンスメールの分析にも対応しています。外部サーバー・クラウド解析サービスには一切送信しません。</p>
-    <p class="subtitle">最終更新: 2026-11-17</p>
-    <span class="badge">6 分類</span>
-    <span class="badge">ローカル動作</span>
-    <span class="badge">Mail.Read のみ</span>
-    <span class="badge">完全無料（v1）</span>
+    <p class="tagline">このドメインを p=reject に上げてよいか。上げられないなら、何が原因で、何をすればよいか。</p>
+    <p class="sub-tagline">DMARC 集約レポートを取り込むと、reject 移行準備の画面に、判定（移行可能 / 条件つき / 準備未完了 / 判断材料が不足）と、失敗の原因の内訳、次の一手が表示されます。解析結果は PC 内に保存し、外部の AI やクラウドの解析サービスには送りません。</p>
+    <p class="subtitle">最終更新: 2026-11-19</p>
+    <span class="badge">reject 移行準備</span>
+    <span class="badge">転送の影響</span>
+    <span class="badge">Windows デスクトップ</span>
     <div class="hero-buttons">
       <a href="https://apps.microsoft.com/detail/9MW671KFZL9B" class="store-btn">Microsoft Store で入手</a>
       <a href="manual/" class="manual-btn">マニュアル</a>
     </div>
   </div>
   <div class="section-en">
-    <p class="tagline">DMARC reports, reclassified so you see what to fix.</p>
-    <p class="sub-tagline">Analyze DMARC aggregate reports on your local device. Separate suspected spoofing, configuration issues, and forwarded mail, with steps and a recommended timeframe for each entry. Bounce message analysis is also included. Nothing is sent to external servers or cloud analysis services.</p>
-    <p class="subtitle">Last updated: 2026-11-17</p>
-    <span class="badge">6 categories</span>
-    <span class="badge">Local-only</span>
-    <span class="badge">Mail.Read scope</span>
-    <span class="badge">Free (v1)</span>
+    <p class="tagline">Can this domain move to p=reject? If not, what is causing the failures, and what should you do?</p>
+    <p class="sub-tagline">Import DMARC aggregate reports and the "Readiness for reject" screen shows a verdict (Ready to move / Conditional / Not ready / Not enough information), the breakdown of what is failing, and the next step. Analysis results are stored on your PC and are not sent to external AI or cloud analysis services.</p>
+    <p class="subtitle">Last updated: 2026-11-19</p>
+    <span class="badge">Readiness for reject</span>
+    <span class="badge">Forwarding impact</span>
+    <span class="badge">Windows desktop</span>
     <div class="hero-buttons">
       <a href="https://apps.microsoft.com/detail/9MW671KFZL9B" class="store-btn">Get it on Microsoft Store</a>
       <a href="manual/" class="manual-btn">Manual</a>
-    </div>
-  </div>
-
-  <!-- Hero screenshot (language-aware) -->
-  <div class="section-ja visible">
-    <div class="hero-screenshot">
-      <img src="images/ja/dashboard.png" alt="メールセキュリティの状態がひと目でわかるダッシュボード。DMARC の結果を 6 分類で自動整理し、問題の種類と件数をすぐ把握できます。">
-    </div>
-  </div>
-  <div class="section-en">
-    <div class="hero-screenshot">
-      <img src="images/en/dashboard.png" alt="See your email security status at a glance. The dashboard auto-sorts DMARC results into six plain-language classes, so you know exactly what needs attention.">
     </div>
   </div>
 </div>
@@ -233,14 +198,15 @@
   <!-- ===== Japanese Content ===== -->
   <div class="section-ja visible">
 
+    <p class="version-note">このページは 1.1.0.0 向けです。reject 移行準備・転送の影響は 1.1.0.0 以降の機能です。</p>
+
     <div class="at-a-glance">
       <h2>このツールを一言で</h2>
       <dl>
-        <dt>これは何か</dt><dd>DMARC 集約レポート（RUA）とバウンスメールを解析する Windows デスクトップアプリ。</dd>
-        <dt>誰向けか</dt><dd>自社ドメインを持ち、DMARC ポリシー監視を必要とする中小〜中堅組織の情シス・運用担当者。</dd>
-        <dt>何ができる</dt><dd>ZIP / GZ / XML のレポート取込、6 分類（正常 / なりすまし疑い / 設定不備 / 転送 / 要確認 / 読取エラー）、1 件ごとの対応手順と対応の目安の表示、送信元サーバー別とドメイン別の集計、CSV 出力。DMARC の分類とは別の機能として、バウンスメールの分析。</dd>
-        <dt>何をしない</dt><dd>外部送信しない。クラウド解析・AI 推論を使わない。メールを送信・削除・編集しない。DNS を変更しない。</dd>
-        <dt>差別化</dt><dd>ローカル完結・決定論的ルール判定・Microsoft 365 連携は任意で Mail.Read のみ・テレメトリなし。</dd>
+        <dt>これは何か</dt><dd>DMARC 集約レポート（RUA）とバウンスメールを取り込み、「このドメインを p=reject に上げてよいか」を判断できるように示す Windows デスクトップアプリ。</dd>
+        <dt>誰向けか</dt><dd>自社ドメインを持ち、DMARC ポリシーを none から quarantine、reject へ強化したい情シス・運用担当者。</dd>
+        <dt>何ができる</dt><dd>reject 移行準備の判定（4 値）・通過率のゲージ・推奨アクション・reject にした場合に拒否される見込み・判定の根拠・転送の影響。レコードの分類、送信元サーバー別とドメイン別の集計、PDF・Excel・CSV の出力。DMARC とは別の機能として、バウンスメールの分析。</dd>
+        <dt>何をしない</dt><dd>解析結果を外部の AI やクラウドの解析サービスに送らない。画面からの Microsoft 365 の取得では、メールの削除・移動・既読化・送信をしない。DNS を変更しない。</dd>
       </dl>
     </div>
 
@@ -248,108 +214,88 @@
       <h2>こんな課題を解決します</h2>
       <div class="features">
         <div class="feature-card">
-          <h3>DMARC レポートの XML をどう読めばいいか分からないとき</h3>
-          <p>DMARC 集約レポート（ZIP / GZ / XML）を取り込むと、送信元 IP・SPF/DKIM の結果・件数を読み取り、6 分類に自動で振り分けます。XML を直接読まなくても、対応すべきものと対応不要なものを区別できます。</p>
+          <h3>このドメインを p=reject に上げてよいか分からないとき</h3>
+          <p>「reject 移行準備」の画面の最上部に、判定（移行可能 / 条件つき（要対応あり） / 準備未完了 / 判断材料が不足しています）と、通過率のゲージが表示されます。判定ごとの次の一手は、推奨アクションに表示されます。</p>
         </div>
         <div class="feature-card">
-          <h3>SPF/DKIM が fail した送信元がなりすましか調べたいとき</h3>
-          <p>DMARC が fail し、設定に登録した自社メールサーバーにも既知の送信サービスにも一致せず、転送の手掛かりも無い送信元を「なりすまし疑い」として表示します。対応の目安は「早期対応」です。詳細画面では、送信元 IP、該当メール数、SPF / DKIM の結果とドメイン一致の有無を確認できます。</p>
+          <h3>p=reject に上げられないとき、何が原因か知りたい</h3>
+          <p>「reject にした場合の影響」で、拒否される見込みの件数を、自社送信元の認証失敗・判定保留・なりすまし疑い・転送経由の可能性の内訳で確認できます。見込みは、最小（なりすまし疑いだけ）から最大（DMARC に失敗した全件）の範囲で示されます。</p>
         </div>
         <div class="feature-card">
-          <h3>自社メールが DMARC に失敗する原因を知りたいとき</h3>
-          <p>設定画面に自社メールサーバーとして登録した IP から送られ、DMARC が fail したものを「設定不備」に分類します。対応の目安は「今週中に対応」です。送信元 IP のサーバーを特定し、SPF レコードに IP を追加するか DKIM 署名を有効にする手順が表示されます。</p>
+          <h3>何をすればよいか知りたいとき</h3>
+          <p>推奨アクションに、たとえば「自社送信元の認証失敗を修正する」「DKIM 署名を設定する」「公開ポリシーを quarantine に変更する」などが、判定と矛盾しない形で表示されます。reject への変更を促すのは、「移行可能」のときだけです。</p>
         </div>
         <div class="feature-card">
-          <h3>転送されたメールの DMARC fail を放置してよいか判断したいとき</h3>
-          <p>レポートに転送やメーリングリストによる適用除外の理由（trusted_forwarder / mailing_list）が記録されたもの、または設定に登録した転送サーバーの IP 範囲から送られたものを「転送」に分類します。対応の目安は「対応不要」で、件数が急増した場合だけ転送経路を確認します。なお、SPF が fail でも DKIM が pass してドメインが一致していれば「正常」です。</p>
+          <h3>転送されたメールの DMARC 失敗を、どう扱えばよいか判断したいとき</h3>
+          <p>通過率を「全体」と「転送経由の可能性を除く」で並べ、除いた件数を併記します。失敗した転送の送信元の一覧から、正当な転送サーバーを「転送サーバーとして登録」でき、次回から転送として扱われます。「全体」の値は隠しません。</p>
         </div>
         <div class="feature-card">
-          <h3>DMARC ポリシーを p=reject に上げてよいか判断したいとき</h3>
-          <p>本ツールは、ポリシーを上げてよいかどうかを判定しません。「なりすまし疑い」の詳細画面では、送信元 IP が自社や利用中の SaaS のものでないかを確認し、正当な送信元でなければ quarantine に変更し、問題がなければ reject へ段階的に移行する手順を示します。いきなり reject にしないよう注意も表示します。</p>
+          <h3>自社のメールサーバーが DMARC に失敗していないか知りたいとき</h3>
+          <p>設定画面に自社メールサーバーの IP 範囲を登録すると、その IP からの認証失敗は「自社送信元の認証失敗」に分類されます。登録した内容は、次の分析から判定に使われ、メールボックス取り込みと CLI にも同じ設定が使われます。</p>
         </div>
         <div class="feature-card">
           <h3>送信元 IP が多く、どこから確認すべきか分からないとき</h3>
-          <p>送信元サーバー別集計が、送信元 IP ごとにメール数・要確認件数・DMARC 成功率をまとめます。問題が多い送信元から順に確認できます。</p>
+          <p>送信元サーバー別集計が、送信元 IP ごとにメール数・DMARC 成功率・設定照合をまとめます。問題が多い送信元から順に確認できます。</p>
         </div>
         <div class="feature-card">
-          <h3>見覚えのない送信元 IP が正規か確認したいとき</h3>
-          <p>送信元サーバー画面の「設定照合」で、設定画面に登録した自社 IP・既知サービス・転送 IP との一致を確認できます。「登録なし」の行から、正規の送信元かどうかを確認します。自社の IP や転送サーバーを設定画面に登録すると、次の分析からその送信元の DMARC fail は「設定不備」や「転送」に分類されます。</p>
+          <h3>DMARC レポートの XML をどう読めばいいか分からないとき</h3>
+          <p>DMARC 集約レポート（XML / ZIP / GZ）をフォルダまたは Microsoft 365 の共有メールボックスから取り込むと、送信元 IP・SPF/DKIM の結果・件数を読み取って、区分ごとに集計します。</p>
         </div>
         <div class="feature-card">
           <h3>複数ドメインを管理対象と監視対象に分けて整理したいとき</h3>
-          <p>複数の受信ドメインをまとめて扱い、Managed / Monitored / External のタグを運用メモとして付けられます。組織としての DMARC の管理状況を整理して確認できます。</p>
+          <p>観測されたドメインごとに、管理区分（自社管理 / 監視のみ / 外部）・表示名・メモを付けられます。これらは運用メモで、分類や集計の結果には影響しません。</p>
         </div>
         <div class="feature-card">
-          <h3>分析結果を CSV にして Excel で見たいとき</h3>
-          <p>レコード一覧（20 列）と送信元サーバー一覧（22 列）を、UTF-8（BOM 付き）の CSV で出力できます。レコード一覧は、レコードごとの判定結果を Excel や BI ツールで詳しく分析するときに使います。送信元サーバー一覧は送信元 IP ごとの集計で、送信元 IP の確認をチーム内で分担するときに使います。列名は<a href="manual/sending-servers.html">マニュアル第 5 章</a>に掲載しています。</p>
+          <h3>分析結果をレポートや Excel にしたいとき</h3>
+          <p>技術レポートと経営レポートの 2 種類の PDF と、Excel・CSV を出力できます。CSV はレコード一覧（20 列）と送信元サーバー一覧（22 列）で、UTF-8（BOM 付き）です。列名は<a href="manual/sending-servers.html">マニュアル第 5 章</a>に掲載しています。</p>
         </div>
         <div class="feature-card">
-          <h3>レポートを外部に出さずに解析したいとき</h3>
-          <p>解析はローカル端末だけで行い、レポート本文・IP 情報・認証結果・ドメイン情報を外部サーバーに送信しません。Microsoft 365 からの取り込みは任意で、使用する権限は Mail.Read のみ（読み取り専用）です。</p>
+          <h3>レポートを外部の解析サービスに出さずに解析したいとき</h3>
+          <p>解析結果は PC 内に保存し、外部の AI やクラウドの解析サービスには送りません。Microsoft 365 への接続は、利用者が設定した場合に限ります。</p>
         </div>
       </div>
-      <p style="font-size:0.82rem;color:#475569;margin-top:8px">分類は一次トリアージの目安で、すべてを正確に分けるとは限りません。実際の被害の有無や攻撃者の意図は示しません。メールの送信・削除・編集と DNS の変更は行いません。</p>
+      <p style="font-size:0.82rem;color:#475569;margin-top:8px">判定・分類は機械判定で、すべての事例を正確に分けるとは限りません。実際の被害の有無や攻撃者の意図は示しません。最終的な判断は利用者の責任で行ってください。</p>
     </div>
 
     <div class="problem-section">
       <h2>DMARC レポート、本当に読めていますか？</h2>
-      <p>DMARC 集約レポート（RUA）は XML で届き、送信元 IP、認証結果（SPF/DKIM）、件数が並ぶだけ。パッと見ても「どれがなりすましで、どれが自社の設定不備で、どれが単なる転送なのか」が分かりません。</p>
-      <p>本ツールは、レポート本文をローカルで解析し、<strong>「対応すべきもの」</strong>と<strong>「放置してよいもの」</strong>を区別して表示します。</p>
+      <p>DMARC 集約レポート（RUA）は XML で届き、送信元 IP、認証結果（SPF/DKIM）、件数が並ぶだけ。パッと見ても「p=reject に上げてよいのか」「どれが自社の送信元の認証失敗で、どれが転送で、どれがなりすましの疑いなのか」が分かりません。</p>
+      <p>本ツールは、取り込んだレポートをもとに、<strong>「上げてよいか」の判定</strong>と<strong>「何が原因で、何をすればよいか」</strong>を表示します。</p>
     </div>
 
     <div class="value-section">
-      <h2>1 件ごとに表示される内容</h2>
-      <p style="font-size:0.9rem;color:#334155">レコードの詳細画面には、1 件ごとに<strong>結論</strong>・<strong>何が起きているか</strong>・<strong>具体的な対応の手順</strong>・<strong>対応の目安</strong>（早期対応 / 今週中に対応 / 対応不要）・<strong>判定の根拠</strong>が表示されます。根拠の欄では、送信元 IP、ドメイン、該当メール数、SPF / DKIM の結果とドメイン一致の有無、DMARC の結果を確認できます。手順の要点は次のとおりです。</p>
-      <div class="features">
-        <div class="feature-card">
-          <h3><span class="label-dot dot-red"></span>なりすまし疑い（早期対応）</h3>
-          <p>送信元 IP を確認し、自社や利用中の SaaS のものでないかを確かめます。正当な送信元でなければ DMARC ポリシーを quarantine に変更し、問題がなければ reject へ段階的に移行します。</p>
-        </div>
-        <div class="feature-card">
-          <h3><span class="label-dot dot-amber"></span>設定不備（今週中に対応）</h3>
-          <p>送信元 IP がどのサーバーかを特定し、サーバー管理者と共有します。SPF レコードに送信元 IP を追加するか、DKIM 署名を有効にします。サーバーを停止する必要はありません。</p>
-        </div>
-        <div class="feature-card">
-          <h3><span class="label-dot dot-blue"></span>転送（対応不要）</h3>
-          <p>転送やメーリングリストでは認証情報が変わることがあり、攻撃ではありません。件数が急増した場合だけ転送経路を確認します。転送メールをブロックすると、メーリングリストのメールが届かなくなります。</p>
-        </div>
-      </div>
+      <h2>「reject 移行準備」の見方</h2>
+      <p class="guideline-note">通過率の帯の値（75%・90%・99%）は、運用目安（公式の根拠なし）です。</p>
+      <table class="verdicts">
+        <thead><tr><th>判定</th><th>意味</th><th>次の一手</th></tr></thead>
+        <tbody>
+          <tr><td><strong>移行可能</strong></td><td>通過率が 99% 以上の帯で、自社送信元の認証失敗と判定保留がなく、ほかの条件もそろっている</td><td>公開ポリシーが quarantine なら、reject への変更を検討します</td></tr>
+          <tr><td><strong>条件つき（要対応あり）</strong></td><td>通過率は 90% 以上だが、確認が必要な点が残っている</td><td>quarantine で運用しながら、原因を解消します</td></tr>
+          <tr><td><strong>準備未完了</strong></td><td>通過率が 90% 未満</td><td>先に失敗の原因を解消します（75% 未満は、送信元の洗い出しを優先）</td></tr>
+          <tr><td><strong>判断材料が不足しています</strong></td><td>レポートの提供元・日数・件数が足りない、または欠けた日がある</td><td>不足している情報と確認方法を、推奨アクションで確認します</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:0.9rem;color:#334155">画面には、このほか、<strong>拒否される見込みの内訳</strong>、<strong>判定の根拠</strong>（公式の根拠がある項目と、運用目安を区別。出典つき）、<strong>転送の影響</strong>（全体と、転送経由の可能性を除く値）が表示されます。詳しくは<a href="manual/readiness.html">マニュアル第 3 章</a>をご覧ください。</p>
     </div>
 
     <div class="at-a-glance">
       <h2>ダッシュボードで分かること</h2>
       <dl>
-        <dt>状態の 1 行</dt><dd>なりすまし疑いがあれば「外部から自社ドメインを装ったメールが検出されています」、設定不備があれば「自社メールサーバーの認証設定に不備が見つかっています」、どちらも無ければ「メールセキュリティは正常です。問題は検出されていません。」と表示されます。</dd>
-        <dt>次にやること</dt><dd>設定不備・なりすまし疑い・要確認があれば、それぞれの件数とともに、確認すべきことが表示されます。いずれも無ければ「現時点で対応が必要な項目はありません」と表示されます。</dd>
-        <dt>メール認証の成功率</dt><dd>「正常」に分類されたメール数 ÷ 全体のメール数。</dd>
-        <dt>なりすまし防御率</dt><dd>1 −（「なりすまし疑い」のメール数 ÷ 全体のメール数）。</dd>
-        <dt>送信元サーバー数</dt><dd>レポートに記録された送信元 IP の数。</dd>
+        <dt>状態の 1 行</dt><dd>なりすましの疑いがあれば「外部から自社ドメインを装ったメールが検出されています」、自社送信元の認証失敗があれば「自社メールサーバーの認証設定に不備が見つかっています」、どちらも無ければ「メールセキュリティは正常です。問題は検出されていません。」と表示されます。</dd>
+        <dt>次にやること</dt><dd>該当する区分があれば、件数とともに、確認すべきことが表示されます。</dd>
+        <dt>区分ごとの件数</dt><dd>正常 / なりすまし疑い / 自社送信元の認証失敗 / 転送経由の可能性 / 判定保留。</dd>
         <dt>ドメイン別サマリ</dt><dd>ドメインごとに、メール数・なりすまし疑い・DMARC 成功率を表で表示します。表示するドメインを 1 つ選ぶと、ダッシュボード全体をそのドメインに絞り込めます。</dd>
       </dl>
     </div>
 
-    <h2>処理の流れ</h2>
-    <div class="flow">
-      <div class="flow-step"><span class="flow-num">1</span> レポート取込</div>
-      <span class="flow-arrow">→</span>
-      <div class="flow-step"><span class="flow-num">2</span> XML の解析</div>
-      <span class="flow-arrow">→</span>
-      <div class="flow-step"><span class="flow-num">3</span> 6 分類に判定</div>
-      <span class="flow-arrow">→</span>
-      <div class="flow-step"><span class="flow-num">4</span> 一覧・分類内訳・サマリ表示</div>
-      <span class="flow-arrow">→</span>
-      <div class="flow-step"><span class="flow-num">5</span> CSV 出力</div>
-    </div>
-
     <div class="value-section">
-      <h2>6 分類ラベル</h2>
+      <h2>分類の条件</h2>
       <div class="labels">
-        <div class="label-card"><h4><span class="label-dot dot-green"></span>正常</h4><p>SPF か DKIM が pass し、送信元ドメインと一致。対応不要。</p></div>
-        <div class="label-card"><h4><span class="label-dot dot-red"></span>なりすまし疑い</h4><p>DMARC が fail し、自社サーバー・既知の送信サービス・転送のいずれにも当たらない。早期対応。</p></div>
-        <div class="label-card"><h4><span class="label-dot dot-amber"></span>設定不備</h4><p>自社メールサーバーとして登録した IP からの DMARC fail。今週中に対応。</p></div>
-        <div class="label-card"><h4><span class="label-dot dot-blue"></span>転送</h4><p>転送・メーリングリストの記録がある、または登録した転送サーバーからの fail。対応不要。</p></div>
-        <div class="label-card"><h4><span class="label-dot dot-gray"></span>要確認</h4><p>DMARC が fail し、既知の送信サービスに一致するが自動では判定できないもの。手動で確認。</p></div>
-        <div class="label-card"><h4><span class="label-dot dot-purple"></span>読取エラー</h4><p>レポートの XML を読み取れなかったもの。元の添付ファイルを確認。</p></div>
+        <div class="label-card"><h4><span class="label-dot dot-green"></span>正常</h4><p>DMARC が pass している。対応不要。</p></div>
+        <div class="label-card"><h4><span class="label-dot dot-amber"></span>自社送信元の認証失敗</h4><p>DMARC が fail し、送信元 IP が、設定画面に登録した自社メールサーバーの IP 範囲に含まれる。</p></div>
+        <div class="label-card"><h4><span class="label-dot dot-blue"></span>転送経由の可能性</h4><p>DMARC が fail し、送信元 IP が登録した転送サーバーの IP 範囲に含まれるか、受信側が trusted_forwarder または mailing_list と報告している。</p></div>
+        <div class="label-card"><h4><span class="label-dot dot-red"></span>なりすまし疑い</h4><p>DMARC が fail し、上記のどれにも当てはまらない。</p></div>
+        <div class="label-card"><h4><span class="label-dot dot-gray"></span>判定保留</h4><p>DMARC が fail し、上記のどれにも当てはまらず、既知の送信サービスとして照合されたもの。現在の設定画面には登録の項目がないため、通常は付きません。</p></div>
       </div>
       <p style="font-size:0.82rem;color:#475569;margin-top:8px">分類はルールベースで判定します。AI 推論やクラウド解析は使用しません。判定条件の詳細は<a href="manual/classification.html">マニュアル第 4 章</a>をご覧ください。</p>
     </div>
@@ -357,47 +303,26 @@
     <h2>主な機能</h2>
     <div class="features">
       <div class="feature-card">
+        <h3>reject 移行準備</h3>
+        <p>判定、通過率のゲージ、推奨アクション、拒否される見込み、判定の根拠、転送の影響、転送サーバーの登録。</p>
+      </div>
+      <div class="feature-card">
         <h3>DMARC 集約レポート解析</h3>
-        <p>ZIP / GZ / XML の各形式に対応。送信元 IP・認証結果・件数を取得し、6 分類で自動判定します。</p>
+        <p>ZIP / GZ / XML の各形式に対応。送信元 IP・認証結果・件数を取得して判定します。</p>
       </div>
       <div class="feature-card">
         <h3>バウンスメール分析</h3>
-        <p>Microsoft 365 または EML フォルダからバウンスメールを取り込み、確定バウンス / 未分類バウンス / 検知器が要確認と判定 / 通常メール（分類対象外）の 4 区分に整理します。DMARC レポートの 6 分類とは別の機能です。</p>
+        <p>Microsoft 365 または EML フォルダからバウンスメールを取り込み、分類ごとの次の対応と、検知・分類の根拠を表示します。DMARC の分類とは別の機能です。</p>
       </div>
       <div class="feature-card">
-        <h3>送信元サーバー別集計</h3>
-        <p>送信元 IP ごとにメール数、要確認件数、DMARC 成功率、設定照合をまとめ、問題が多い送信元から確認できます。</p>
-      </div>
-      <div class="feature-card">
-        <h3>CSV エクスポート</h3>
-        <p>分類結果を CSV で出力。Excel / BI ツールでさらに分析できます。送信側 SaaS の切り分けにも。</p>
+        <h3>送信元サーバー別集計と出力</h3>
+        <p>送信元 IP ごとにメール数、DMARC 成功率、設定照合をまとめます。PDF（技術・経営）、Excel、CSV で出力できます。</p>
       </div>
     </div>
 
-    <h2>画面イメージ</h2>
-    <figure class="content-screenshot">
-      <img src="images/ja/welcome.png" alt="起動してすぐ、2 つの選択肢から始められます。手元の DMARC レポートをフォルダから読み込むか、Microsoft 365 メールボックスから自動取得するか。">
-      <figcaption>最初の一歩：レポートファイルから確認するか、Microsoft 365 から自動取得するかを選びます。</figcaption>
-    </figure>
-    <figure class="content-screenshot">
-      <img src="images/ja/findings.png" alt="気になる分類だけにフィルタしてレコードを精査。送信元 IP・ドメイン・SPF・DKIM の結果を 1 画面で確認できます。">
-      <figcaption>分類フィルタで精査：送信元 IP・ドメイン・SPF・DKIM を 1 画面で確認できます。</figcaption>
-    </figure>
-    <figure class="content-screenshot">
-      <img src="images/ja/sending-servers.png" alt="送信元サーバー一覧。送信元 IP ごとにメール数、要確認件数、DMARC 成功率、推定サービス、設定照合を確認できます。">
-      <figcaption>送信元サーバー別集計：問題が多い送信元 IP を優先して確認できます。</figcaption>
-    </figure>
-    <figure class="content-screenshot">
-      <img src="images/ja/bounce.png" alt="M365 または EML フォルダからバウンスメールを取り込み、確定バウンス・未分類バウンス・検知器が要確認と判定・通常メール（分類対象外）の 4 区分で整理します。">
-      <figcaption>バウンスメール分析：確定バウンス / 未分類バウンス / 検知器が要確認と判定 / 通常メール（分類対象外）の 4 区分に整理します。</figcaption>
-    </figure>
-    <figure class="content-screenshot">
-      <img src="images/ja/settings.png" alt="複数の受信ドメインをまとめて扱い、Managed / Monitored / External の管理区分を運用メモとして付与。組織の DMARC 統制を見える化します。">
-      <figcaption>複数ドメイン + 管理区分：Managed / Monitored / External のタグで組織の DMARC 統制を見える化します。</figcaption>
-    </figure>
-
     <div class="privacy-note">
-      <p><strong>プライバシー:</strong> 本ツールはローカル端末上でのみ動作します。レポート本文・IP 情報・認証結果・ドメイン情報を外部サーバーに送信しません。Microsoft 365 への接続は、利用者が明示的に設定した場合のみ行われ、使用する権限は <strong>Mail.Read のみ</strong>です。認証トークンはメモリ上に一時保持され、ディスクに保存しません。</p>
+      <p><strong>プライバシー:</strong> 解析結果は PC 内に保存し、外部の AI やクラウドの解析サービスには送りません。Microsoft 365 への接続は、利用者が設定した場合に限ります。</p>
+      <p><strong>Microsoft 365 の権限:</strong> 画面からの取得では、共有メールボックスの読み取り権限（Mail.Read.Shared）だけを使い、メールの削除・移動・既読化・送信は行いません。コマンドライン（CLI）には、取得後にメールを削除するモードがあります。</p>
     </div>
 
     <h2>動作環境</h2>
@@ -409,26 +334,26 @@
     </table>
 
     <h2>必要な Graph API 権限（任意機能）</h2>
-    <p>Microsoft 365 からレポートメールを直接取り込む場合のみ、以下の委任権限が必要です。この機能を使わない場合は権限同意は不要です。</p>
+    <p>Microsoft 365 の共有メールボックスからレポートメールを直接取り込む場合のみ、次の委任権限が必要です。この機能を使わない場合は権限同意は不要です。</p>
     <table class="sysreq" style="width:100%;border-collapse:collapse">
-      <tr style="border-bottom:1px solid #e2e8f0"><td><strong>User.Read</strong></td><td>サインイン・ユーザープロフィール（既定権限）</td></tr>
-      <tr style="border-bottom:1px solid #e2e8f0"><td><strong>Mail.Read</strong></td><td>受信トレイからの DMARC レポート / バウンスメール読み取り</td></tr>
+      <tr style="border-bottom:1px solid #e2e8f0"><td><strong>Mail.Read.Shared</strong></td><td>共有メールボックスの DMARC レポート / バウンスメールの読み取り（画面からの取得）</td></tr>
     </table>
-    <p style="font-size:0.82rem;color:#64748b;margin-top:8px">メール本体の削除・移動・編集は行いません（読み取り専用）。</p>
+    <p style="font-size:0.82rem;color:#64748b;margin-top:8px">画面からの取得は、メールの削除・移動・既読化・送信を行いません。CLI の削除モードは、別の権限（Mail.ReadWrite.Shared）を使います。</p>
 
   </div>
 
   <!-- ===== English Content ===== -->
   <div class="section-en">
 
+    <p class="version-note">This page is for version 1.1.0.0. The reject readiness screen and the forwarding impact view are features of 1.1.0.0 and later.</p>
+
     <div class="at-a-glance">
       <h2>At a glance</h2>
       <dl>
-        <dt>What it is</dt><dd>A Windows desktop app that analyzes DMARC aggregate reports (RUA) and bounce messages.</dd>
-        <dt>Who it is for</dt><dd>IT / operations staff at small to mid-sized organizations that own mail domains and need DMARC policy monitoring.</dd>
-        <dt>What it does</dt><dd>Imports ZIP / GZ / XML reports, classifies them into six categories (OK / Spoofing suspected / Config issue / Forwarded / Needs review / Read error), shows steps and a recommended timeframe for each entry, summarizes results by sending server and by domain, and exports CSV. Bounce message analysis is a separate feature from DMARC classification.</dd>
-        <dt>What it doesn't do</dt><dd>No external transmission. No cloud analysis or AI inference. Never sends, deletes, or edits mail. Never changes DNS.</dd>
-        <dt>Differentiators</dt><dd>Local-only, deterministic rule-based classification, optional Microsoft 365 integration with Mail.Read only, zero telemetry.</dd>
+        <dt>What it is</dt><dd>A Windows desktop app that imports DMARC aggregate reports (RUA) and bounce messages, and shows whether a domain can move to p=reject.</dd>
+        <dt>Who it is for</dt><dd>IT / operations staff who own mail domains and want to strengthen the DMARC policy from none to quarantine to reject.</dd>
+        <dt>What it does</dt><dd>A readiness verdict (four values), a pass-rate gauge, recommended actions, expected rejections if you move to reject, the basis for the decision, and the impact of forwarding. Record classification, summaries by sending server and by domain, and PDF / Excel / CSV export. Bounce message analysis is a separate feature.</dd>
+        <dt>What it doesn't do</dt><dd>It does not send analysis results to external AI or cloud analysis services. Fetching from the app screen never deletes, moves, marks as read, or sends Microsoft 365 mail. It never changes DNS.</dd>
       </dl>
     </div>
 
@@ -436,108 +361,88 @@
       <h2>Problems this solves</h2>
       <div class="features">
         <div class="feature-card">
-          <h3>How do I read a DMARC aggregate report in XML?</h3>
-          <p>Import DMARC aggregate reports (ZIP / GZ / XML) and the tool reads the source IPs, SPF/DKIM results, and counts, then sorts each entry into one of six categories. You can tell what needs action from what doesn't without reading the XML yourself.</p>
+          <h3>I am not sure whether this domain can move to p=reject</h3>
+          <p>The top of the "Readiness for reject" screen shows a verdict (Ready to move / Conditional (action needed) / Not ready / Not enough information to decide) and a pass-rate gauge. The recommended actions show the next step for that verdict.</p>
         </div>
         <div class="feature-card">
-          <h3>How can I tell whether a sender failing SPF and DKIM is spoofing?</h3>
-          <p>Entries that fail DMARC, match neither your registered mail servers nor a known sending service, and show no sign of forwarding appear as "Spoofing suspected", marked "Address promptly". The detail screen shows the source IP, the number of emails, and the SPF / DKIM results with whether each matched your domain.</p>
+          <h3>The domain is not ready for reject — what is causing the failures?</h3>
+          <p>"Impact of moving to reject" breaks the expected rejections down into authentication failures from your own senders, pending review, spoofing suspected, and possible forwarding. The outlook is a range, from the minimum (only suspected spoofing) to the maximum (all messages that fail DMARC).</p>
         </div>
         <div class="feature-card">
-          <h3>Why does my own mail fail DMARC?</h3>
-          <p>Mail that fails DMARC from an IP you registered in Settings as one of your own mail servers is classed as "Config issue", marked "Address this week". The app walks you through identifying the server behind the source IP and either adding that IP to your SPF record or enabling DKIM signing.</p>
+          <h3>What should I do next?</h3>
+          <p>The recommended actions show steps such as fixing authentication failures from your own senders, setting up DKIM signing, or changing the published policy to quarantine, consistent with the verdict. The screen recommends changing to reject only when the verdict is "Ready to move".</p>
         </div>
         <div class="feature-card">
-          <h3>Does email forwarding cause DMARC to fail, and can I ignore it?</h3>
-          <p>Entries are classed as "Forwarded" when the report records a forwarding or mailing-list override (trusted_forwarder / mailing_list), or when the source IP falls within a forwarding server range you registered in Settings. These are marked "No action needed"; check the forwarding path only if the count spikes. Note that mail failing SPF is still "OK" if DKIM passes and matches your domain.</p>
+          <h3>How should I treat DMARC failures from forwarded mail?</h3>
+          <p>The pass rate is shown two ways, for all messages and excluding possible forwarding, with the number of excluded messages. From the list of failing forwarding sources you can register a legitimate forwarding server, and it is treated as forwarding from the next analysis. The "all messages" value is never hidden.</p>
         </div>
         <div class="feature-card">
-          <h3>Is it safe to move my DMARC policy to p=reject?</h3>
-          <p>The app does not decide this for you. For "Spoofing suspected" entries, the detail screen guides you to confirm the source IP does not belong to your organization or a SaaS service you use, switch the policy to quarantine if the sender is not legitimate, and then move to reject gradually once no issues appear. It also warns against jumping straight to reject.</p>
+          <h3>Are my own mail servers failing DMARC?</h3>
+          <p>If you register the IP ranges of your own mail servers on the settings screen, failures from those IPs are classed as "Authentication failures from your own senders". What you register is used from the next analysis, and mailbox import and the CLI use the same settings.</p>
         </div>
         <div class="feature-card">
           <h3>Which source IPs should I check first?</h3>
-          <p>The sending server summary groups results by source IP, with mail volume, items needing attention, and DMARC pass rate. You can start with the sources that have the most problems.</p>
+          <p>The sending server summary groups results by source IP, with mail volume, DMARC pass rate, and whether each IP matches what you registered. You can start with the sources that have the most problems.</p>
         </div>
         <div class="feature-card">
-          <h3>Is an unfamiliar source IP legitimate?</h3>
-          <p>The "server matching" column on the Sending Servers screen shows whether an IP matches the own IPs, known services, or forwarding IPs you registered in settings. Start with rows marked as not registered and confirm whether the sender is legitimate. Once you register your own IPs or forwarding servers in Settings, DMARC failures from those sources are classed as "Config issue" or "Forwarded" from the next analysis onward.</p>
+          <h3>How do I read a DMARC aggregate report in XML?</h3>
+          <p>Import DMARC aggregate reports (XML / ZIP / GZ) from a folder or a Microsoft 365 shared mailbox, and the tool reads the source IPs, SPF/DKIM results, and counts and totals them by category.</p>
         </div>
         <div class="feature-card">
           <h3>How do I organize DMARC across multiple domains?</h3>
-          <p>Handle several receiving domains together and tag each one as Managed, Monitored, or External as an operational note. This keeps your organization's DMARC posture organized in one place.</p>
+          <p>For each observed domain you can add a management tag (Managed / Monitored / External), a display name, and a note. These are operational notes and do not affect classification or totals.</p>
         </div>
         <div class="feature-card">
-          <h3>Can I analyze DMARC results in Excel?</h3>
-          <p>Export the record list (20 columns) and the sending server list (22 columns) as UTF-8 CSV with a BOM. Use the record list to analyze each record's result in detail in Excel or BI tools. Use the sending server list, which summarizes results by source IP, to split up the review of source IPs across your team. The column names are listed in <a href="manual/sending-servers.html?lang=en">Chapter 5 of the manual</a>.</p>
+          <h3>Can I get the results as reports or in Excel?</h3>
+          <p>Export two PDF reports (technical and executive), plus Excel and CSV. The CSV files are the record list (20 columns) and the sending server list (22 columns), in UTF-8 with a BOM. The column names are listed in <a href="manual/sending-servers.html?lang=en">Chapter 5 of the manual</a>.</p>
         </div>
         <div class="feature-card">
-          <h3>Can I analyze DMARC reports without uploading them anywhere?</h3>
-          <p>Analysis runs only on your local device. Report contents, IP information, authentication results, and domain information are never sent to an external server. Microsoft 365 import is optional and uses the Mail.Read permission only (read-only).</p>
+          <h3>Can I analyze DMARC reports without sending them to an analysis service?</h3>
+          <p>Analysis results are stored on your PC and are not sent to external AI or cloud analysis services. Microsoft 365 connections are made only when you configure them.</p>
         </div>
       </div>
-      <p style="font-size:0.82rem;color:#475569;margin-top:8px">Classification is a guide for first-pass triage and may not sort every entry correctly. It does not show whether harm occurred or what an attacker intended. The tool never sends, deletes, or edits mail, and never changes DNS.</p>
+      <p style="font-size:0.82rem;color:#475569;margin-top:8px">Verdicts and classifications are machine-produced and may not sort every entry correctly. They do not show whether harm occurred or what an attacker intended. The final judgment rests with you.</p>
     </div>
 
     <div class="problem-section">
       <h2>Can you actually read your DMARC reports?</h2>
-      <p>DMARC aggregate reports (RUA) arrive as XML — just source IPs, SPF/DKIM results, and counts. At a glance it's impossible to tell which rows are spoofing, which are your own misconfigurations, and which are harmless forwarded traffic.</p>
-      <p>This tool analyzes report contents locally and separates <strong>what needs action</strong> from <strong>what can be ignored</strong>.</p>
+      <p>DMARC aggregate reports (RUA) arrive as XML — just source IPs, SPF/DKIM results, and counts. At a glance it is impossible to tell whether it is safe to move to p=reject, or which rows are authentication failures from your own senders, which are forwarding, and which look like spoofing.</p>
+      <p>This tool uses the reports you import to show <strong>whether it is safe to move</strong> and <strong>what is causing the failures and what to do</strong>.</p>
     </div>
 
     <div class="value-section">
-      <h2>What you see for each entry</h2>
-      <p style="font-size:0.9rem;color:#334155">The record detail screen shows, for each entry, a <strong>conclusion</strong>, <strong>what is happening</strong>, <strong>concrete steps</strong>, a <strong>recommended timeframe</strong> (Address promptly / Address this week / No action needed), and the <strong>evidence</strong> behind the result. The evidence includes the source IP, domain, number of emails, SPF / DKIM results with whether each matched your domain, and the DMARC result. Key steps by category:</p>
-      <div class="features">
-        <div class="feature-card">
-          <h3><span class="label-dot dot-red"></span>Spoofing suspected (Address promptly)</h3>
-          <p>Check the source IP and confirm it does not belong to your organization or a SaaS service you use. If the sender is not legitimate, change the DMARC policy to quarantine, then move gradually to reject once no issues appear.</p>
-        </div>
-        <div class="feature-card">
-          <h3><span class="label-dot dot-amber"></span>Config issue (Address this week)</h3>
-          <p>Identify which server the source IP belongs to and share the findings with its administrator. Add the IP to your SPF record or enable DKIM signing. There is no need to shut down the server.</p>
-        </div>
-        <div class="feature-card">
-          <h3><span class="label-dot dot-blue"></span>Forwarded (No action needed)</h3>
-          <p>Forwarding and mailing lists can alter authentication results; this is expected behavior, not an attack. Check the forwarding path only if the count spikes. Blocking forwarded mail would also drop mailing list messages.</p>
-        </div>
-      </div>
+      <h2>How to read "Readiness for reject"</h2>
+      <p class="guideline-note">The band values (75%, 90%, 99%) are operational guidelines (no official basis).</p>
+      <table class="verdicts">
+        <thead><tr><th>Verdict</th><th>Meaning</th><th>Next step</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Ready to move</strong></td><td>The pass rate is in the 99% or higher band, there are no authentication failures from your own senders or messages pending review, and the other conditions are met</td><td>If the published policy is quarantine, consider changing to reject</td></tr>
+          <tr><td><strong>Conditional (action needed)</strong></td><td>The pass rate is 90% or higher, but some points remain to be checked</td><td>Run with quarantine while resolving the causes</td></tr>
+          <tr><td><strong>Not ready</strong></td><td>The pass rate is below 90%</td><td>Resolve the causes of the failures first (below 75%, identify your senders first)</td></tr>
+          <tr><td><strong>Not enough information to decide</strong></td><td>Too few report providers, days, or messages, or there are days with no report</td><td>Check the recommended actions for what is missing and how to check it</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:0.9rem;color:#334155">The screen also shows the <strong>breakdown of expected rejections</strong>, the <strong>basis for the decision</strong> (official items are separated from operational guidelines, with sources), and the <strong>impact of forwarding</strong> (all messages vs. excluding possible forwarding). See <a href="manual/readiness.html?lang=en">Chapter 3 of the manual</a>.</p>
     </div>
 
     <div class="at-a-glance">
       <h2>What the dashboard tells you</h2>
       <dl>
-        <dt>Status line</dt><dd>If spoofing is suspected, it reads "Emails impersonating your domain have been detected from external sources". If there are config issues, it reads "Your mail server authentication settings need attention". Otherwise, it reads "Email security is healthy. No issues detected."</dd>
-        <dt>What to do next</dt><dd>Lists what to review for config issues, suspected spoofing, and entries needing review, each with its count. If there are none, it shows "No action needed."</dd>
-        <dt>Email authentication success rate</dt><dd>Emails classed as "OK" ÷ all emails.</dd>
-        <dt>Spoofing protection rate</dt><dd>1 − (emails classed as "Spoofing suspected" ÷ all emails).</dd>
-        <dt>Number of sending servers</dt><dd>The number of distinct source IPs in the reports.</dd>
+        <dt>Status line</dt><dd>One line that says whether emails impersonating your domain were detected, whether your own mail server authentication settings need attention, or whether no issues were detected.</dd>
+        <dt>What to do next</dt><dd>For each category that applies, the dashboard lists what to review with its count.</dd>
+        <dt>Counts per category</dt><dd>OK / Spoofing suspected / Authentication failures from your own senders / Possible forwarding / Pending review.</dd>
         <dt>Per-domain summary</dt><dd>A table showing email volume, suspected spoofing, and DMARC pass rate for each domain. Select a single domain to narrow the whole dashboard to it.</dd>
       </dl>
     </div>
 
-    <h2>How it works</h2>
-    <div class="flow">
-      <div class="flow-step"><span class="flow-num">1</span> Import reports</div>
-      <span class="flow-arrow">→</span>
-      <div class="flow-step"><span class="flow-num">2</span> Parse XML</div>
-      <span class="flow-arrow">→</span>
-      <div class="flow-step"><span class="flow-num">3</span> Classify (6 labels)</div>
-      <span class="flow-arrow">→</span>
-      <div class="flow-step"><span class="flow-num">4</span> List, breakdown & summary</div>
-      <span class="flow-arrow">→</span>
-      <div class="flow-step"><span class="flow-num">5</span> Export CSV</div>
-    </div>
-
     <div class="value-section">
-      <h2>Six classification labels</h2>
+      <h2>Classification conditions</h2>
       <div class="labels">
-        <div class="label-card"><h4><span class="label-dot dot-green"></span>OK</h4><p>SPF or DKIM passes and matches the sender domain. No action needed.</p></div>
-        <div class="label-card"><h4><span class="label-dot dot-red"></span>Spoofing suspected</h4><p>Fails DMARC and matches none of your servers, known sending services, or forwarding. Address promptly.</p></div>
-        <div class="label-card"><h4><span class="label-dot dot-amber"></span>Config issue</h4><p>Fails DMARC from an IP registered as your own mail server. Address this week.</p></div>
-        <div class="label-card"><h4><span class="label-dot dot-blue"></span>Forwarded</h4><p>Fails DMARC with a forwarding or mailing-list record, or from a registered forwarding server. No action needed.</p></div>
-        <div class="label-card"><h4><span class="label-dot dot-gray"></span>Needs review</h4><p>Fails DMARC and matches a known sending service, but cannot be classified automatically. Review manually.</p></div>
-        <div class="label-card"><h4><span class="label-dot dot-purple"></span>Read error</h4><p>The report XML could not be read. Check the original attachment.</p></div>
+        <div class="label-card"><h4><span class="label-dot dot-green"></span>OK</h4><p>DMARC passes. No action needed.</p></div>
+        <div class="label-card"><h4><span class="label-dot dot-amber"></span>Authentication failures from your own senders</h4><p>Fails DMARC, and the source IP is within the own mail server IP ranges you registered on the settings screen.</p></div>
+        <div class="label-card"><h4><span class="label-dot dot-blue"></span>Possible forwarding</h4><p>Fails DMARC, and the source IP is within a registered forwarding server range, or the receiver reported trusted_forwarder or mailing_list.</p></div>
+        <div class="label-card"><h4><span class="label-dot dot-red"></span>Spoofing suspected</h4><p>Fails DMARC and matches none of the above.</p></div>
+        <div class="label-card"><h4><span class="label-dot dot-gray"></span>Pending review</h4><p>Fails DMARC, matches none of the above, and was matched as a known sending service. The current settings screen has no field to register these, so this is normally not assigned.</p></div>
       </div>
       <p style="font-size:0.82rem;color:#475569;margin-top:8px">Classification is done by a rule-based engine. No AI inference or cloud analysis is used. See <a href="manual/classification.html?lang=en">Chapter 4 of the manual</a> for the detailed conditions.</p>
     </div>
@@ -545,43 +450,26 @@
     <h2>Key features</h2>
     <div class="features">
       <div class="feature-card">
+        <h3>Readiness for reject</h3>
+        <p>Verdict, pass-rate gauge, recommended actions, expected rejections, basis for the decision, impact of forwarding, and forwarding server registration.</p>
+      </div>
+      <div class="feature-card">
         <h3>DMARC aggregate report analysis</h3>
-        <p>Supports ZIP / GZ / XML formats. Extracts source IP, authentication results, and counts, then classifies into six categories.</p>
+        <p>Supports ZIP / GZ / XML formats. Extracts source IP, authentication results, and counts, then classifies each entry.</p>
       </div>
       <div class="feature-card">
         <h3>Bounce message analysis</h3>
-        <p>Import bounce messages from Microsoft 365 or a local EML folder and sort them into four buckets: Confirmed bounce, Unmapped bounce, Detector flagged for review, and Normal mail (excluded). This is separate from the six DMARC report categories.</p>
+        <p>Import bounce messages from Microsoft 365 or a local EML folder and see the recommended next step per category, with the evidence for detection and classification. This is separate from DMARC classification.</p>
       </div>
       <div class="feature-card">
-        <h3>Sending server summary</h3>
-        <p>Group results by source IP and review mail volume, items needing attention, DMARC pass rate, provider hints, and configured server matching.</p>
-      </div>
-      <div class="feature-card">
-        <h3>CSV export</h3>
-        <p>Export classification results to CSV for further analysis in Excel or BI tools, including SaaS sender attribution.</p>
+        <h3>Sending server summary and export</h3>
+        <p>Group results by source IP with mail volume, DMARC pass rate, and whether each IP matches what you registered. Export PDF (technical and executive), Excel, and CSV.</p>
       </div>
     </div>
 
-    <h2>Screens</h2>
-    <figure class="content-screenshot">
-      <img src="images/en/welcome.png" alt="Two paths from the start: load DMARC reports from a local folder, or pull them automatically from your Microsoft 365 mailbox.">
-      <figcaption>First step: choose to load report files, or pull them directly from Microsoft 365.</figcaption>
-    </figure>
-    <figure class="content-screenshot">
-      <img src="images/en/findings.png" alt="Filter by the class you care about and inspect each record — source IP, domain, SPF, and DKIM results on a single screen.">
-      <figcaption>Filter by class and inspect records — source IP, domain, SPF, and DKIM in one view.</figcaption>
-    </figure>
-    <figure class="content-screenshot">
-      <img src="images/en/bounce.png" alt="Import bounce mail from Microsoft 365 or a local EML folder and sort messages into four buckets: Confirmed bounce, Unmapped bounce, Detector flagged for review, and Normal mail (excluded).">
-      <figcaption>Bounce analysis: sorts messages into four buckets — Confirmed bounce, Unmapped bounce, Detector flagged for review, and Normal mail (excluded).</figcaption>
-    </figure>
-    <figure class="content-screenshot">
-      <img src="images/en/settings.png" alt="Track multiple receiving domains and tag each as Managed, Monitored, or External to make your organization's DMARC posture visible.">
-      <figcaption>Multi-domain with management tags: Managed / Monitored / External keeps your DMARC posture organized.</figcaption>
-    </figure>
-
     <div class="privacy-note">
-      <p><strong>Privacy:</strong> This tool runs locally on your device. Report contents, IP information, authentication results, and domain information are never sent to any external server. Microsoft 365 connections are made only when explicitly configured, and the permission scope is limited to <strong>Mail.Read</strong>. Authentication tokens are held in memory only and are never persisted to disk.</p>
+      <p><strong>Privacy:</strong> Analysis results are stored on your PC and are not sent to external AI or cloud analysis services. Microsoft 365 connections are made only when you configure them.</p>
+      <p><strong>Microsoft 365 permissions:</strong> Fetching from the app screen uses only the read permission for shared mailboxes (Mail.Read.Shared) and never deletes, moves, marks as read, or sends mail. The command-line interface (CLI) has a mode that deletes mail after fetching it.</p>
     </div>
 
     <h2>System requirements</h2>
@@ -593,12 +481,11 @@
     </table>
 
     <h2>Graph API permissions (optional feature)</h2>
-    <p>The following delegated permissions are required only when importing reports directly from Microsoft 365. They are not needed if you don't use that feature.</p>
+    <p>The following delegated permission is required only when importing reports directly from a Microsoft 365 shared mailbox. It is not needed if you don't use that feature.</p>
     <table class="sysreq" style="width:100%;border-collapse:collapse">
-      <tr style="border-bottom:1px solid #e2e8f0"><td><strong>User.Read</strong></td><td>Sign-in and user profile (default permission)</td></tr>
-      <tr style="border-bottom:1px solid #e2e8f0"><td><strong>Mail.Read</strong></td><td>Read DMARC reports and bounce messages from the inbox</td></tr>
+      <tr style="border-bottom:1px solid #e2e8f0"><td><strong>Mail.Read.Shared</strong></td><td>Read DMARC reports and bounce messages from a shared mailbox (fetching from the app screen)</td></tr>
     </table>
-    <p style="font-size:0.82rem;color:#64748b;margin-top:8px">The tool does not delete, move, or edit mail (read-only).</p>
+    <p style="font-size:0.82rem;color:#64748b;margin-top:8px">Fetching from the app screen does not delete, move, mark as read, or send mail. The CLI delete mode uses a different permission (Mail.ReadWrite.Shared).</p>
 
   </div>
 
@@ -644,14 +531,14 @@ function switchLang(lang) {
   document.documentElement.lang = lang;
   var text = {
     ja: {
-      h1: 'DMARC 分析支援ツール — なりすまし・設定不備・転送を切り分け',
-      title: 'DMARC レポートでなりすまし・設定不備・転送を切り分ける | DMARC 分析支援ツール',
-      description: 'DMARC 集約レポート（XML）で SPF/DKIM が fail した送信元が、なりすましか自社の設定不備か転送かを判別できず困っていませんか。送信元 IP ごとの集計と 6 分類で対応すべきものを絞り込め、解析はローカル端末だけで完結してレポートを外部に送信しません。'
+      h1: 'DMARC 分析支援ツール — p=reject に上げてよいかを判断',
+      title: 'DMARC を p=reject に上げてよいか判断し、失敗の原因と次の一手を知る | DMARC 分析支援ツール',
+      description: '自社ドメインの DMARC ポリシーを p=reject に上げてよいか分からず困っていませんか。集約レポートから、移行可能・条件つき・準備未完了の判定と、失敗の原因（自社送信元の認証失敗・転送経由の可能性・なりすまし疑い）、次の一手を示します。'
     },
     en: {
-      h1: 'DMARC Analysis Assistant — Tell spoofing, misconfiguration, and forwarding apart',
-      title: 'Tell Spoofing from Misconfiguration and Forwarding in DMARC Reports | DMARC Analysis Assistant',
-      description: 'Got DMARC aggregate reports in XML but can\'t tell whether SPF/DKIM failures come from spoofing, your own misconfiguration, or forwarding? This tool groups results by source IP and sorts them into six categories, entirely on your local device with no report data sent externally.'
+      h1: 'DMARC Analysis Assistant — Decide whether to move to p=reject',
+      title: 'Can This Domain Move to DMARC p=reject? Find the Cause of Failures and the Next Step | DMARC Analysis Assistant',
+      description: 'Not sure whether your domain can move its DMARC policy to p=reject? From aggregate reports, the app shows a verdict (Ready to move, Conditional, Not ready), what is causing the failures (authentication failures from your own senders, possible forwarding, spoofing suspected), and the next step.'
     }
   }[lang];
   document.getElementById('page-h1').textContent = text.h1;

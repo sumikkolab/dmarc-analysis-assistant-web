@@ -4,22 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>利用規約・免責事項 — DMARC 分析支援ツール | Sumikko Lab</title>
-<meta name="description" content="DMARC 分析支援ツールの利用規約・免責事項。ローカル動作・Mail.Read 限定・読み取り専用・外部送信なしの条件を明記。アプリ内表示の条文と同一内容。">
+<meta name="description" content="DMARC 分析支援ツールの利用規約・免責事項。解析結果と分類は参考情報であり、最終判断は利用者の責任で行うこと、Microsoft 365 への接続は利用者が設定した場合に限ることなどを定めています。">
 <link rel="canonical" href="https://dmarc-analysis.sumikkolab.com/terms-of-use.html">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ja_JP">
 <meta property="og:site_name" content="DMARC Analysis Assistant — Sumikko Lab">
 <meta property="og:title" content="利用規約・免責事項 — DMARC 分析支援ツール | Sumikko Lab">
-<meta property="og:description" content="DMARC 分析支援ツールの利用規約・免責事項。ローカル動作・Mail.Read 限定・読み取り専用・外部送信なしの条件を明記。アプリ内表示の条文と同一内容。">
+<meta property="og:description" content="DMARC 分析支援ツールの利用規約・免責事項。解析結果と分類は参考情報であり、最終判断は利用者の責任で行うことなどを定めています。">
 <meta property="og:url" content="https://dmarc-analysis.sumikkolab.com/terms-of-use.html">
-<meta property="og:image" content="https://dmarc-analysis.sumikkolab.com/images/en/findings.png">
-<meta property="og:image:width" content="1920">
-<meta property="og:image:height" content="1032">
-<meta property="og:image:alt" content="DMARC 分析支援ツールの検出結果の画面">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="利用規約・免責事項 — DMARC 分析支援ツール | Sumikko Lab">
-<meta name="twitter:description" content="DMARC 分析支援ツールの利用規約・免責事項。ローカル動作・Mail.Read 限定・読み取り専用・外部送信なしの条件を明記。アプリ内表示の条文と同一内容。">
-<meta name="twitter:image" content="https://dmarc-analysis.sumikkolab.com/images/en/findings.png">
+<meta name="twitter:description" content="DMARC 分析支援ツールの利用規約・免責事項。解析結果と分類は参考情報であり、最終判断は利用者の責任で行うことなどを定めています。">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Segoe UI', 'Yu Gothic UI', sans-serif; line-height: 1.7; color: #1a1a2e; background: #f8f9fa; }
@@ -61,15 +56,15 @@
       <a href="manual/">マニュアル</a>
     </div>
     <h1>利用規約・免責事項</h1>
-    <p class="updated">最終更新: 2026年4月21日</p>
+    <p class="updated">最終更新: 2026年11月19日</p>
 
-    <p class="note">本ページは、アプリ初回起動時に表示される「利用規約・免責事項」の全文版です。アプリ内表示と同一の条文を掲載しています。</p>
+    <p class="note">本ページは、アプリ初回起動時に表示される「利用規約・免責事項」に対応する全文版です。第 2 条・第 3 条の Microsoft 365 に関する記載は、製品の動作（画面からの取得の範囲）に合わせた表現にしています。</p>
 
     <h3>利用規約</h3>
     <ol>
       <li>本ソフトウェア「DMARC 分析支援ツール」は Sumikko Lab（以下「提供元」）が提供するツールです。DMARC 集約レポートおよび関連するバウンスメールの解析・表示を目的として利用できます。</li>
-      <li>本ソフトウェアはローカル端末上でのみ動作し、Microsoft 365 および DNS の設定を変更しません。レポートメール本体の削除・移動・編集も行いません（読み取り専用）。</li>
-      <li>Microsoft 365 への接続は、利用者が明示的に設定した場合に限り行われ、使用する権限スコープは Mail.Read のみです。</li>
+      <li>本ソフトウェアは Microsoft 365 および DNS の設定を変更しません。画面からの Microsoft 365 の取得では、メールの削除・移動・既読化・送信を行いません。コマンドライン（CLI）には、取得後にメールを削除するモードがあります。</li>
+      <li>Microsoft 365 への接続は、利用者が明示的に設定した場合に限り行われます。画面からの取得で使用する権限は、共有メールボックスの読み取り権限（Mail.Read.Shared）のみです。</li>
       <li>本ソフトウェアの逆コンパイル、解析、改変、再配布、他製品への組み込みを禁止します。</li>
       <li>本ソフトウェアが表示する解析結果および分類は参考情報です。最終的な判断は利用者の責任で行ってください。</li>
       <li>提供元は、本ソフトウェアの利用に起因して生じた損害について責任を負いません。可用性・継続提供も保証しません。</li>
@@ -81,7 +76,7 @@
     <h3>免責事項</h3>
     <ol>
       <li>本ソフトウェアが表示する分類・判定・推定は、レポート本文およびメールヘッダーに基づくルールベースの解析結果です。送信者の意図や DNS の実運用を確定するものではありません。</li>
-      <li>「なりすまし疑い」「設定不備」「転送由来」などの表示区分は機械判定のため、すべての事例を正確に分類できるとは限りません。最終判断は利用者の責任で行ってください。</li>
+      <li>「なりすまし疑い」「自社送信元の認証失敗」「転送経由の可能性」などの表示区分は機械判定のため、すべての事例を正確に分類できるとは限りません。最終判断は利用者の責任で行ってください。</li>
       <li>本ソフトウェアの利用、利用不能、または利用結果に起因して生じた損害（業務への影響、データ損失、機会損失を含む）について、提供元は責任を負いません。</li>
       <li>本ソフトウェアの可用性、継続提供、および第三者サービス（Microsoft 365 Graph API 等）との互換性は保証されません。仕様変更により予期せず動作しなくなる場合があります。</li>
     </ol>
@@ -99,7 +94,7 @@
       <li>Microsoft.Identity.Client（MIT License）</li>
       <li>Microsoft.Identity.Client.Desktop（MIT License）</li>
     </ul>
-    <p>本ソフトウェアは Microsoft Edge WebView2 Runtime を利用しており、その利用条件は Microsoft のライセンス条項に従います。</p>
+    <p>上記のほかにも、第三者のライブラリを利用しています。本ソフトウェアは Microsoft Edge WebView2 Runtime を利用しており、その利用条件は Microsoft のライセンス条項に従います。</p>
 
     <h2>連絡先</h2>
     <p>製品サイト: <a href="https://dmarc-analysis.sumikkolab.com/">https://dmarc-analysis.sumikkolab.com/</a></p>
@@ -113,18 +108,18 @@
       <a href="./?lang=en">Product</a>
       <a href="privacy-policy.html?lang=en">Privacy Policy</a>
       <a href="support.html?lang=en">Support</a>
-      <a href="manual/">Manual</a>
+      <a href="manual/?lang=en">Manual</a>
     </div>
     <h1>Terms of Use &amp; Disclaimer</h1>
-    <p class="updated">Last updated: April 21, 2026</p>
+    <p class="updated">Last updated: November 19, 2026</p>
 
-    <p class="note">This page is the full-text version of the "Terms of Use &amp; Disclaimer" shown on first launch of the app. The provisions match what is displayed in the application.</p>
+    <p class="note">This page is the full-text version corresponding to the "Terms of Use &amp; Disclaimer" shown on first launch of the app. The statements in Articles 2 and 3 about Microsoft 365 are worded to match what the product does (the scope of fetching from the app screen).</p>
 
     <h3>Terms of Use</h3>
     <ol>
       <li>This software "DMARC Analysis Assistant" is provided by Sumikko Lab ("the provider"). It is intended for analyzing and displaying DMARC aggregate reports and related bounce messages.</li>
-      <li>The software runs locally on the user's device. It does not modify Microsoft 365 settings or DNS records, and does not delete, move, or edit report messages (read-only).</li>
-      <li>Microsoft 365 connections are made only when explicitly configured by the user, and the permission scope is limited to Mail.Read.</li>
+      <li>The software does not modify Microsoft 365 settings or DNS records. Fetching from the app screen does not delete, move, mark as read, or send Microsoft 365 mail. The command-line interface (CLI) has a mode that deletes mail after fetching it.</li>
+      <li>Microsoft 365 connections are made only when explicitly configured by the user. The permission used for fetching from the app screen is limited to the read permission for shared mailboxes (Mail.Read.Shared).</li>
       <li>Decompilation, reverse engineering, modification, redistribution, or embedding of this software into other products is prohibited.</li>
       <li>Analysis results and classifications shown by this software are advisory. The final judgment rests with the user.</li>
       <li>The provider assumes no liability for any damages arising from the use of this software, nor guarantees availability or continued operation.</li>
@@ -136,7 +131,7 @@
     <h3>Disclaimer</h3>
     <ol>
       <li>Classifications, verdicts, and inferences shown by this software are rule-based analyses derived from report contents and mail headers. They do not confirm sender intent or actual DNS configuration.</li>
-      <li>Labels such as "Spoofing suspected", "Config issue", and "Forwarded" are machine-produced estimates and may not classify every case correctly. The final judgment rests with the user.</li>
+      <li>Labels such as "Spoofing suspected", "Authentication failures from your own senders", and "Possible forwarding" are machine-produced estimates and may not classify every case correctly. The final judgment rests with the user.</li>
       <li>The provider assumes no liability for any damages (including operational impact, data loss, or loss of opportunity) arising from the use of, inability to use, or results obtained from this software.</li>
       <li>No warranty is made regarding availability, continued operation, or compatibility with third-party services (such as Microsoft 365 Graph API). Specification changes may cause the software to stop working unexpectedly.</li>
     </ol>
@@ -154,7 +149,7 @@
       <li>Microsoft.Identity.Client (MIT License)</li>
       <li>Microsoft.Identity.Client.Desktop (MIT License)</li>
     </ul>
-    <p>The software uses Microsoft Edge WebView2 Runtime, subject to Microsoft license terms.</p>
+    <p>The software also uses other third-party libraries. The software uses Microsoft Edge WebView2 Runtime, subject to Microsoft license terms.</p>
 
     <h2>Contact</h2>
     <p>Website: <a href="https://dmarc-analysis.sumikkolab.com/">https://dmarc-analysis.sumikkolab.com/</a></p>

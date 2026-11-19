@@ -4,22 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>プライバシーポリシー — DMARC 分析支援ツール | Sumikko Lab</title>
-<meta name="description" content="DMARC 分析支援ツールのプライバシーポリシー。ローカル動作・外部送信なし・テレメトリなし・認証トークン非永続化。Mail.Read のみ、読み取り専用。保存先と削除方法も明記。">
+<meta name="description" content="DMARC 分析支援ツールのプライバシーポリシー。解析結果は PC 内に保存し、外部の AI やクラウドの解析サービスには送らないこと、テレメトリなし、Microsoft 365 は利用者が設定した場合に限ること、保存先と削除方法を記載しています。">
 <link rel="canonical" href="https://dmarc-analysis.sumikkolab.com/privacy-policy.html">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ja_JP">
 <meta property="og:site_name" content="DMARC Analysis Assistant — Sumikko Lab">
 <meta property="og:title" content="プライバシーポリシー — DMARC 分析支援ツール | Sumikko Lab">
-<meta property="og:description" content="DMARC 分析支援ツールのプライバシーポリシー。ローカル動作・外部送信なし・テレメトリなし・認証トークン非永続化。Mail.Read のみ、読み取り専用。保存先と削除方法も明記。">
+<meta property="og:description" content="DMARC 分析支援ツールのプライバシーポリシー。解析結果は PC 内に保存し、外部の AI やクラウドの解析サービスには送らないこと、保存先と削除方法を記載しています。">
 <meta property="og:url" content="https://dmarc-analysis.sumikkolab.com/privacy-policy.html">
-<meta property="og:image" content="https://dmarc-analysis.sumikkolab.com/images/en/findings.png">
-<meta property="og:image:width" content="1920">
-<meta property="og:image:height" content="1032">
-<meta property="og:image:alt" content="DMARC 分析支援ツールの検出結果の画面">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="プライバシーポリシー — DMARC 分析支援ツール | Sumikko Lab">
-<meta name="twitter:description" content="DMARC 分析支援ツールのプライバシーポリシー。ローカル動作・外部送信なし・テレメトリなし・認証トークン非永続化。Mail.Read のみ、読み取り専用。保存先と削除方法も明記。">
-<meta name="twitter:image" content="https://dmarc-analysis.sumikkolab.com/images/en/findings.png">
+<meta name="twitter:description" content="DMARC 分析支援ツールのプライバシーポリシー。解析結果は PC 内に保存し、外部の AI やクラウドの解析サービスには送らないこと、保存先と削除方法を記載しています。">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Segoe UI', 'Yu Gothic UI', sans-serif; line-height: 1.7; color: #1a1a2e; background: #f8f9fa; }
@@ -63,14 +58,14 @@
       <a href="manual/">マニュアル</a>
     </div>
     <h1>プライバシーポリシー</h1>
-    <p class="updated">最終更新: 2026年4月21日</p>
+    <p class="updated">最終更新: 2026年11月19日</p>
 
-    <p class="highlight">本ソフトウェアはローカル端末上でのみ動作し、レポート内容・IP 情報・認証結果・ドメイン情報を外部に送信しません。テレメトリ・クラッシュレポート・使用履歴の自動送信も行いません。</p>
+    <p class="highlight">解析結果は PC 内に保存し、外部の AI やクラウドの解析サービスには送りません。テレメトリ・クラッシュレポート・使用履歴の自動送信も行いません。</p>
 
-    <h3>プライバシー通知（アプリ内表示と同一内容）</h3>
+    <h3>プライバシー通知（アプリ内表示に対応する内容）</h3>
     <ol>
-      <li>本ソフトウェアはローカル端末上でのみ動作します。解析対象のレポートデータ、バウンスメール本文、設定情報を外部サービスへ送信することはありません。</li>
-      <li>Microsoft 365 への接続は、利用者が設定画面で明示的に設定した場合に限り行われ、使用する権限スコープは Mail.Read のみです。メールの送信・削除・編集は行いません。</li>
+      <li>解析対象のレポートデータと設定情報は、ローカル端末に保存します。バウンスメール本文を含め、これらを外部の AI やクラウドの解析サービスへ送信することはありません。</li>
+      <li>Microsoft 365 への接続は、利用者が設定画面で明示的に設定した場合に限り行われます。画面からの取得で使用する権限は、共有メールボックスの読み取り権限（Mail.Read.Shared）のみで、メールの削除・移動・既読化・送信は行いません。コマンドライン（CLI）には、取得後にメールを削除するモードがあります。</li>
       <li>Microsoft 365 の認証トークンはメモリ上に一時保持されるのみで、ディスクへの永続化は行いません。アプリを終了すると破棄されます。</li>
       <li>分類結果、IP アドレス、認証結果、ドメイン情報などを外部サービスへ送信することはありません。クラウド解析や外部 AI API への問合せも行いません。</li>
       <li>利用状況のテレメトリ、クラッシュレポート、使用履歴の自動送信・収集は行いません。</li>
@@ -84,35 +79,35 @@
     <h2>収集・保存するデータ</h2>
     <p>本ソフトウェアがローカル端末上に保存するデータは次のとおりです。いずれも <code>%LocalAppData%\DmarcAnalysisAssistant</code> 配下に保存され、アンインストールまたは利用者の操作で削除できます。</p>
     <ul>
-      <li>取込んだ DMARC 集約レポート（XML / ZIP / GZ 展開後）</li>
-      <li>取込んだバウンスメールのヘッダー・本文（ローカル DB 内）</li>
-      <li>6 分類エンジンによる判定結果</li>
-      <li>アプリ設定（表示言語、取込フォルダ、同意状態のハッシュ等）</li>
+      <li>取込んだ DMARC 集約レポートの解析結果（レコード、公開ポリシー、受信側の判定など）</li>
+      <li>処理済みメールのマーカー</li>
+      <li>設定画面に登録した自社メールサーバーの IP 範囲、転送サーバーの IP 範囲</li>
+      <li>アプリ設定（Microsoft 365 のテナント ID・クライアント ID・メールボックスのアドレス、同意情報、管理区分メモなど）</li>
     </ul>
 
     <h2>Microsoft 365 連携（任意機能）</h2>
-    <p>利用者が設定画面で Microsoft 365 連携を明示的に有効化した場合に限り、Microsoft Graph API を用いて受信トレイから DMARC レポートおよびバウンスメールを取得します。</p>
+    <p>利用者が設定画面で Microsoft 365 連携を設定した場合に限り、Microsoft Graph API を用いて共有メールボックスから DMARC レポートおよびバウンスメールを取得します。</p>
     <ul>
-      <li>使用権限スコープ: <code>User.Read</code> / <code>Mail.Read</code>（読み取り専用）</li>
-      <li>送信・削除・編集は行いません。</li>
+      <li>画面からの取得で使用する権限: <code>Mail.Read.Shared</code>（読み取り）</li>
+      <li>画面からの取得では、メールの削除・移動・既読化・送信は行いません。</li>
+      <li>コマンドライン（CLI）には、取得後にメールを削除するモードがあります（別の権限 <code>Mail.ReadWrite.Shared</code> を使用します）。</li>
       <li>認証トークンはメモリ上にのみ保持され、ディスクには保存されません。アプリを終了すると破棄されます。</li>
-      <li>連携を停止するには設定画面でサインアウトしてください。</li>
     </ul>
 
     <h2>外部サービスへの送信</h2>
-    <p>分類結果、IP アドレス、認証結果、ドメイン情報、レポート本文を外部サービスへ送信することはありません。クラウド解析、外部 AI API、テレメトリ収集、広告配信のいずれも行いません。</p>
+    <p>解析結果（分類結果、IP アドレス、認証結果、ドメイン情報、レポート本文）を、外部の AI やクラウドの解析サービスへ送信することはありません。テレメトリ収集、広告配信も行いません。</p>
 
     <h2>データの削除</h2>
     <p>保存データは利用者の操作でいつでも削除できます。</p>
     <ul>
-      <li>v1.0.5 以降では、設定画面の「保存済みDMARC解析データを削除」から、保存済みDMARC解析結果と処理済みマーカーを削除できます。</li>
+      <li>設定画面の「保存済みDMARC解析データを削除」から、保存済みDMARC解析結果と処理済みマーカーを削除できます。</li>
       <li>この操作では、設定情報、同意情報、管理区分メモ、バウンス分析データは削除されません。</li>
       <li>Windows の「アプリのアンインストール」</li>
     </ul>
 
     <h2>第三者サービス</h2>
     <ul>
-      <li><strong>Microsoft 365 Graph API</strong>: 利用者が連携を有効化した場合のみ通信します。</li>
+      <li><strong>Microsoft 365 Graph API</strong>: 利用者が連携を設定した場合のみ通信します。</li>
       <li><strong>Microsoft Edge WebView2 Runtime</strong>: GUI 表示に使用します。Microsoft のライセンスおよびプライバシー条項に従います。</li>
     </ul>
 
@@ -130,17 +125,17 @@
       <a href="./?lang=en">Product</a>
       <a href="terms-of-use.html?lang=en">Terms of Use &amp; Disclaimer</a>
       <a href="support.html?lang=en">Support</a>
-      <a href="manual/">Manual</a>
+      <a href="manual/?lang=en">Manual</a>
     </div>
     <h1>Privacy Policy</h1>
-    <p class="updated">Last updated: April 21, 2026</p>
+    <p class="updated">Last updated: November 19, 2026</p>
 
-    <p class="highlight">This software runs locally on your device. Report contents, IP information, authentication results, and domain information are never transmitted externally. No telemetry, crash reports, or usage history are automatically collected or sent.</p>
+    <p class="highlight">Analysis results are stored on your PC and are never sent to external AI or cloud analysis services. No telemetry, crash reports, or usage history are automatically collected or sent.</p>
 
-    <h3>Privacy Notice (identical to the in-app text)</h3>
+    <h3>Privacy Notice (corresponding to the in-app text)</h3>
     <ol>
-      <li>This software runs locally on the user's device. Report data, bounce message contents, and configuration information are never sent to any external service.</li>
-      <li>Microsoft 365 connections are made only when explicitly configured on the settings page, and the permission scope is limited to Mail.Read. The software does not send, delete, or edit mail.</li>
+      <li>Report data and configuration information are stored on the user's device. They, including bounce message contents, are never sent to external AI or cloud analysis services.</li>
+      <li>Microsoft 365 connections are made only when explicitly configured by the user on the settings page. The permission used for fetching from the app screen is limited to the read permission for shared mailboxes (Mail.Read.Shared), and the app screen does not delete, move, mark as read, or send mail. The command-line interface (CLI) has a mode that deletes mail after fetching it.</li>
       <li>Microsoft 365 authentication tokens are held in memory only and are never persisted to disk. They are discarded when the application exits.</li>
       <li>Classification results, IP addresses, authentication results, and domain information are not sent to any external service. No queries are made to cloud analysis platforms or external AI APIs.</li>
       <li>Telemetry, crash reports, and usage history are not collected or transmitted automatically.</li>
@@ -154,35 +149,35 @@
     <h2>Data collected and stored</h2>
     <p>The software stores the following data locally on your device. All data is stored under <code>%LocalAppData%\DmarcAnalysisAssistant</code> and can be deleted by uninstalling the app or through user actions.</p>
     <ul>
-      <li>Imported DMARC aggregate reports (XML, or extracted from ZIP/GZ)</li>
-      <li>Imported bounce message headers and body (in the local database)</li>
-      <li>Classification results produced by the six-category engine</li>
-      <li>Application settings (display language, import folder, consent state hash, etc.)</li>
+      <li>Analysis results of imported DMARC aggregate reports (records, published policy, receiver decisions, etc.)</li>
+      <li>Processed-mail markers</li>
+      <li>The IP ranges of your own mail servers and forwarding servers registered on the settings screen</li>
+      <li>Application settings (Microsoft 365 tenant ID, client ID, and mailbox addresses, consent information, management notes, etc.)</li>
     </ul>
 
     <h2>Microsoft 365 integration (optional)</h2>
-    <p>Only when the user explicitly enables Microsoft 365 integration on the settings page, the software uses Microsoft Graph API to read DMARC reports and bounce messages from the inbox.</p>
+    <p>Only when the user configures Microsoft 365 integration on the settings page, the software uses Microsoft Graph API to read DMARC reports and bounce messages from a shared mailbox.</p>
     <ul>
-      <li>Permission scope: <code>User.Read</code> / <code>Mail.Read</code> (read-only)</li>
-      <li>The software does not send, delete, or edit mail.</li>
+      <li>Permission used for fetching from the app screen: <code>Mail.Read.Shared</code> (read)</li>
+      <li>Fetching from the app screen does not delete, move, mark as read, or send mail.</li>
+      <li>The command-line interface (CLI) has a mode that deletes mail after fetching it (it uses a different permission, <code>Mail.ReadWrite.Shared</code>).</li>
       <li>Authentication tokens are held in memory only and are never persisted to disk. They are discarded on application exit.</li>
-      <li>To stop the integration, sign out from the settings page.</li>
     </ul>
 
     <h2>Transmission to external services</h2>
-    <p>Classification results, IP addresses, authentication results, domain information, and report contents are never transmitted to external services. The software performs no cloud analysis, no external AI API calls, no telemetry collection, and no ad delivery.</p>
+    <p>Analysis results (classification results, IP addresses, authentication results, domain information, and report contents) are never sent to external AI or cloud analysis services. The software performs no telemetry collection and no ad delivery.</p>
 
     <h2>Data deletion</h2>
     <p>Stored data can be deleted at any time by the user.</p>
     <ul>
-      <li>In v1.0.5 and later, use "Delete stored DMARC analysis data" in Settings to delete saved DMARC analysis results and processed markers.</li>
+      <li>Use "Delete stored DMARC analysis data" in Settings to delete saved DMARC analysis results and processed markers.</li>
       <li>This action does not delete settings, consent information, management notes, or bounce analysis data.</li>
       <li>Uninstalling the app via Windows "Apps &amp; features"</li>
     </ul>
 
     <h2>Third-party services</h2>
     <ul>
-      <li><strong>Microsoft 365 Graph API</strong>: used only when the user enables integration.</li>
+      <li><strong>Microsoft 365 Graph API</strong>: used only when the user configures integration.</li>
       <li><strong>Microsoft Edge WebView2 Runtime</strong>: used for GUI rendering; subject to Microsoft's license and privacy terms.</li>
     </ul>
 

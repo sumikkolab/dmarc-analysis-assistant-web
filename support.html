@@ -4,22 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>サポート・FAQ — DMARC 分析支援ツール | Sumikko Lab</title>
-<meta name="description" content="DMARC 分析支援ツールのサポート・FAQ。問い合わせ先・動作環境・プライバシー・6 分類判定・Microsoft 365 連携・データ保存先・WebView2 等のよくある質問と回答。">
+<meta name="description" content="DMARC 分析支援ツールのサポート・FAQ。問い合わせ先・動作環境・プライバシー・reject 移行準備・分類の判定・Microsoft 365 連携・データ保存先・WebView2 等のよくある質問と回答。">
 <link rel="canonical" href="https://dmarc-analysis.sumikkolab.com/support.html">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ja_JP">
 <meta property="og:site_name" content="DMARC Analysis Assistant — Sumikko Lab">
 <meta property="og:title" content="サポート・FAQ — DMARC 分析支援ツール | Sumikko Lab">
-<meta property="og:description" content="DMARC 分析支援ツールのサポート・FAQ。問い合わせ先・動作環境・プライバシー・6 分類判定・Microsoft 365 連携・データ保存先・WebView2 等のよくある質問と回答。">
+<meta property="og:description" content="DMARC 分析支援ツールのサポート・FAQ。問い合わせ先・動作環境・プライバシー・reject 移行準備・分類の判定・Microsoft 365 連携・データ保存先・WebView2 等のよくある質問と回答。">
 <meta property="og:url" content="https://dmarc-analysis.sumikkolab.com/support.html">
-<meta property="og:image" content="https://dmarc-analysis.sumikkolab.com/images/en/findings.png">
-<meta property="og:image:width" content="1920">
-<meta property="og:image:height" content="1032">
-<meta property="og:image:alt" content="DMARC 分析支援ツールの検出結果の画面">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="サポート・FAQ — DMARC 分析支援ツール | Sumikko Lab">
-<meta name="twitter:description" content="DMARC 分析支援ツールのサポート・FAQ。問い合わせ先・動作環境・プライバシー・6 分類判定・Microsoft 365 連携・データ保存先・WebView2 等のよくある質問と回答。">
-<meta name="twitter:image" content="https://dmarc-analysis.sumikkolab.com/images/en/findings.png">
+<meta name="twitter:description" content="DMARC 分析支援ツールのサポート・FAQ。問い合わせ先・動作環境・プライバシー・reject 移行準備・分類の判定・Microsoft 365 連携・データ保存先・WebView2 等のよくある質問と回答。">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -28,13 +23,18 @@
   "mainEntity": [
     {
       "@type": "Question",
+      "name": "このドメインを p=reject に上げてよいかは、どこで分かりますか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "集約レポートを取り込み、左のメニューの「reject 移行準備」を開きます。判定（移行可能 / 条件つき（要対応あり） / 準備未完了 / 判断材料が不足しています）、通過率のゲージ、推奨アクション、reject にした場合に拒否される見込みが表示されます。通過率の帯の値（75%・90%・99%）は運用目安で、公式の根拠はありません。" }
+    },
+    {
+      "@type": "Question",
       "name": "このツールは Microsoft 365 の設定を変更しますか？",
-      "acceptedAnswer": { "@type": "Answer", "text": "変更しません。Microsoft 365 への接続は読み取り専用で、使用権限は Mail.Read のみです。メールの送信・削除・編集も行いません。DNS 設定も変更しません。" }
+      "acceptedAnswer": { "@type": "Answer", "text": "変更しません。画面からの Microsoft 365 の取得は、共有メールボックスの読み取り権限（Mail.Read.Shared）だけを使い、メールの削除・移動・既読化・送信は行いません。コマンドライン（CLI）には、取得後にメールを削除するモードがあります。DNS 設定も変更しません。" }
     },
     {
       "@type": "Question",
       "name": "解析対象のデータはクラウドに送信されますか？",
-      "acceptedAnswer": { "@type": "Answer", "text": "送信しません。レポート本文、IP アドレス、認証結果、ドメイン情報、分類結果は外部サーバーに送信されません。クラウド解析や外部 AI API にも問合せを行いません。" }
+      "acceptedAnswer": { "@type": "Answer", "text": "解析結果は PC 内に保存し、外部の AI やクラウドの解析サービスには送りません。Microsoft 365 への接続は、利用者が設定した場合に限ります。" }
     },
     {
       "@type": "Question",
@@ -43,23 +43,18 @@
     },
     {
       "@type": "Question",
-      "name": "6 分類の判定はどのように行われていますか？",
-      "acceptedAnswer": { "@type": "Answer", "text": "ルールベースの分類エンジンが、レポート本文とメールヘッダーから判定します。AI 推論や機械学習は使用していません。同一入力に対して常に同一の分類結果を返します。" }
+      "name": "分類の判定はどのように行われていますか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "ルールベースの判定が、DMARC の結果、受信側が報告した例外の理由、設定画面に登録した自社 IP・転送サーバーから判定します。AI 推論や機械学習は使用していません。同一入力に対して常に同一の結果を返します。" }
+    },
+    {
+      "@type": "Question",
+      "name": "設定画面に登録した自社 IP や転送サーバーは、判定に使われますか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "使われます。保存した内容は、次の分析から反映され、アプリの再起動は不要です。メールボックスからの取り込みと CLI も同じ設定を使います。保存済みの記録は、「reject 移行準備」の登録の操作から再判定できます。" }
     },
     {
       "@type": "Question",
       "name": "保存されたデータはどこにありますか？ 削除したい場合は？",
-      "acceptedAnswer": { "@type": "Answer", "text": "設定・解析結果は %LocalAppData%\\DmarcAnalysisAssistant 配下に保存されます。v1.0.5 以降では、設定画面の「保存済みDMARC解析データを削除」から保存済みDMARC解析結果と処理済みマーカーを削除できます。この操作では、設定情報、同意情報、管理区分メモ、バウンス分析データは削除されません。" }
-    },
-    {
-      "@type": "Question",
-      "name": "v1.0.6 では何が変わりましたか？",
-      "acceptedAnswer": { "@type": "Answer", "text": "一部の形式の DMARC レポートが正しく読み込めなかった問題と、内容が似ている別々のレコードが 1 件にまとめられて保存されない問題を修正しました。取り込み済みのレポートを再度取り込むと、自動的に最新の内容へ置き換わるようになりました。" }
-    },
-    {
-      "@type": "Question",
-      "name": "認証トークンの扱いは？",
-      "acceptedAnswer": { "@type": "Answer", "text": "Microsoft 365 の認証トークンはメモリ上にのみ保持し、ディスクには一切書き込みません。アプリを終了するとトークンは破棄されます。" }
+      "acceptedAnswer": { "@type": "Answer", "text": "設定・解析結果は %LocalAppData%\\DmarcAnalysisAssistant 配下に保存されます。設定画面の「保存済みDMARC解析データを削除」から保存済みDMARC解析結果と処理済みマーカーを削除できます。この操作では、設定、同意情報、管理区分メモ、バウンス分析データは削除されません。" }
     },
     {
       "@type": "Question",
@@ -123,7 +118,7 @@
       <a href="manual/">マニュアル</a>
     </div>
     <h1>サポート</h1>
-    <p class="updated">DMARC 分析支援ツール</p>
+    <p class="updated">DMARC 分析支援ツール 1.1.0.0</p>
 
     <div class="contact-box">
       <h3 style="margin-top:0">お問い合わせ</h3>
@@ -143,13 +138,18 @@
     <h2>よくあるご質問</h2>
 
     <div class="faq">
+      <div class="faq-q">Q. このドメインを p=reject に上げてよいかは、どこで分かりますか？</div>
+      <div class="faq-a">A. 集約レポートを取り込み、左のメニューの「reject 移行準備」を開きます。判定（移行可能 / 条件つき（要対応あり） / 準備未完了 / 判断材料が不足しています）、通過率のゲージ、推奨アクション、reject にした場合に拒否される見込みが表示されます。通過率の帯の値（75%・90%・99%）は運用目安で、公式の根拠はありません。詳しくは<a href="manual/readiness.html">マニュアル第 3 章</a>をご覧ください。</div>
+    </div>
+
+    <div class="faq">
       <div class="faq-q">Q. このツールは Microsoft 365 の設定を変更しますか？</div>
-      <div class="faq-a">A. 変更しません。Microsoft 365 への接続は読み取り専用で、使用権限は <code>Mail.Read</code> のみです。メールの送信・削除・編集も行いません。DNS 設定も変更しません。</div>
+      <div class="faq-a">A. 変更しません。画面からの Microsoft 365 の取得は、共有メールボックスの読み取り権限（<code>Mail.Read.Shared</code>）だけを使い、メールの削除・移動・既読化・送信は行いません。コマンドライン（CLI）には、取得後にメールを削除するモードがあります。DNS 設定も変更しません。</div>
     </div>
 
     <div class="faq">
       <div class="faq-q">Q. 解析対象のデータはクラウドに送信されますか？</div>
-      <div class="faq-a">A. 送信しません。レポート本文、IP アドレス、認証結果、ドメイン情報、分類結果は外部サーバーに送信されません。クラウド解析や外部 AI API にも問合せを行いません。</div>
+      <div class="faq-a">A. 解析結果は PC 内に保存し、外部の AI やクラウドの解析サービスには送りません。Microsoft 365 への接続は、利用者が設定した場合に限ります。</div>
     </div>
 
     <div class="faq">
@@ -158,23 +158,18 @@
     </div>
 
     <div class="faq">
-      <div class="faq-q">Q. 6 分類の判定はどのように行われていますか？</div>
-      <div class="faq-a">A. ルールベースの分類エンジンが、レポート本文とメールヘッダーから判定します。AI 推論や機械学習は使用していません。同一入力に対して常に同一の分類結果を返します。</div>
+      <div class="faq-q">Q. 分類の判定はどのように行われていますか？</div>
+      <div class="faq-a">A. ルールベースの判定が、DMARC の結果、受信側が報告した例外の理由、設定画面に登録した自社 IP・転送サーバーから判定します。AI 推論や機械学習は使用していません。同一入力に対して常に同一の結果を返します。条件は<a href="manual/classification.html">マニュアル第 4 章</a>に掲載しています。</div>
+    </div>
+
+    <div class="faq">
+      <div class="faq-q">Q. 設定画面に登録した自社 IP や転送サーバーは、判定に使われますか？</div>
+      <div class="faq-a">A. 使われます。保存した内容は、次の分析から反映され、アプリの再起動は不要です。メールボックスからの取り込みと CLI も同じ設定を使います。保存済みの記録は、「reject 移行準備」の登録の操作から再判定でき、区分ごとの件数の変化が表示されます。</div>
     </div>
 
     <div class="faq">
       <div class="faq-q">Q. 保存されたデータはどこにありますか？ 削除したい場合は？</div>
-      <div class="faq-a">A. 設定・解析結果は <code>%LocalAppData%\DmarcAnalysisAssistant</code> 配下に保存されます。v1.0.5 以降では、設定画面の「保存済みDMARC解析データを削除」から保存済みDMARC解析結果と処理済みマーカーを削除できます。この操作では、設定情報、同意情報、管理区分メモ、バウンス分析データは削除されません。</div>
-    </div>
-
-    <div class="faq">
-      <div class="faq-q">Q. v1.0.6 では何が変わりましたか？</div>
-      <div class="faq-a">A. 一部の形式の DMARC レポートが正しく読み込めなかった問題と、内容が似ている別々のレコードが 1 件にまとめられて保存されない問題を修正しました。取り込み済みのレポートを再度取り込むと、自動的に最新の内容へ置き換わるようになりました。</div>
-    </div>
-
-    <div class="faq">
-      <div class="faq-q">Q. 認証トークンの扱いは？</div>
-      <div class="faq-a">A. Microsoft 365 の認証トークンはメモリ上にのみ保持し、ディスクには一切書き込みません。アプリを終了するとトークンは破棄されます。</div>
+      <div class="faq-a">A. 設定・解析結果は <code>%LocalAppData%\DmarcAnalysisAssistant</code> 配下に保存されます。設定画面の「保存済みDMARC解析データを削除」から保存済みDMARC解析結果と処理済みマーカーを削除できます。この操作では、設定、同意情報、管理区分メモ、バウンス分析データは削除されません。</div>
     </div>
 
     <div class="faq">
@@ -200,10 +195,10 @@
       <a href="./?lang=en">Product</a>
       <a href="terms-of-use.html?lang=en">Terms of Use &amp; Disclaimer</a>
       <a href="privacy-policy.html?lang=en">Privacy Policy</a>
-      <a href="manual/">Manual</a>
+      <a href="manual/?lang=en">Manual</a>
     </div>
     <h1>Support</h1>
-    <p class="updated">DMARC Analysis Assistant</p>
+    <p class="updated">DMARC Analysis Assistant 1.1.0.0</p>
 
     <div class="contact-box">
       <h3 style="margin-top:0">Contact</h3>
@@ -223,13 +218,18 @@
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq">
+      <div class="faq-q">Q. Where can I see whether this domain can move to p=reject?</div>
+      <div class="faq-a">A. Import your aggregate reports and open "Readiness for reject" in the left menu. It shows a verdict (Ready to move / Conditional (action needed) / Not ready / Not enough information to decide), a pass-rate gauge, recommended actions, and the expected rejections if you move to reject. The band values (75%, 90%, 99%) are operational guidelines with no official basis. See <a href="manual/readiness.html?lang=en">Chapter 3 of the manual</a>.</div>
+    </div>
+
+    <div class="faq">
       <div class="faq-q">Q. Does this tool modify Microsoft 365 settings?</div>
-      <div class="faq-a">A. No. Microsoft 365 connections are read-only with the <code>Mail.Read</code> scope. The tool does not send, delete, or edit mail, and does not change DNS settings.</div>
+      <div class="faq-a">A. No. Fetching from the app screen uses only the read permission for shared mailboxes (<code>Mail.Read.Shared</code>) and never deletes, moves, marks as read, or sends mail. The command-line interface (CLI) has a mode that deletes mail after fetching it. The tool does not change DNS settings.</div>
     </div>
 
     <div class="faq">
       <div class="faq-q">Q. Is analysis data transmitted to the cloud?</div>
-      <div class="faq-a">A. No. Report contents, IP addresses, authentication results, domain information, and classification results are never sent to any external server. No cloud analysis or external AI API is used.</div>
+      <div class="faq-a">A. Analysis results are stored on your PC and are not sent to external AI or cloud analysis services. Microsoft 365 connections are made only when you configure them.</div>
     </div>
 
     <div class="faq">
@@ -238,23 +238,18 @@
     </div>
 
     <div class="faq">
-      <div class="faq-q">Q. How does the six-category classification work?</div>
-      <div class="faq-a">A. A rule-based classification engine analyzes report contents and mail headers. No AI inference or machine learning is used. The same input always produces the same classification result.</div>
+      <div class="faq-q">Q. How does the classification work?</div>
+      <div class="faq-a">A. A rule-based engine uses the DMARC result, the exception reasons reported by receivers, and the own IPs and forwarding servers you registered on the settings screen. No AI inference or machine learning is used. The same input always produces the same result. The conditions are in <a href="manual/classification.html?lang=en">Chapter 4 of the manual</a>.</div>
+    </div>
+
+    <div class="faq">
+      <div class="faq-q">Q. Are the own IPs and forwarding servers I register on the settings screen used?</div>
+      <div class="faq-a">A. Yes. Saved settings apply from the next analysis, and no restart is needed. Mailbox import and the CLI use the same settings. You can re-evaluate saved records with the registration actions in "Readiness for reject", and the change in counts per category is shown.</div>
     </div>
 
     <div class="faq">
       <div class="faq-q">Q. Where is stored data kept, and how can I delete it?</div>
-      <div class="faq-a">A. Settings and analysis results are stored locally under <code>%LocalAppData%\DmarcAnalysisAssistant</code>. In v1.0.5 and later, open Settings and use "Delete stored DMARC analysis data" to clear saved DMARC analysis results and processed markers. This keeps settings, consent information, management notes, and bounce analysis data.</div>
-    </div>
-
-    <div class="faq">
-      <div class="faq-q">Q. What changed in v1.0.6?</div>
-      <div class="faq-a">A. Fixed an issue where some DMARC report formats were not read correctly, and an issue where distinct records with similar content were collapsed into a single saved record. Re-importing an already-imported report now automatically updates it with the latest content.</div>
-    </div>
-
-    <div class="faq">
-      <div class="faq-q">Q. How are authentication tokens handled?</div>
-      <div class="faq-a">A. Microsoft 365 authentication tokens are held in memory only and are never written to disk. They are discarded when the application exits.</div>
+      <div class="faq-a">A. Settings and analysis results are stored locally under <code>%LocalAppData%\DmarcAnalysisAssistant</code>. Open Settings and use "Delete stored DMARC analysis data" to clear saved DMARC analysis results and processed markers. This keeps settings, consent information, management notes, and bounce analysis data.</div>
     </div>
 
     <div class="faq">
