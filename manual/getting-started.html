@@ -36,12 +36,9 @@
       <ul>
         <li><a href="./">0. 概要</a></li>
         <li><a href="getting-started.html"><strong>1. はじめに</strong></a></li>
-        <li class="planned"><a>2. レポート取込（予定）</a></li>
         <li><a href="readiness.html">3. reject 移行準備</a></li>
         <li><a href="classification.html">4. 分類の読み方</a></li>
         <li><a href="sending-servers.html">5. 送信元サーバー</a></li>
-        <li class="planned"><a>6. バウンス分析（予定）</a></li>
-        <li class="planned"><a>7. Microsoft 365 連携（予定）</a></li>
         <li><a href="troubleshooting.html">8. トラブルシューティング</a></li>
       </ul>
     </div>
@@ -50,12 +47,9 @@
       <ul>
         <li><a href="./?lang=en">0. Overview</a></li>
         <li><a href="getting-started.html?lang=en"><strong>1. Getting Started</strong></a></li>
-        <li class="planned"><a>2. Importing reports (planned)</a></li>
         <li><a href="readiness.html?lang=en">3. Readiness for reject</a></li>
         <li><a href="classification.html?lang=en">4. Reading the categories</a></li>
         <li><a href="sending-servers.html?lang=en">5. Sending servers</a></li>
-        <li class="planned"><a>6. Bounce analysis (planned)</a></li>
-        <li class="planned"><a>7. Microsoft 365 integration (planned)</a></li>
         <li><a href="troubleshooting.html?lang=en">8. Troubleshooting</a></li>
       </ul>
     </div>
@@ -118,7 +112,7 @@
         <li>最初の画面で「レポートファイルから確認する」を選ぶか、左のメニューの「DMARC ローカル取込」を開きます。</li>
         <li>「フォルダを選択」で、DMARC レポートが保存されているフォルダを指定します。</li>
         <li>「分析を開始する」を押すと、XML / ZIP / GZ を展開して解析が始まります。</li>
-        <li>完了後、ダッシュボードに集計結果が表示されます。左のメニューの「reject 移行準備」で、判定と次の一手を確認します。</li>
+        <li>完了後、ダッシュボードで集計結果を確認できます。左のメニューの「reject 移行準備」で、判定と次の一手を確認します。</li>
       </ol>
       <p>同じレポートをもう一度取り込むと、保存済みの内容が最新の取り込み結果に置き換わります。</p>
 
@@ -146,7 +140,7 @@
       <ul>
         <li>Imports DMARC aggregate reports (XML, ZIP, or GZ) and shows whether this domain can move to p=reject</li>
         <li>Classifies each record as OK, Spoofing suspected, Authentication failures from your own senders, Possible forwarding, and so on, with a deterministic rule-based engine</li>
-        <li>Shows the status on the dashboard, the Findings list, and the sending-server summary</li>
+        <li>Shows the status on the dashboard, the DMARC Records list, and the sending-server summary</li>
         <li>As a separate feature from DMARC, analyzes bounce messages (imported from Microsoft 365 or a local EML folder)</li>
         <li>Exports technical and executive PDF reports, Excel, and CSV</li>
       </ul>
@@ -184,15 +178,15 @@
 
       <h3>First import</h3>
       <ol>
-        <li>On the first screen choose the option to check from report files, or open "Local DMARC import" in the left menu.</li>
+        <li>On the first screen choose the option to check from report files, or open "DMARC Local Import" in the left menu.</li>
         <li>Select the folder that contains the DMARC reports.</li>
         <li>Start the analysis — XML / ZIP / GZ files are expanded and parsed.</li>
-        <li>When it completes, the results appear on the dashboard. Open "Readiness for reject" in the left menu to see the verdict and the next step.</li>
+        <li>When it completes, you can check the results on the dashboard. Open "Readiness for reject" in the left menu to see the verdict and the next step.</li>
       </ol>
       <p>If you import the same report again, the saved content is replaced with the latest import result.</p>
 
       <h3>What to register on the settings screen</h3>
-      <p>If you register IP address ranges (for example <code>203.0.113.0/24</code>) under "IP addresses of your own mail servers" and "Known forwarding servers" on the settings screen, authentication failures from those IPs are classed as "Authentication failures from your own senders" and "Possible forwarding" respectively. Saved settings apply from the next analysis (<a href="classification.html?lang=en">Chapter 4</a>).</p>
+      <p>If you register IP address ranges (for example <code>203.0.113.0/24</code>) under "Your mail server IP addresses" and "Known forwarding servers" on the settings screen, authentication failures from those IPs are classed as "Authentication failures from your own senders" and "Possible forwarding" respectively. Saved settings apply from the next analysis (<a href="classification.html?lang=en">Chapter 4</a>).</p>
 
       <h3>Importing from a Microsoft 365 shared mailbox (optional)</h3>
       <p>You can also import DMARC reports directly from a Microsoft 365 shared mailbox. This feature is optional; you set the tenant ID and client ID on the settings screen (an app registration in the Azure Portal is required). <strong>Fetching from the app screen uses only the read permission (<code>Mail.Read.Shared</code>) and never deletes, moves, marks as read, or sends mail.</strong> The command-line interface (CLI) has a mode that deletes mail after fetching it; the app screen does not use this mode.</p>

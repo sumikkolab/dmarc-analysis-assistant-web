@@ -36,12 +36,9 @@
       <ul>
         <li><a href="./">0. 概要</a></li>
         <li><a href="getting-started.html">1. はじめに</a></li>
-        <li class="planned"><a>2. レポート取込（予定）</a></li>
         <li><a href="readiness.html"><strong>3. reject 移行準備</strong></a></li>
         <li><a href="classification.html">4. 分類の読み方</a></li>
         <li><a href="sending-servers.html">5. 送信元サーバー</a></li>
-        <li class="planned"><a>6. バウンス分析（予定）</a></li>
-        <li class="planned"><a>7. Microsoft 365 連携（予定）</a></li>
         <li><a href="troubleshooting.html">8. トラブルシューティング</a></li>
       </ul>
     </div>
@@ -50,12 +47,9 @@
       <ul>
         <li><a href="./?lang=en">0. Overview</a></li>
         <li><a href="getting-started.html?lang=en">1. Getting Started</a></li>
-        <li class="planned"><a>2. Importing reports (planned)</a></li>
         <li><a href="readiness.html?lang=en"><strong>3. Readiness for reject</strong></a></li>
         <li><a href="classification.html?lang=en">4. Reading the categories</a></li>
         <li><a href="sending-servers.html?lang=en">5. Sending servers</a></li>
-        <li class="planned"><a>6. Bounce analysis (planned)</a></li>
-        <li class="planned"><a>7. Microsoft 365 integration (planned)</a></li>
         <li><a href="troubleshooting.html?lang=en">8. Troubleshooting</a></li>
       </ul>
     </div>
@@ -146,6 +140,15 @@
       <h3>保存されていない情報があるとき</h3>
       <p>公開ポリシー（p・pct・adkim・aspf）や受信側の判定（disposition・reason）を保存する前に取り込んだレポートがあるときは、「保存されていない情報があります」と表示されます。「DMARC ローカル取込」または Microsoft 365 から再取り込みすると表示されます。</p>
 
+      <h3>用語の説明</h3>
+      <ul>
+        <li><strong>通過率（DMARC 通過率）:</strong> 分析期間のメールのうち、DMARC を通過（pass）したメールの件数の割合です。SPF または DKIM が、ドメインの一致（整合）を伴って pass したメールが、通過として数えられます。画面には、「全体」と「転送経由の可能性を除く」の 2 つが表示されます。</li>
+        <li><strong>整合:</strong> SPF や DKIM で pass したドメインが、メールの From ドメインと一致していることです。このアプリは、整合の判定を relaxed でのみ行います。</li>
+        <li><strong>帯:</strong> 通過率を 75%・90%・99% で区切った 4 つの範囲（75% 未満 / 75% 以上 90% 未満 / 90% 以上 99% 未満 / 99% 以上）です。値は運用目安（公式の根拠なし）です。帯の判定には、転送経由の可能性を除いた通過率を使います（除く対象が無いときは全体の通過率）。</li>
+        <li><strong>判定保留:</strong> DMARC に失敗し、自社メールサーバーにも転送の手掛かりにも当てはまらず、既知の送信サービスとして照合されたメールの分類で、手動での確認が必要なものです（<a href="classification.html">第 4 章</a>）。</li>
+        <li><strong>転送経由の可能性:</strong> DMARC に失敗したメールのうち、登録した転送サーバーからのもの、または受信側が <code>mailing_list</code>・<code>trusted_forwarder</code> と報告したものの分類です。転送やメーリングリストを経由したと推定されるもので、確定ではありません（<a href="classification.html">第 4 章</a>）。</li>
+      </ul>
+
       <div class="note">判定・見込みは、取り込んだレポートに基づく目安です。最終的な判断は利用者の責任で行ってください。</div>
 
       <h3>次にやること</h3>
@@ -214,7 +217,7 @@
         <li>Possible spoofing</li>
         <li>Possible forwarding</li>
       </ul>
-      <p>The outlook is shown as a range. The minimum is "only suspected spoofing is rejected"; the maximum is "all messages that fail DMARC are rejected". The screen also lists what to check to narrow the range (resolving authentication failures from your own senders, reviewing the senders pending review, registering legitimate forwarding servers). Whether a receiver actually rejects them is up to the receiver. When data is limited, the screen says the count cannot be determined.</p>
+      <p>The outlook is shown as a range. The minimum is "only possible spoofing is rejected"; the maximum is "all messages that fail DMARC are rejected". The screen also lists what to check to narrow the range (resolving authentication failures from your own senders, reviewing the senders pending review, registering legitimate forwarding servers). Whether a receiver actually rejects them is up to the receiver. When data is limited, the screen says the count cannot be determined.</p>
 
       <h3>Impact of forwarding</h3>
       <p>Forwarding and mailing lists can break SPF and cause DMARC to fail. The screen shows the pass rate two ways, "All messages" and "Excluding possible forwarding", and shows how many messages were excluded. The "all messages" value is calculated without excluding anything.</p>
@@ -232,7 +235,16 @@
       <p>Mail whose DKIM signature is valid and which passes DMARC, but whose sender is not registered, is not labeled "spoofing suspected" or "replay suspected". It is shown neutrally as "Unregistered senders (valid signature)". If a sender is legitimate, you can register it with "Register as a legitimate sender". A day on which the count for the same DKIM selector spikes is shown separately as a surge (an operational guideline).</p>
 
       <h3>When some information is not stored</h3>
-      <p>If a report was imported before the published policy (p, pct, adkim, aspf) or the receiver's decision (disposition, reason) was stored, the screen shows "Some information is not stored". Re-import from "Local DMARC import" or from Microsoft 365 to see it.</p>
+      <p>If a report was imported before the published policy (p, pct, adkim, aspf) or the receiver's decision (disposition, reason) was stored, the screen shows "Some information is not stored". Re-import from "DMARC Local Import" or from Microsoft 365 to see it.</p>
+
+      <h3>Glossary</h3>
+      <ul>
+        <li><strong>Pass rate (DMARC pass rate):</strong> The share of messages in the analysis period that passed DMARC. A message counts as passed when SPF or DKIM passed with domain alignment. The screen shows two values, "All messages" and "Excluding possible forwarding".</li>
+        <li><strong>Alignment:</strong> The domain that passed SPF or DKIM matches the From domain of the message. This app evaluates alignment in relaxed mode only.</li>
+        <li><strong>Band:</strong> One of four ranges of the pass rate, split at 75%, 90%, and 99% (under 75% / 75% to under 90% / 90% to under 99% / 99% or higher). The values are operational guidelines (no official basis). The band is decided with the pass rate excluding possible forwarding (or the overall pass rate when there is nothing to exclude).</li>
+        <li><strong>Pending review:</strong> A category for mail that fails DMARC, matches neither your own mail servers nor any sign of forwarding, and was matched as a known sending service; it needs manual checking (<a href="classification.html?lang=en">Chapter 4</a>).</li>
+        <li><strong>Possible forwarding:</strong> A category for mail that fails DMARC and comes from a registered forwarding server, or for which the receiver reported <code>mailing_list</code> or <code>trusted_forwarder</code>. It is presumed to have passed through forwarding or a mailing list, which is not certain (<a href="classification.html?lang=en">Chapter 4</a>).</li>
+      </ul>
 
       <div class="note">The verdict and the outlook are guides based on the reports you imported. The final judgment rests with you.</div>
 

@@ -36,12 +36,9 @@
       <ul>
         <li><a href="./"><strong>0. 概要</strong></a></li>
         <li><a href="getting-started.html">1. はじめに</a></li>
-        <li class="planned"><a>2. レポート取込（予定）</a></li>
         <li><a href="readiness.html">3. reject 移行準備</a></li>
         <li><a href="classification.html">4. 分類の読み方</a></li>
         <li><a href="sending-servers.html">5. 送信元サーバー</a></li>
-        <li class="planned"><a>6. バウンス分析（予定）</a></li>
-        <li class="planned"><a>7. Microsoft 365 連携（予定）</a></li>
         <li><a href="troubleshooting.html">8. トラブルシューティング</a></li>
       </ul>
     </div>
@@ -50,12 +47,9 @@
       <ul>
         <li><a href="./?lang=en"><strong>0. Overview</strong></a></li>
         <li><a href="getting-started.html?lang=en">1. Getting Started</a></li>
-        <li class="planned"><a>2. Importing reports (planned)</a></li>
         <li><a href="readiness.html?lang=en">3. Readiness for reject</a></li>
         <li><a href="classification.html?lang=en">4. Reading the categories</a></li>
         <li><a href="sending-servers.html?lang=en">5. Sending servers</a></li>
-        <li class="planned"><a>6. Bounce analysis (planned)</a></li>
-        <li class="planned"><a>7. Microsoft 365 integration (planned)</a></li>
         <li><a href="troubleshooting.html?lang=en">8. Troubleshooting</a></li>
       </ul>
     </div>
@@ -93,7 +87,7 @@
 
       <h3>マニュアルの範囲</h3>
       <div class="note">
-        1.1.0.0 では上記目次の <strong>0 / 1 / 3 / 4 / 5 / 8 章</strong>を公開しています。「予定」と表示された章は、画面確定に合わせて順次公開します。当面はアプリ内の説明と、製品トップページの機能説明もあわせてご参照ください。
+        1.1.0.0 では上記目次の <strong>0 / 1 / 3 / 4 / 5 / 8 章</strong>を公開しています。そのほかの内容は、アプリ内の説明と、製品トップページの機能説明をご参照ください。
       </div>
 
       <h3>関連リンク</h3>
@@ -116,7 +110,7 @@
         <li>Import your aggregate reports (<a href="getting-started.html?lang=en">Chapter 1</a>).</li>
         <li>Open "Readiness for reject" in the left menu. The top of the screen shows the verdict (Ready to move / Conditional (action needed) / Not ready / Not enough information to decide), the pass-rate gauge, and recommended actions.</li>
         <li>Check the next step for your verdict (<a href="readiness.html?lang=en">Chapter 3</a>). For "Not enough information to decide", keep importing; for "Not ready", resolve the causes of the failures; for "Conditional", run with quarantine while resolving the remaining points; for "Ready to move", consider changing to reject.</li>
-        <li>Tell the causes apart in the breakdown under "Impact of moving to reject" (authentication failures from your own senders, pending review, spoofing suspected, possible forwarding). If forwarding is the cause, compare the pass rate "All messages" with "Excluding possible forwarding", and register legitimate forwarding servers.</li>
+        <li>Tell the causes apart in the breakdown under "Impact of moving to reject" (authentication failures from your own senders, pending review, possible spoofing, possible forwarding). If forwarding is the cause, compare the pass rate "All messages" with "Excluding possible forwarding", and register legitimate forwarding servers.</li>
       </ol>
       <div class="warn">The band values (75%, 90%, 99%) are operational guidelines (no official basis). Whether a receiver actually rejects mail is up to the receiver.</div>
 
@@ -125,13 +119,13 @@
         <li><strong>Consent</strong> — Review the Terms of Use &amp; Disclaimer on first launch and accept</li>
         <li><strong>Import</strong> — Load DMARC reports (XML / ZIP / GZ) from a folder or from a Microsoft 365 shared mailbox</li>
         <li><strong>Classify</strong> — Each record is classed as OK, Spoofing suspected, Authentication failures from your own senders, Possible forwarding, and so on (<a href="classification.html?lang=en">Chapter 4</a>)</li>
-        <li><strong>Review</strong> — Use "Readiness for reject", the dashboard, the Findings list, and the sending-server summary</li>
+        <li><strong>Review</strong> — Use "Readiness for reject", the dashboard, the DMARC Records list, and the sending-server summary</li>
         <li><strong>Export</strong> — Technical and executive PDF reports, Excel, and CSV</li>
       </ol>
 
       <h3>Scope of this manual</h3>
       <div class="note">
-        In 1.1.0.0, chapters <strong>0 / 1 / 3 / 4 / 5 / 8</strong> are published. Chapters marked "planned" will be added as the screens are finalized. For now, please also consult the in-app descriptions and the feature overview on the product top page.
+        In 1.1.0.0, chapters <strong>0 / 1 / 3 / 4 / 5 / 8</strong> are published. For anything else, please consult the in-app descriptions and the feature overview on the product top page.
       </div>
 
       <h3>Related links</h3>

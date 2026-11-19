@@ -19,7 +19,7 @@ Open "Readiness for reject" in the left menu after importing reports.
 - **Verdict (four values):** Ready to move / Conditional (action needed) / Not ready / Not enough information to decide
 - **Pass-rate gauge:** marks at 75%, 90%, and 99%. **These band values are operational guidelines (no official basis).**
 - **Recommended actions:** the next step consistent with the verdict. The screen recommends changing to reject only when the verdict is "Ready to move".
-- **Expected rejections if you move to reject:** broken down into authentication failures from your own senders, pending review, spoofing suspected, and possible forwarding, as a range from the minimum (only suspected spoofing) to the maximum (all messages that fail DMARC).
+- **Expected rejections if you move to reject:** broken down into authentication failures from your own senders, pending review, possible spoofing, and possible forwarding, as a range from the minimum (possible spoofing only) to the maximum (all messages that fail DMARC).
 - **Basis for the decision:** official items (RFC 9989 / RFC 9990, Microsoft and Google documents, with sources) are separated from operational guidelines.
 - **Impact of forwarding:** the pass rate for all messages and excluding possible forwarding, with the number of excluded messages. Failing forwarding sources can be registered as forwarding servers.
 
@@ -38,7 +38,7 @@ Each record is classified by a deterministic rule-based engine, using the DMARC 
 ## Key features
 
 - Reads DMARC aggregate reports (XML / ZIP / GZ) from a folder or a Microsoft 365 shared mailbox
-- Dashboard, Findings list, and a summary by sending server and by domain
+- Dashboard, DMARC Records list, and a summary by sending server and by domain
 - Bounce message analysis (Microsoft 365 or a local EML folder), separate from DMARC classification
 - Technical and executive PDF reports, Excel, and CSV export
 - Management tags (Managed / Monitored / External) per domain; they do not affect classification or totals

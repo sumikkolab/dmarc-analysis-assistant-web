@@ -36,12 +36,9 @@
       <ul>
         <li><a href="./">0. 概要</a></li>
         <li><a href="getting-started.html">1. はじめに</a></li>
-        <li class="planned"><a>2. レポート取込（予定）</a></li>
         <li><a href="readiness.html">3. reject 移行準備</a></li>
         <li><a href="classification.html">4. 分類の読み方</a></li>
         <li><a href="sending-servers.html">5. 送信元サーバー</a></li>
-        <li class="planned"><a>6. バウンス分析（予定）</a></li>
-        <li class="planned"><a>7. Microsoft 365 連携（予定）</a></li>
         <li><a href="troubleshooting.html"><strong>8. トラブルシューティング</strong></a></li>
       </ul>
     </div>
@@ -50,12 +47,9 @@
       <ul>
         <li><a href="./?lang=en">0. Overview</a></li>
         <li><a href="getting-started.html?lang=en">1. Getting Started</a></li>
-        <li class="planned"><a>2. Importing reports (planned)</a></li>
         <li><a href="readiness.html?lang=en">3. Readiness for reject</a></li>
         <li><a href="classification.html?lang=en">4. Reading the categories</a></li>
         <li><a href="sending-servers.html?lang=en">5. Sending servers</a></li>
-        <li class="planned"><a>6. Bounce analysis (planned)</a></li>
-        <li class="planned"><a>7. Microsoft 365 integration (planned)</a></li>
         <li><a href="troubleshooting.html?lang=en"><strong>8. Troubleshooting</strong></a></li>
       </ul>
     </div>
@@ -92,7 +86,7 @@
 
       <h4>設定画面に登録した自社 IP・転送サーバーが判定に反映されない</h4>
       <ul>
-        <li><strong>原因候補:</strong> 登録を保存した後に、新しく分析していない。保存済みの記録が、登録する前の判定のまま残っている。</li>
+        <li><strong>原因候補:</strong> 登録を保存した後に、新しく分析していない。保存済みの記録が、登録する前の判定のまま残っている。IP アドレス範囲を、設定画面のヒントと同じ形式（例: <code>203.0.113.0/24</code>）で入力していない（「/」のない単独の IP アドレスは、判定で無視されます。1 台だけを登録するときは <code>203.0.113.10/32</code> のように書きます）。</li>
         <li><strong>対処:</strong> 保存した内容は、次の分析から反映されます（アプリの再起動は不要）。保存済みの記録は、「reject 移行準備」の「転送サーバーとして登録」「正当な送信元として登録」の操作で再判定でき、区分ごとの件数の変化が表示されます。「設定ファイルを使用できないため、再判定を中止しました」と表示された場合は、保存済みの記録は変更されていません。設定ファイルの形式を修正して、もう一度お試しください。</li>
       </ul>
 
@@ -158,14 +152,14 @@
       <h4>"No analyzable report files were found"</h4>
       <ul>
         <li><strong>Likely cause:</strong> The folder contains no DMARC aggregate reports (XML / ZIP / GZ), the wrong files were selected, or a file is corrupted.</li>
-        <li><strong>Fix:</strong> Save ZIP / GZ attachments into the folder and retry. A report that cannot be read is not analyzed and does not appear in the Findings list. If the report count in the import result is lower than expected, move the offending file aside and retry.</li>
+        <li><strong>Fix:</strong> Save ZIP / GZ attachments into the folder and retry. A report that cannot be read is not analyzed and does not appear in the DMARC Records list. If the report count in the import result is lower than expected, move the offending file aside and retry.</li>
       </ul>
 
       <h3>Classification and readiness for reject</h3>
 
       <h4>Own IPs or forwarding servers registered on the settings screen are not reflected</h4>
       <ul>
-        <li><strong>Likely cause:</strong> No new analysis has run since you saved the registration, or saved records still carry the classification from before you registered.</li>
+        <li><strong>Likely cause:</strong> No new analysis has run since you saved the registration, or saved records still carry the classification from before you registered. The IP address range may also not be in the format shown in the settings screen hint (for example <code>203.0.113.0/24</code>): a single IP address without "/" is ignored in classification (to register one host, write it like <code>203.0.113.10/32</code>).</li>
         <li><strong>Fix:</strong> Saved settings apply from the next analysis (no restart needed). You can re-evaluate saved records with "Register as a forwarding server" or "Register as a legitimate sender" in "Readiness for reject"; the change in counts per category is shown. If the screen says the re-evaluation was stopped because the settings file cannot be used, saved records were left unchanged. Fix the settings file format and try again.</li>
       </ul>
 
@@ -178,7 +172,7 @@
       <h4>"Some information is not stored" appears</h4>
       <ul>
         <li><strong>Likely cause:</strong> A report was imported before the published policy (p, pct, adkim, aspf) or the receiver's decision (disposition, reason) was stored.</li>
-        <li><strong>Fix:</strong> Re-import the reports from "Local DMARC import" or from Microsoft 365.</li>
+        <li><strong>Fix:</strong> Re-import the reports from "DMARC Local Import" or from Microsoft 365.</li>
       </ul>
 
       <h3>Microsoft 365 integration</h3>

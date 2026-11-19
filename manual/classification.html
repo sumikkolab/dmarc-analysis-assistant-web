@@ -36,12 +36,9 @@
       <ul>
         <li><a href="./">0. 概要</a></li>
         <li><a href="getting-started.html">1. はじめに</a></li>
-        <li class="planned"><a>2. レポート取込（予定）</a></li>
         <li><a href="readiness.html">3. reject 移行準備</a></li>
         <li><a href="classification.html"><strong>4. 分類の読み方</strong></a></li>
         <li><a href="sending-servers.html">5. 送信元サーバー</a></li>
-        <li class="planned"><a>6. バウンス分析（予定）</a></li>
-        <li class="planned"><a>7. Microsoft 365 連携（予定）</a></li>
         <li><a href="troubleshooting.html">8. トラブルシューティング</a></li>
       </ul>
     </div>
@@ -50,12 +47,9 @@
       <ul>
         <li><a href="./?lang=en">0. Overview</a></li>
         <li><a href="getting-started.html?lang=en">1. Getting Started</a></li>
-        <li class="planned"><a>2. Importing reports (planned)</a></li>
         <li><a href="readiness.html?lang=en">3. Readiness for reject</a></li>
         <li><a href="classification.html?lang=en"><strong>4. Reading the categories</strong></a></li>
         <li><a href="sending-servers.html?lang=en">5. Sending servers</a></li>
-        <li class="planned"><a>6. Bounce analysis (planned)</a></li>
-        <li class="planned"><a>7. Microsoft 365 integration (planned)</a></li>
         <li><a href="troubleshooting.html?lang=en">8. Troubleshooting</a></li>
       </ul>
     </div>
@@ -78,7 +72,7 @@
         <li>レポートに記録された、受信側の例外の理由（転送 <code>trusted_forwarder</code> / メーリングリスト <code>mailing_list</code>）</li>
         <li>設定画面に登録した、自社メールサーバーの IP 範囲と、転送サーバーの IP 範囲との照合（初期状態では何も登録されていません）</li>
       </ul>
-      <p>登録した内容は、保存した後の次の分析から判定に使われ、アプリの再起動は不要です。Microsoft 365 の共有メールボックスからの取り込みと、コマンドライン（CLI）も、同じ設定を使います。保存済みの記録は、登録の操作から再判定でき、区分ごとの件数の変化が表示されます。</p>
+      <p>登録した内容は、保存した後の次の分析から判定に使われ、アプリの再起動は不要です。Microsoft 365 の共有メールボックスからの取り込みと、コマンドライン（CLI）も、同じ設定を使います。設定画面に登録した内容を保存しても、保存済みの記録は再判定されません。保存済みの記録は、「reject 移行準備」の登録の操作（「転送サーバーとして登録」など）または CLI の <code>reclassify</code> で再判定でき、登録の操作では区分ごとの件数の変化が表示されます。</p>
 
       <h3>分類の判定条件</h3>
       <p>判定は上の行から順に行い、最初に当てはまった分類で確定します。</p>
@@ -101,7 +95,7 @@
           </tr>
           <tr>
             <td><span class="label-dot dot-red"></span><strong>なりすまし疑い</strong></td>
-            <td>DMARC が fail し、自社メールサーバーにも転送の手掛かりにも当てはまらない。</td>
+            <td>DMARC が fail し、自社メールサーバーにも転送の手掛かりにも当てはまらない。既知の送信サービスとして照合されたものは除く（「判定保留」になる）。</td>
           </tr>
           <tr>
             <td><span class="label-dot dot-gray"></span><strong>判定保留</strong></td>
@@ -137,7 +131,7 @@
 
       <h3>判定が直感と違うとき</h3>
       <ul>
-        <li><strong>自社から送ったメールが「なりすまし疑い」になる:</strong> 送信元 IP が、設定画面の「自社メールサーバーの IP アドレス」に登録されていない可能性があります。送信元 IP が自社のサーバーのものか、サーバー管理者に確認し、自社のものなら登録します。登録すると、その IP からの認証失敗は「自社送信元の認証失敗」に分類され、保存済みの記録も再判定されます。あわせて、SPF レコードへの送信元 IP の追加、または DKIM 署名の有効化で、認証の失敗そのものを解消します。</li>
+        <li><strong>自社から送ったメールが「なりすまし疑い」になる:</strong> 送信元 IP が、設定画面の「自社メールサーバーの IP アドレス」に登録されていない可能性があります。送信元 IP が自社のサーバーのものか、サーバー管理者に確認し、自社のものなら登録します。登録すると、次の分析から、その IP からの認証失敗は「自社送信元の認証失敗」に分類されます。設定画面に登録しただけでは、保存済みの記録は再判定されません。保存済みの記録を再判定するには、「reject 移行準備」の登録の操作（または CLI の <code>reclassify</code>）を使います。あわせて、SPF レコードへの送信元 IP の追加、または DKIM 署名の有効化で、認証の失敗そのものを解消します。</li>
         <li><strong>転送のはずが「なりすまし疑い」になる:</strong> 転送サーバーの IP 範囲が登録されておらず、受信側も <code>trusted_forwarder</code> / <code>mailing_list</code> と報告していないと、転送経由の可能性にはなりません。正当な転送サーバーなら、設定画面または「reject 移行準備」の「転送サーバーとして登録」で登録します。</li>
         <li><strong>一覧で見比べたいとき:</strong> レコード一覧と送信元サーバー一覧を CSV に出力し、Excel などで送信元 IP や認証結果を確認できます。</li>
       </ul>
@@ -161,7 +155,7 @@
         <li>The exception reasons the receiver recorded in the report (forwarding <code>trusted_forwarder</code> / mailing list <code>mailing_list</code>)</li>
         <li>A match against the IP ranges of your own mail servers and of forwarding servers that you registered on the settings screen (nothing is registered by default)</li>
       </ul>
-      <p>What you register is used from the next analysis after you save it, and no restart is needed. Importing from a Microsoft 365 shared mailbox and the command-line interface (CLI) use the same settings. You can re-evaluate saved records from the registration action, and the change in counts per category is shown.</p>
+      <p>What you register is used from the next analysis after you save it, and no restart is needed. Importing from a Microsoft 365 shared mailbox and the command-line interface (CLI) use the same settings. Saving what you register on the settings screen does not re-evaluate saved records. You can re-evaluate saved records with a registration action in "Readiness for reject" (such as "Register as a forwarding server") or with the CLI <code>reclassify</code> command; the registration action shows the change in counts per category.</p>
 
       <h3>Conditions for each category</h3>
       <p>The rows are evaluated from top to bottom, and the first match decides the category.</p>
@@ -184,7 +178,7 @@
           </tr>
           <tr>
             <td><span class="label-dot dot-red"></span><strong>Spoofing suspected</strong></td>
-            <td>Fails DMARC and matches neither your own mail servers nor any sign of forwarding.</td>
+            <td>Fails DMARC and matches neither your own mail servers nor any sign of forwarding. Mail matched as a known sending service is excluded (it is classed as "Pending review").</td>
           </tr>
           <tr>
             <td><span class="label-dot dot-gray"></span><strong>Pending review</strong></td>
@@ -192,11 +186,11 @@
           </tr>
         </tbody>
       </table>
-      <p>A report that cannot be read is not analyzed and does not appear in the Findings list. A category name for read errors exists, but the import process does not assign it.</p>
-      <p>In the Findings list and in the related records of the sending server details, the "Spoofing suspected" badge reads "Suspicious" and the "Possible forwarding" badge reads "Forwarded (OK)". However, "Readiness for reject" includes possibly forwarded mail in the count that would be rejected if you move to reject (see <a href="readiness.html?lang=en">Chapter 3</a>).</p>
+      <p>A report that cannot be read is not analyzed and does not appear in the DMARC Records list. A category name for read errors exists, but the import process does not assign it.</p>
+      <p>In the DMARC Records list and in the related records of the sending server details, the "Spoofing suspected" badge reads "Suspicious" and the "Possible forwarding" badge reads "Forwarded (OK)". However, "Readiness for reject" includes possibly forwarded mail in the count that would be rejected if you move to reject (see <a href="readiness.html?lang=en">Chapter 3</a>).</p>
 
       <h3>What the detail screen shows</h3>
-      <p>Select "Detail" on a record in the Findings list to see:</p>
+      <p>Select "Detail" on a record in the DMARC Records list to see:</p>
       <ul>
         <li><strong>Conclusion</strong>, <strong>What is happening</strong>, and <strong>Why it is happening</strong></li>
         <li><strong>What to do</strong>, who should do it, why the action is needed, and cautions</li>
@@ -220,7 +214,7 @@
 
       <h3>When the result feels wrong</h3>
       <ul>
-        <li><strong>Your own mail is marked "Spoofing suspected":</strong> The source IP may not be registered under "IP addresses of your own mail servers" on the settings screen. Ask your server administrator whether the source IP belongs to one of your servers, and register it if it does. After you register it, failures from that IP are classed as "Authentication failures from your own senders" and saved records are re-evaluated. Also fix the failure itself by adding the IP to your SPF record or enabling DKIM signing.</li>
+        <li><strong>Your own mail is marked "Spoofing suspected":</strong> The source IP may not be registered under "Your mail server IP addresses" on the settings screen. Ask your server administrator whether the source IP belongs to one of your servers, and register it if it does. After you register it, failures from that IP are classed as "Authentication failures from your own senders" from the next analysis. Registering on the settings screen alone does not re-evaluate saved records; to re-evaluate them, use a registration action in "Readiness for reject" (or the CLI <code>reclassify</code> command). Also fix the failure itself by adding the IP to your SPF record or enabling DKIM signing.</li>
         <li><strong>Forwarded mail is marked "Spoofing suspected":</strong> If the forwarding server's IP range is not registered and the receiver did not report <code>trusted_forwarder</code> / <code>mailing_list</code>, the entry is not classed as possible forwarding. If it is a legitimate forwarding server, register it on the settings screen or with "Register as a forwarding server" in "Readiness for reject".</li>
         <li><strong>When you want to compare entries side by side:</strong> Export the record list and the sending server list as CSV and check source IPs and authentication results in Excel or a similar tool.</li>
       </ul>
