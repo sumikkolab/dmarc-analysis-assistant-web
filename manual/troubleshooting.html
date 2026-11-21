@@ -117,11 +117,11 @@
       <ul>
         <li>「データベースが読み取り専用のため、保存できません」</li>
         <li>「データベースのファイルが SQLite の形式ではありません。ファイルは変更していません」</li>
-        <li>「データベースが他のプロセスに使用されています。使用を終えてから、もう一度実行してください」</li>
-        <li>「データベースの構造が合っていません（列が足りません）。アプリを再起動して、データベースを更新してください」</li>
+        <li>「データベースが他のプロセスに使用されています。そのプロセスを終了してから、もう一度実行してください」</li>
+        <li>「データベースの構造が合っていません（列が足りません）。アプリを再起動すると、データベースが更新されます」</li>
         <li>「データベースを開けないか、保存できません。保存先を確認してください」</li>
       </ul>
-      <p>各文に、次の操作が書かれています。文の指示に従ってください。</p>
+      <p>文に操作が書かれている場合は、その操作に従ってください。「データベースの構造が合っていません」と表示された場合は、操作は不要です。アプリを再起動すると、データベースが更新されます。</p>
 
       <h4>「設定ファイルに警告があります」と表示される</h4>
       <ul>
@@ -233,7 +233,7 @@
 
       <h3>Report import issues</h3>
 
-      <h4>"No analyzable report files were found"</h4>
+      <h4>"No analyzable report files found"</h4>
       <ul>
         <li><strong>Likely cause:</strong> The folder contains no DMARC aggregate reports (XML / ZIP / GZ), or the wrong files were selected. Folders you do not have permission to read, and subfolders nested more than 16 levels deep, are skipped.</li>
         <li><strong>Fix:</strong> Save ZIP / GZ attachments into the folder and retry. If a file is corrupted, you see "{N} item(s) could not be imported" (below) instead of this message.</li>
@@ -278,7 +278,7 @@
         <li>"The structure of the database does not match (columns are missing). Restart the app to update the database"</li>
         <li>"The database cannot be opened or saved. Check the location"</li>
       </ul>
-      <p>Each text states the next step. Follow it.</p>
+      <p>If a text names an action, follow it. For "The structure of the database does not match", no other action is needed: the database updates when you restart the app.</p>
 
       <h4>"The configuration file has a warning"</h4>
       <ul>
