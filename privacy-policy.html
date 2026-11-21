@@ -65,7 +65,7 @@
     <h3>プライバシー通知（アプリ内表示に対応する内容）</h3>
     <ol>
       <li>解析対象のレポートデータと設定情報は、ローカル端末に保存します。バウンスメール本文を含め、これらを外部の AI やクラウドの解析サービスへ送信することはありません。</li>
-      <li>Microsoft 365 への接続は、利用者が設定画面で明示的に設定した場合に限り行われます。画面からの取得で使用する権限は、共有メールボックスの読み取り権限（Mail.Read.Shared）のみで、メールの削除・移動・既読化・送信は行いません。コマンドライン（CLI）には、取得後にメールを削除するモードがあります。</li>
+      <li>Microsoft 365 への接続は、利用者が設定画面で明示的に設定した場合に限り行われます。画面からの取得で使用する権限は、共有メールボックスの読み取り権限（Mail.Read.Shared）のみで、メールの削除・移動・既読化・送信は行いません。</li>
       <li>Microsoft 365 の認証トークンはメモリ上に一時保持されるのみで、ディスクへの永続化は行いません。アプリを終了すると破棄されます。</li>
       <li>分類結果、IP アドレス、認証結果、ドメイン情報などを外部サービスへ送信することはありません。クラウド解析や外部 AI API への問合せも行いません。</li>
       <li>利用状況のテレメトリ、クラッシュレポート、使用履歴の自動送信・収集は行いません。</li>
@@ -90,7 +90,6 @@
     <ul>
       <li>画面からの取得で使用する権限: <code>Mail.Read.Shared</code>（読み取り）</li>
       <li>画面からの取得では、メールの削除・移動・既読化・送信は行いません。</li>
-      <li>コマンドライン（CLI）には、取得後にメールを削除するモードがあります（別の権限 <code>Mail.ReadWrite.Shared</code> を使用します）。</li>
       <li>認証トークンはメモリ上にのみ保持され、ディスクには保存されません。アプリを終了すると破棄されます。</li>
     </ul>
 
@@ -135,7 +134,7 @@
     <h3>Privacy Notice (corresponding to the in-app text)</h3>
     <ol>
       <li>Report data and configuration information are stored on the user's device. They, including bounce message contents, are never sent to external AI or cloud analysis services.</li>
-      <li>Microsoft 365 connections are made only when explicitly configured by the user on the settings page. The permission used for fetching from the app screen is limited to the read permission for shared mailboxes (Mail.Read.Shared), and the app screen does not delete, move, mark as read, or send mail. The command-line interface (CLI) has a mode that deletes mail after fetching it.</li>
+      <li>Microsoft 365 connections are made only when explicitly configured by the user on the settings page. The permission used for fetching from the app screen is limited to the read permission for shared mailboxes (Mail.Read.Shared), and the app screen does not delete, move, mark as read, or send mail.</li>
       <li>Microsoft 365 authentication tokens are held in memory only and are never persisted to disk. They are discarded when the application exits.</li>
       <li>Classification results, IP addresses, authentication results, and domain information are not sent to any external service. No queries are made to cloud analysis platforms or external AI APIs.</li>
       <li>Telemetry, crash reports, and usage history are not collected or transmitted automatically.</li>
@@ -160,7 +159,6 @@
     <ul>
       <li>Permission used for fetching from the app screen: <code>Mail.Read.Shared</code> (read)</li>
       <li>Fetching from the app screen does not delete, move, mark as read, or send mail.</li>
-      <li>The command-line interface (CLI) has a mode that deletes mail after fetching it (it uses a different permission, <code>Mail.ReadWrite.Shared</code>).</li>
       <li>Authentication tokens are held in memory only and are never persisted to disk. They are discarded on application exit.</li>
     </ul>
 

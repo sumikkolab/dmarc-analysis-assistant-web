@@ -4,7 +4,7 @@
 
 [日本語版 README](README_ja.md)
 
-This README is for version 1.1.0.0. The reject readiness screen and the forwarding impact view are features of 1.1.0.0 and later.
+This README is for version 1.1.1.0. The reject readiness screen and the forwarding impact view are features of 1.1.0.0 and later.
 
 ## What is this tool?
 
@@ -48,8 +48,7 @@ Each record is classified by a deterministic rule-based engine, using the DMARC 
 
 - Analysis results are stored on your PC and are not sent to external AI or cloud analysis services
 - Microsoft 365 connections are made only when you configure them
-- Fetching from the app screen uses only the read permission `Mail.Read.Shared` and never deletes, moves, marks as read, or sends mail. The command-line interface (CLI) has a mode that deletes mail after fetching it
-- Authentication tokens are held in memory only and are never persisted to disk
+- Fetching from the app screen uses only the read permission `Mail.Read.Shared` and never deletes, moves, marks as read, or sends mail.- Authentication tokens are held in memory only and are never persisted to disk
 - Telemetry, crash reports, and usage history are **not collected**
 - Stored data lives under `%LocalAppData%\DmarcAnalysisAssistant` and can be deleted by the user
 - Consent required on first launch; re-consent on terms update

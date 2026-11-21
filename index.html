@@ -40,14 +40,14 @@
       "@id": "https://dmarc-analysis.sumikkolab.com/#software",
       "name": "DMARC Analysis Assistant",
       "alternateName": "DMARC 分析支援ツール",
-      "softwareVersion": "1.1.0.0",
+      "softwareVersion": "1.1.1.0",
       "applicationCategory": "SecurityApplication",
       "applicationSubCategory": "Email Security",
       "operatingSystem": "Windows 10, Windows 11",
       "url": "https://dmarc-analysis.sumikkolab.com/",
       "downloadUrl": "https://apps.microsoft.com/detail/9MW671KFZL9B",
       "installUrl": "https://apps.microsoft.com/detail/9MW671KFZL9B",
-      "description": "Helps you decide whether a domain can move its DMARC policy to p=reject, and if not, what is causing the failures and what to do. From DMARC aggregate reports (XML / ZIP / GZ), the app shows a verdict (Ready to move / Conditional / Not ready / Not enough information to decide), a pass-rate gauge, recommended actions, the expected rejections by category (authentication failures from your own senders, pending review, possible spoofing, possible forwarding), and the impact of forwarding. Pass-rate bands (75 / 90 / 99%) are operational guidelines with no official basis. Analysis results are stored on the PC and are not sent to external AI or cloud analysis services. Fetching from the app screen uses only the read permission Mail.Read.Shared for Microsoft 365 shared mailboxes and never deletes, moves, marks as read, or sends mail; the command-line interface has a delete mode. Bounce message analysis is available as a separate feature.",
+      "description": "Helps you decide whether a domain can move its DMARC policy to p=reject, and if not, what is causing the failures and what to do. From DMARC aggregate reports (XML / ZIP / GZ), the app shows a verdict (Ready to move / Conditional / Not ready / Not enough information to decide), a pass-rate gauge, recommended actions, the expected rejections by category (authentication failures from your own senders, pending review, possible spoofing, possible forwarding), and the impact of forwarding. Pass-rate bands (75 / 90 / 99%) are operational guidelines with no official basis. Analysis results are stored on the PC and are not sent to external AI or cloud analysis services. Fetching from the app screen uses only the read permission Mail.Read.Shared for Microsoft 365 shared mailboxes and never deletes, moves, marks as read, or sends mail. Bounce message analysis is available as a separate feature.",
       "inLanguage": ["ja", "en"],
       "dateModified": "2026-11-19",
       "featureList": [
@@ -198,7 +198,7 @@
   <!-- ===== Japanese Content ===== -->
   <div class="section-ja visible">
 
-    <p class="version-note">このページは 1.1.0.0 向けです。reject 移行準備・転送の影響は 1.1.0.0 以降の機能です。</p>
+    <p class="version-note">このページは 1.1.1.0 向けです。reject 移行準備・転送の影響は 1.1.0.0 以降の機能です。</p>
 
     <div class="at-a-glance">
       <h2>このツールを一言で</h2>
@@ -322,7 +322,7 @@
 
     <div class="privacy-note">
       <p><strong>プライバシー:</strong> 解析結果は PC 内に保存し、外部の AI やクラウドの解析サービスには送りません。Microsoft 365 への接続は、利用者が設定した場合に限ります。</p>
-      <p><strong>Microsoft 365 の権限:</strong> 画面からの取得では、共有メールボックスの読み取り権限（Mail.Read.Shared）だけを使い、メールの削除・移動・既読化・送信は行いません。コマンドライン（CLI）には、取得後にメールを削除するモードがあります。</p>
+      <p><strong>Microsoft 365 の権限:</strong> 画面からの取得では、共有メールボックスの読み取り権限（Mail.Read.Shared）だけを使い、メールの削除・移動・既読化・送信は行いません。</p>
     </div>
 
     <h2>動作環境</h2>
@@ -338,14 +338,14 @@
     <table class="sysreq" style="width:100%;border-collapse:collapse">
       <tr style="border-bottom:1px solid #e2e8f0"><td><strong>Mail.Read.Shared</strong></td><td>共有メールボックスの DMARC レポート / バウンスメールの読み取り（画面からの取得）</td></tr>
     </table>
-    <p style="font-size:0.82rem;color:#64748b;margin-top:8px">画面からの取得は、メールの削除・移動・既読化・送信を行いません。CLI の削除モードは、別の権限（Mail.ReadWrite.Shared）を使います。</p>
+    <p style="font-size:0.82rem;color:#64748b;margin-top:8px">画面からの取得は、メールの削除・移動・既読化・送信を行いません。</p>
 
   </div>
 
   <!-- ===== English Content ===== -->
   <div class="section-en">
 
-    <p class="version-note">This page is for version 1.1.0.0. The reject readiness screen and the forwarding impact view are features of 1.1.0.0 and later.</p>
+    <p class="version-note">This page is for version 1.1.1.0. The reject readiness screen and the forwarding impact view are features of 1.1.0.0 and later.</p>
 
     <div class="at-a-glance">
       <h2>At a glance</h2>
@@ -469,7 +469,7 @@
 
     <div class="privacy-note">
       <p><strong>Privacy:</strong> Analysis results are stored on your PC and are not sent to external AI or cloud analysis services. Microsoft 365 connections are made only when you configure them.</p>
-      <p><strong>Microsoft 365 permissions:</strong> Fetching from the app screen uses only the read permission for shared mailboxes (Mail.Read.Shared) and never deletes, moves, marks as read, or sends mail. The command-line interface (CLI) has a mode that deletes mail after fetching it.</p>
+      <p><strong>Microsoft 365 permissions:</strong> Fetching from the app screen uses only the read permission for shared mailboxes (Mail.Read.Shared) and never deletes, moves, marks as read, or sends mail.</p>
     </div>
 
     <h2>System requirements</h2>
@@ -485,7 +485,7 @@
     <table class="sysreq" style="width:100%;border-collapse:collapse">
       <tr style="border-bottom:1px solid #e2e8f0"><td><strong>Mail.Read.Shared</strong></td><td>Read DMARC reports and bounce messages from a shared mailbox (fetching from the app screen)</td></tr>
     </table>
-    <p style="font-size:0.82rem;color:#64748b;margin-top:8px">Fetching from the app screen does not delete, move, mark as read, or send mail. The CLI delete mode uses a different permission (Mail.ReadWrite.Shared).</p>
+    <p style="font-size:0.82rem;color:#64748b;margin-top:8px">Fetching from the app screen does not delete, move, mark as read, or send mail.</p>
 
   </div>
 

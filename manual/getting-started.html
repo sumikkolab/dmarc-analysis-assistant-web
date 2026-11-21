@@ -63,7 +63,7 @@
 
     <!-- Japanese -->
     <div class="section-ja visible">
-      <div class="note">このページは 1.1.0.0 向けです。reject 移行準備・転送の影響は 1.1.0.0 以降の機能です。</div>
+      <div class="note">このページは 1.1.1.0 向けです。reject 移行準備・転送の影響は 1.1.0.0 以降の機能です。</div>
       <h2>はじめに</h2>
       <p>本章では、DMARC 分析支援ツールのインストールから初回レポート取込までを説明します。取り込んだ後は、「reject 移行準備」で p=reject に上げてよいかを確認します（<a href="readiness.html">第 3 章</a>）。</p>
 
@@ -114,13 +114,14 @@
         <li>「分析を開始する」を押すと、XML / ZIP / GZ を展開して解析が始まります。</li>
         <li>完了後、ダッシュボードで集計結果を確認できます。左のメニューの「reject 移行準備」で、判定と次の一手を確認します。</li>
       </ol>
-      <p>同じレポートをもう一度取り込むと、保存済みの内容が最新の取り込み結果に置き換わります。</p>
+      <p>取り込めなかった項目があるときは、取り込み結果欄に、ファイル名と原因の文が表示されます（最大 5 件。残りは「ほか N 件」）。ほかのレポートは保存されます。表示の読み方と次の操作は、<a href="troubleshooting.html">第 8 章 トラブルシューティング</a>をご覧ください。</p>
+      <p>同じレポートをもう一度取り込むと、通常は、保存済みの内容が最新の取り込み結果に置き換わります。ただし、再送されたレポートに不正なレコードがある場合と、設定ファイルを使用できない場合は、保存済みのレポートを置き換えません。置き換えなかったときは、取り込み結果欄にその旨が表示されます。</p>
 
       <h3>設定画面で登録しておくこと</h3>
       <p>設定画面の「自社メールサーバーの IP アドレス」と「既知の転送サーバー」に IP アドレス範囲（例: <code>203.0.113.0/24</code>）を登録すると、その IP からの認証失敗は、それぞれ「自社送信元の認証失敗」「転送経由の可能性」に分類されます。保存した内容は、次の分析から反映されます（<a href="classification.html">第 4 章</a>）。</p>
 
       <h3>Microsoft 365 の共有メールボックスから取得する場合（任意）</h3>
-      <p>Microsoft 365 の共有メールボックスから DMARC レポートを直接取り込むこともできます。この機能は任意で、設定画面でテナント ID とクライアント ID を設定します（Azure Portal でのアプリ登録が必要です）。<strong>画面からの取得では、読み取りの権限（<code>Mail.Read.Shared</code>）だけを使い、メールの削除・移動・既読化・送信は行いません。</strong>コマンドライン（CLI）には、取得後にメールを削除するモードがあります。画面は、このモードを使いません。</p>
+      <p>Microsoft 365 の共有メールボックスから DMARC レポートを直接取り込むこともできます。この機能は任意で、設定画面でテナント ID とクライアント ID を設定します（Azure Portal でのアプリ登録が必要です）。<strong>画面からの取得では、読み取りの権限（<code>Mail.Read.Shared</code>）だけを使い、メールの削除・移動・既読化・送信は行いません。</strong></p>
 
       <h3>次にやること</h3>
       <ul>
@@ -132,7 +133,7 @@
 
     <!-- English -->
     <div class="section-en">
-      <div class="note">This page is for version 1.1.0.0. The reject readiness screen and the forwarding impact view are features of 1.1.0.0 and later.</div>
+      <div class="note">This page is for version 1.1.1.0. The reject readiness screen and the forwarding impact view are features of 1.1.0.0 and later.</div>
       <h2>Getting Started</h2>
       <p>This chapter walks through installing the DMARC Analysis Assistant, giving first-launch consent, and importing your first DMARC reports. After importing, use "Readiness for reject" to check whether you can move to p=reject (<a href="readiness.html?lang=en">Chapter 3</a>).</p>
 
@@ -183,13 +184,14 @@
         <li>Start the analysis — XML / ZIP / GZ files are expanded and parsed.</li>
         <li>When it completes, you can check the results on the dashboard. Open "Readiness for reject" in the left menu to see the verdict and the next step.</li>
       </ol>
-      <p>If you import the same report again, the saved content is replaced with the latest import result.</p>
+      <p>If any item could not be imported, the import result shows the file name and a cause text for it (up to 5; the rest appear as "and N more"). The other reports are saved. See <a href="troubleshooting.html?lang=en">Chapter 8 Troubleshooting</a> for how to read the display and what to do next.</p>
+      <p>If you import the same report again, the saved content is normally replaced with the latest import result. However, if the resent report has an invalid record, or if the configuration file cannot be used, the saved report is not replaced. When a report is not replaced, the import result says so.</p>
 
       <h3>What to register on the settings screen</h3>
       <p>If you register IP address ranges (for example <code>203.0.113.0/24</code>) under "Your mail server IP addresses" and "Known forwarding servers" on the settings screen, authentication failures from those IPs are classed as "Authentication failures from your own senders" and "Possible forwarding" respectively. Saved settings apply from the next analysis (<a href="classification.html?lang=en">Chapter 4</a>).</p>
 
       <h3>Importing from a Microsoft 365 shared mailbox (optional)</h3>
-      <p>You can also import DMARC reports directly from a Microsoft 365 shared mailbox. This feature is optional; you set the tenant ID and client ID on the settings screen (an app registration in the Azure Portal is required). <strong>Fetching from the app screen uses only the read permission (<code>Mail.Read.Shared</code>) and never deletes, moves, marks as read, or sends mail.</strong> The command-line interface (CLI) has a mode that deletes mail after fetching it; the app screen does not use this mode.</p>
+      <p>You can also import DMARC reports directly from a Microsoft 365 shared mailbox. This feature is optional; you set the tenant ID and client ID on the settings screen (an app registration in the Azure Portal is required). <strong>Fetching from the app screen uses only the read permission (<code>Mail.Read.Shared</code>) and never deletes, moves, marks as read, or sends mail.</strong></p>
 
       <h3>Next steps</h3>
       <ul>

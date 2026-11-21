@@ -29,7 +29,12 @@
     {
       "@type": "Question",
       "name": "このツールは Microsoft 365 の設定を変更しますか？",
-      "acceptedAnswer": { "@type": "Answer", "text": "変更しません。画面からの Microsoft 365 の取得は、共有メールボックスの読み取り権限（Mail.Read.Shared）だけを使い、メールの削除・移動・既読化・送信は行いません。コマンドライン（CLI）には、取得後にメールを削除するモードがあります。DNS 設定も変更しません。" }
+      "acceptedAnswer": { "@type": "Answer", "text": "変更しません。画面からの Microsoft 365 の取得は、共有メールボックスの読み取り権限（Mail.Read.Shared）だけを使い、メールの削除・移動・既読化・送信は行いません。DNS 設定も変更しません。" }
+    },
+    {
+      "@type": "Question",
+      "name": "レポートの取り込みに失敗したときは、どうすればよいですか？ 診断ファイルとは何ですか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "取り込めなかった項目があると、取り込み結果欄に、ファイル名と原因の分類が表示されます（先頭 5 件。残りは「ほか N 件」）。読み方と次の操作は、マニュアル第 8 章に掲載しています。原因が分からないときは、設定画面の「診断モード」（任意）をオンにして、診断ファイルを出力できます。オンにするとき、診断ファイルに含まれるものと含まれないものが画面に表示されます。診断ファイルには、利用者の値（ドメイン・IP アドレス・メールアドレス・ファイル名・パス・レポートの値）は含まれません。アプリが診断ファイルを送信することはありません。内容を確認したうえで、利用者の判断で送付してください。診断モードをオフにするときに、診断ファイルを出力して削除するか、削除するかを選べます。削除せずにオフにした場合は、最大 7 日間残ります。" }
     },
     {
       "@type": "Question",
@@ -118,7 +123,7 @@
       <a href="manual/">マニュアル</a>
     </div>
     <h1>サポート</h1>
-    <p class="updated">DMARC 分析支援ツール 1.1.0.0</p>
+    <p class="updated">DMARC 分析支援ツール 1.1.1.0</p>
 
     <div class="contact-box">
       <h3 style="margin-top:0">お問い合わせ</h3>
@@ -132,6 +137,7 @@
       <li>本ソフトウェアのバージョン（設定画面の「このアプリについて」に表示）</li>
       <li>発生した症状の具体的な手順と、表示されたエラーメッセージ</li>
       <li>Microsoft 365 連携を使用していた場合は、その旨</li>
+      <li>レポートの取り込みに失敗した場合は、取り込み結果欄に表示された原因の文（診断ファイルについては、下記のよくあるご質問をご覧ください）</li>
     </ul>
     <p style="font-size:0.85rem;color:#64748b">※ メール本文や DMARC レポートに含まれる IP アドレス・ドメイン名・認証結果などは、機密情報になり得ます。スクリーンショットを送付される際はマスキング等にご配慮ください。</p>
 
@@ -144,7 +150,7 @@
 
     <div class="faq">
       <div class="faq-q">Q. このツールは Microsoft 365 の設定を変更しますか？</div>
-      <div class="faq-a">A. 変更しません。画面からの Microsoft 365 の取得は、共有メールボックスの読み取り権限（<code>Mail.Read.Shared</code>）だけを使い、メールの削除・移動・既読化・送信は行いません。コマンドライン（CLI）には、取得後にメールを削除するモードがあります。DNS 設定も変更しません。</div>
+      <div class="faq-a">A. 変更しません。画面からの Microsoft 365 の取得は、共有メールボックスの読み取り権限（<code>Mail.Read.Shared</code>）だけを使い、メールの削除・移動・既読化・送信は行いません。DNS 設定も変更しません。</div>
     </div>
 
     <div class="faq">
@@ -178,6 +184,18 @@
     </div>
 
     <div class="faq">
+      <div class="faq-q">Q. レポートの取り込みに失敗したときは、どうすればよいですか？ 診断ファイルとは何ですか？</div>
+      <div class="faq-a">A. 取り込めなかった項目があると、取り込み結果欄に、ファイル名と原因の分類が表示されます（先頭 5 件。残りは「ほか N 件」）。読み方と次の操作は、<a href="manual/troubleshooting.html">マニュアル第 8 章</a>に掲載しています。原因が分からないときは、設定画面の「診断モード」（任意）をオンにして、診断ファイルを出力できます。
+        <ul>
+          <li>オンにするとき、診断ファイルに含まれるものと含まれないものが画面に表示されます。</li>
+          <li>診断ファイルには、利用者の値（ドメイン・IP アドレス・メールアドレス・ファイル名・パス・レポートの値）は含まれません。</li>
+          <li>アプリが診断ファイルを送信することはありません。内容を確認したうえで、利用者の判断で送付してください。</li>
+          <li>診断モードをオフにするときに、診断ファイルを出力して削除するか、削除するかを選べます。削除せずにオフにした場合は、最大 7 日間残ります。</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="faq">
       <div class="faq-q">Q. アプリが起動しない・WebView2 エラーが出る</div>
       <div class="faq-a">A. Microsoft Edge WebView2 Runtime がインストールされているか確認してください（Windows 11 には通常プリインストールされています）。未インストールの場合は Microsoft の公式ページからインストールできます。</div>
     </div>
@@ -198,7 +216,7 @@
       <a href="manual/?lang=en">Manual</a>
     </div>
     <h1>Support</h1>
-    <p class="updated">DMARC Analysis Assistant 1.1.0.0</p>
+    <p class="updated">DMARC Analysis Assistant 1.1.1.0</p>
 
     <div class="contact-box">
       <h3 style="margin-top:0">Contact</h3>
@@ -212,6 +230,7 @@
       <li>The software version (shown under "About this app" on the settings page)</li>
       <li>Specific steps to reproduce the issue and any displayed error messages</li>
       <li>Whether Microsoft 365 integration was in use</li>
+      <li>If a report import failed, the cause text shown in the import result (for the diagnostic file, see the FAQ below)</li>
     </ul>
     <p style="font-size:0.85rem;color:#64748b">Note: IP addresses, domain names, and authentication results shown in mail bodies or DMARC reports may be confidential. Please mask sensitive information when sharing screenshots.</p>
 
@@ -224,7 +243,7 @@
 
     <div class="faq">
       <div class="faq-q">Q. Does this tool modify Microsoft 365 settings?</div>
-      <div class="faq-a">A. No. Fetching from the app screen uses only the read permission for shared mailboxes (<code>Mail.Read.Shared</code>) and never deletes, moves, marks as read, or sends mail. The command-line interface (CLI) has a mode that deletes mail after fetching it. The tool does not change DNS settings.</div>
+      <div class="faq-a">A. No. Fetching from the app screen uses only the read permission for shared mailboxes (<code>Mail.Read.Shared</code>) and never deletes, moves, marks as read, or sends mail. The tool does not change DNS settings.</div>
     </div>
 
     <div class="faq">
@@ -255,6 +274,18 @@
     <div class="faq">
       <div class="faq-q">Q. If "Spoofing suspected" is shown, do I need to act immediately?</div>
       <div class="faq-a">A. The classification is advisory. Review source IP, authentication results, and sending path, and consult with your security team. Since the result is machine-generated, not every case can be classified correctly (Disclaimer, Article 2).</div>
+    </div>
+
+    <div class="faq">
+      <div class="faq-q">Q. What should I do when a report import fails? What is the diagnostic file?</div>
+      <div class="faq-a">A. If any item could not be imported, the import result shows the file name and the class of the cause (the first 5 items; the rest appear as "and N more"). <a href="manual/troubleshooting.html?lang=en">Chapter 8 of the manual</a> explains how to read them and what to do next. If the cause is still unclear, you can turn on the optional "Diagnostic mode" on the settings screen and export a diagnostic file.
+        <ul>
+          <li>When you turn it on, the screen shows what the diagnostic file includes and what it does not.</li>
+          <li>The diagnostic file does not include your values (domains, IP addresses, email addresses, file names, paths, or report values).</li>
+          <li>The app never sends the diagnostic file. Check its content, then send it at your own discretion.</li>
+          <li>When you turn the mode off, you can export the file and delete the data, or just delete the data. If you turn it off without deleting, the data is kept for up to 7 days.</li>
+        </ul>
+      </div>
     </div>
 
     <div class="faq">

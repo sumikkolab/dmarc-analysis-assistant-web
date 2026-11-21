@@ -78,8 +78,74 @@
 
       <h4>分析できるレポートファイルが見つからないと表示される</h4>
       <ul>
-        <li><strong>原因候補:</strong> フォルダ内に DMARC 集約レポート（XML / ZIP / GZ）が存在しない。別種のファイルを指定している。ファイルが破損している。</li>
-        <li><strong>対処:</strong> ZIP / GZ 添付ファイルをフォルダに保存し直して再試行。読み取れないレポートは分析の対象外になり、レコード一覧には表示されません。取込結果のレポート件数が想定より少ない場合は、対象ファイルを除外して再取込してください。</li>
+        <li><strong>原因候補:</strong> フォルダ内に DMARC 集約レポート（XML / ZIP / GZ）が存在しない。別種のファイルを指定している。読み取り権限のないフォルダと、16 階層を超えるサブフォルダは対象外です。</li>
+        <li><strong>対処:</strong> ZIP / GZ 添付ファイルをフォルダに保存し直して再試行してください。ファイルが破損しているときは、この表示ではなく、下記の「取り込めなかった項目があります」の表示になります。</li>
+      </ul>
+
+      <h4>「取り込めなかった項目があります」と表示される</h4>
+      <p>取り込み結果欄に「取り込めなかった項目が N 件あります。」と表示され、その下に「ファイル名: 原因の文」の形で、取り込めなかった項目が最大 5 件まで表示されます。取り込めた項目は保存されています。1 件の失敗で、ほかのレポートの取り込みが中止されることはありません。ただし、データベースに保存できないときは、取り込み全体が中止されます。</p>
+      <ul>
+        <li><strong>原因の文（分類）:</strong>
+          <ul>
+            <li>「ファイルを読み取れませんでした」</li>
+            <li>「zip / gz の展開に失敗しました」</li>
+            <li>「XML を読み取れませんでした」</li>
+            <li>「レコードを読み取れませんでした」</li>
+            <li>「フォルダ内のファイルを一覧表示できませんでした」</li>
+            <li>「データベースへの保存に失敗しました」</li>
+            <li>「config.json を読み込めませんでした」</li>
+            <li>「原因を特定できない失敗です」</li>
+          </ul>
+        </li>
+        <li><strong>詳細:</strong> 原因の文の後ろに「（詳細: …）」が付く場合があります。詳細に、英語のメッセージがそのまま表示されることがあります。</li>
+        <li><strong>対処:</strong> 表示されたファイルを確認します。ファイルを取得し直して、もう一度「分析を開始する」を押してください。</li>
+      </ul>
+
+      <h4>「すべて取り込めませんでした」「保存できるレコードがありませんでした」と表示される</h4>
+      <ul>
+        <li><strong>画面の文言:</strong> 「N 件のファイルを検出しましたが、すべて取り込めませんでした（失敗 N 件）。以下の原因を確認してください。」または「N 件のファイルを読み取りましたが、保存できるレコードがありませんでした。」</li>
+        <li><strong>対処:</strong> 前者は、表示された原因の文を上の項目の分類で確認します。後者は、ファイルが DMARC 集約レポートか確認してください。</li>
+      </ul>
+
+      <h4>「ほか N 件」と表示される</h4>
+      <ul>
+        <li><strong>意味:</strong> 取り込めなかった項目が 6 件以上あります。画面には先頭の 5 件だけ表示され、残りは「ほか N 件」と表示されます。</li>
+        <li><strong>対処:</strong> 表示された 5 件の原因を解消して、もう一度「分析を開始する」を押してください。残りの項目が、次の取り込みで表示されます。</li>
+      </ul>
+
+      <h4>データベースに関する原因の文が表示される</h4>
+      <ul>
+        <li>「データベースが読み取り専用のため、保存できません」</li>
+        <li>「データベースのファイルが SQLite の形式ではありません。ファイルは変更していません」</li>
+        <li>「データベースが他のプロセスに使用されています。使用を終えてから、もう一度実行してください」</li>
+        <li>「データベースの構造が合っていません（列が足りません）。アプリを再起動して、データベースを更新してください」</li>
+        <li>「データベースを開けないか、保存できません。保存先を確認してください」</li>
+      </ul>
+      <p>各文に、次の操作が書かれています。文の指示に従ってください。</p>
+
+      <h4>「設定ファイルに警告があります」と表示される</h4>
+      <ul>
+        <li><strong>意味:</strong> 設定ファイル（config.json）の一部の値が使えません。取り込みは続行され、警告に値は表示されません。たとえば、IP アドレス範囲の接頭辞が長すぎる、同じキーが重複している（後の値を使います）、値を範囲として読めない、などです。</li>
+        <li><strong>対処:</strong> 設定ファイルの該当項目を修正してください。設定画面に登録した IP アドレス範囲の形式は、設定画面のヒントに合わせます。</li>
+      </ul>
+
+      <h4>「設定ファイルの問題（…）のため、新しいレポートだけ保存し、既存のレポートは置き換えません」と表示される</h4>
+      <ul>
+        <li><strong>意味:</strong> 設定ファイルを使用できないため、新しいレポートだけを保存しました。保存済みのレポートは置き換えていません。新しいレポートは、登録した IP アドレス範囲を使わない設定で分類されています。</li>
+        <li><strong>原因の例:</strong> 「設定ファイルを読み取れません」「設定ファイルが空です」「設定ファイルが正しい JSON ではありません」「設定ファイルの最上位がオブジェクトではありません」「設定ファイルの項目の形式が正しくありません（文字列の一覧が必要です）」。</li>
+        <li><strong>対処:</strong> 設定ファイルを修正します。そのあと、「reject 移行準備」の「転送サーバーとして登録」「正当な送信元として登録」の操作で再判定すると、分類を直せます。</li>
+      </ul>
+
+      <h4>「置き換えなかったレポート N 件」と表示される</h4>
+      <ul>
+        <li><strong>意味:</strong> 設定ファイルの問題があるとき、同じレポートがすでに保存されているため、保存済みの内容を置き換えませんでした。</li>
+        <li><strong>項目ごとの原因の文:</strong> 「同じレポートがすでに保存されていて、再送に不正なレコードがあるため、置き換えませんでした。保存済みのデータは変更していません」。または「すべてのレコードが不正なため、レポートを保存しませんでした」。</li>
+        <li><strong>対処:</strong> 設定ファイルの問題が原因のときは、設定ファイルを修正して、もう一度取り込みます。再送に不正なレコードがあるときは、保存済みのデータは変更されていません。レポートの送信元に、正しいレポートの再送を依頼してください。</li>
+      </ul>
+
+      <h4>「重複したレポート N 件を除外しました」と表示される</h4>
+      <ul>
+        <li><strong>意味:</strong> 同じレポートが、同名の ZIP と XML などで重複していたため、1 回だけ数えました。失敗ではありません。</li>
       </ul>
 
       <h3>判定・reject 移行準備関連</h3>
@@ -116,6 +182,12 @@
         <li><strong>対処:</strong> 別クライアントでメールの存在を確認してください。画面からの取得は、読み取りの権限だけを使います。</li>
       </ul>
 
+      <h4>「取り込めなかったものがあるメール N 件は、処理済みにせず、削除もしません」と表示される</h4>
+      <ul>
+        <li><strong>意味:</strong> 取得したメールの添付ファイルに、取り込めなかった項目がありました。そのメールは処理済みになりません。次回の取り込みで、もう一度処理します。</li>
+        <li><strong>対処:</strong> 取り込めなかった原因は、上記の「取り込めなかった項目があります」の項目で確認してください。</li>
+      </ul>
+
       <h3>CSV エクスポート関連</h3>
 
       <h4>Excel で開くと文字化け</h4>
@@ -124,8 +196,20 @@
         <li><strong>対処:</strong> 本ツールの CSV は UTF-8 BOM 付きで出力します。Excel 365 は通常そのまま読めます。古い Excel では「データの取得 &gt; テキスト」で UTF-8 を指定してください。</li>
       </ul>
 
+      <h3>診断モード（任意）</h3>
+      <p>取り込みの原因が上の項目で分からないときに、サポートへ送る診断ファイルを出力できます。診断モードは任意の機能です。設定画面の「診断モード」で切り替えます。</p>
+      <ul>
+        <li><strong>既定:</strong> オフです。アプリを起動するたびにオフになります。</li>
+        <li><strong>オンにするとき:</strong> 診断ファイルに「含まれるもの」「含まれないもの」と「常に保存される最小のエラー記録」が画面に表示されます。「オンにする」を選んだときだけ、オンになります。</li>
+        <li><strong>含まれるもの:</strong> 値は、固定の分類・数値・はい/いいえだけです。自由な文字列は含まれません。エラーと処理段階の分類、件数の区分、ファイルの特徴の区分、アプリのバージョン、表示言語などが含まれます。</li>
+        <li><strong>含まれないもの:</strong> ドメイン、IP アドレス、メールアドレス、ファイル名、フォルダのパス、レポートの値、例外のメッセージ、設定の値、データベースの内容。</li>
+        <li><strong>常に保存される最小のエラー記録:</strong> 診断モードがオフのときも、未処理の例外・処理されずに無視された例外・メモリ不足・起動の失敗・前回の異常終了を、分類だけで最大 7 日間保存します。診断ファイルには、これも含まれます。</li>
+        <li><strong>出力と送付:</strong> 診断モードをオフにするとき、診断データがあれば、「診断ファイルを出力して削除」「削除する」「削除せずにオフにする」「キャンセル」から選べます。診断ファイルは、選んだ場所に zip ファイルとして出力されます。アプリが診断ファイルを送信することはありません。内容を確認したうえで、利用者の判断でサポート（<a href="mailto:support@sumikkolab.com">support@sumikkolab.com</a>）へ送付してください。</li>
+        <li><strong>削除:</strong> 「診断ファイルを出力して削除」を選ぶと、出力できたときだけ、アプリ内の診断データを削除します。「削除せずにオフにする」を選んだ場合、診断データは最大 7 日間残ります。</li>
+      </ul>
+
       <h3>データ保存先とリセット</h3>
-      <p>本ツールはユーザーデータを <code>%LocalAppData%\DmarcAnalysisAssistant</code> 配下に保存します。設定画面の「保存済みDMARC解析データを削除」から、保存済みの DMARC 解析結果と処理済みマーカーを削除できます。この操作では、設定、同意情報、管理区分メモ、バウンス分析データは削除されません。</p>
+      <p>本ツールはユーザーデータを <code>%LocalAppData%\DmarcAnalysisAssistant</code> 配下に保存します。設定画面の「保存済みDMARC解析データを削除」から、保存済みの DMARC 解析結果と処理済みマーカーを削除できます。この操作では、設定、同意情報、管理区分メモ、バウンス分析データは削除されません。診断データも、この操作では削除されません。診断データは、診断モードをオフにするときに削除します。</p>
 
       <h3>それでも解決しない場合</h3>
       <ul>
@@ -151,8 +235,74 @@
 
       <h4>"No analyzable report files were found"</h4>
       <ul>
-        <li><strong>Likely cause:</strong> The folder contains no DMARC aggregate reports (XML / ZIP / GZ), the wrong files were selected, or a file is corrupted.</li>
-        <li><strong>Fix:</strong> Save ZIP / GZ attachments into the folder and retry. A report that cannot be read is not analyzed and does not appear in the DMARC Records list. If the report count in the import result is lower than expected, move the offending file aside and retry.</li>
+        <li><strong>Likely cause:</strong> The folder contains no DMARC aggregate reports (XML / ZIP / GZ), or the wrong files were selected. Folders you do not have permission to read, and subfolders nested more than 16 levels deep, are skipped.</li>
+        <li><strong>Fix:</strong> Save ZIP / GZ attachments into the folder and retry. If a file is corrupted, you see "{N} item(s) could not be imported" (below) instead of this message.</li>
+      </ul>
+
+      <h4>"{N} item(s) could not be imported"</h4>
+      <p>The import result shows "{N} item(s) could not be imported." Below it, up to 5 items appear in the form "file name: cause". The items that could be imported are saved. One failure does not stop the import of the other reports. However, if the database cannot be saved to, the whole import is stopped.</p>
+      <ul>
+        <li><strong>Cause text (class):</strong>
+          <ul>
+            <li>"The file could not be read"</li>
+            <li>"The zip / gz file could not be extracted"</li>
+            <li>"The XML could not be read"</li>
+            <li>"A record could not be read"</li>
+            <li>"The files in the folder could not be listed"</li>
+            <li>"Saving to the database failed"</li>
+            <li>"config.json could not be loaded"</li>
+            <li>"The cause could not be identified"</li>
+          </ul>
+        </li>
+        <li><strong>Details:</strong> "(details: ...)" may follow the cause text. The details can be an English message as is.</li>
+        <li><strong>Fix:</strong> Check the file shown, obtain it again, and select "Start analysis" again.</li>
+      </ul>
+
+      <h4>"none could be imported" or "they contained no records to save"</h4>
+      <ul>
+        <li><strong>On screen:</strong> "Found N file(s), but none could be imported (N failure(s)). Check the causes below." or "N file(s) were read, but they contained no records to save."</li>
+        <li><strong>Fix:</strong> For the first message, check the cause text against the classes in the item above. For the second, check that the files are DMARC aggregate reports.</li>
+      </ul>
+
+      <h4>"and N more"</h4>
+      <ul>
+        <li><strong>Meaning:</strong> Six or more items could not be imported. The screen shows the first 5 only; the rest appear as "and N more".</li>
+        <li><strong>Fix:</strong> Resolve the 5 causes shown and select "Start analysis" again. The next import shows the remaining items.</li>
+      </ul>
+
+      <h4>A cause text about the database appears</h4>
+      <ul>
+        <li>"The database is read-only, so nothing can be saved"</li>
+        <li>"The database file is not in the SQLite format. The file was not changed"</li>
+        <li>"The database is in use by another process. Close it, then run the import again"</li>
+        <li>"The structure of the database does not match (columns are missing). Restart the app to update the database"</li>
+        <li>"The database cannot be opened or saved. Check the location"</li>
+      </ul>
+      <p>Each text states the next step. Follow it.</p>
+
+      <h4>"The configuration file has a warning"</h4>
+      <ul>
+        <li><strong>Meaning:</strong> Some values in the configuration file (config.json) cannot be used. The import continues, and the warning does not show the value. Examples: an IP address range prefix is too long, the same key appears twice (the later value is used), or a value cannot be read as a range.</li>
+        <li><strong>Fix:</strong> Correct the item in the configuration file. Write the IP address ranges in the format shown in the settings screen hint.</li>
+      </ul>
+
+      <h4>"Because of a problem with the configuration file (...), only new reports are saved and existing reports are not replaced"</h4>
+      <ul>
+        <li><strong>Meaning:</strong> The configuration file cannot be used, so only new reports were saved. Reports that were already saved were not replaced. New reports are classified without your registered IP address ranges.</li>
+        <li><strong>Example causes:</strong> "The configuration file cannot be read", "The configuration file is empty", "The configuration file is not valid JSON", "The top level of the configuration file is not an object", "The format of a setting in the configuration file is not valid (a list of strings is required)".</li>
+        <li><strong>Fix:</strong> Fix the configuration file. Then re-evaluate with "Register as a forwarding server" or "Register as a legitimate sender" in "Readiness for reject" to correct the classification.</li>
+      </ul>
+
+      <h4>"N existing report(s) were not replaced"</h4>
+      <ul>
+        <li><strong>Meaning:</strong> When there is a problem with the configuration file, reports that were already saved were not replaced with the same reports.</li>
+        <li><strong>Cause text per item:</strong> "The same report is already stored and the resend has an invalid record, so it was not replaced. The stored data is unchanged", or "Every record is invalid, so the report was not saved".</li>
+        <li><strong>Fix:</strong> If the cause is the configuration file, fix it and import again. If the resend has an invalid record, the stored data is unchanged. Ask the sender of the report to send a correct report again.</li>
+      </ul>
+
+      <h4>"N duplicate report(s) were excluded"</h4>
+      <ul>
+        <li><strong>Meaning:</strong> The same report appeared twice, for example as a ZIP and an XML with the same name, so it was counted once. This is not a failure.</li>
       </ul>
 
       <h3>Classification and readiness for reject</h3>
@@ -189,6 +339,12 @@
         <li><strong>Fix:</strong> Verify the messages exist via another client. Fetching from the app screen uses only the read permission.</li>
       </ul>
 
+      <h4>"{N} email(s) with something that could not be imported are not marked as processed and are not deleted"</h4>
+      <ul>
+        <li><strong>Meaning:</strong> An item in the attachments of a fetched email could not be imported. The email is not marked as processed. The next import takes the email again.</li>
+        <li><strong>Fix:</strong> Check the cause in the item "{N} item(s) could not be imported" above.</li>
+      </ul>
+
       <h3>CSV export</h3>
 
       <h4>Garbled characters in Excel</h4>
@@ -197,8 +353,20 @@
         <li><strong>Fix:</strong> Our CSV is UTF-8 with BOM. Excel 365 reads it as-is. In older Excel, use "Get Data &gt; From Text" and specify UTF-8.</li>
       </ul>
 
+      <h3>Diagnostic mode (optional)</h3>
+      <p>If the items above do not explain an import problem, you can export a diagnostic file to send to support. The diagnostic mode is optional. Switch it on the "Diagnostic mode" setting on the settings screen.</p>
+      <ul>
+        <li><strong>Default:</strong> Off. It turns off every time the app starts.</li>
+        <li><strong>When you turn it on:</strong> The screen shows what the diagnostic file includes, what it does not include, and the minimal error records that are always stored. The mode turns on only when you select "Turn on".</li>
+        <li><strong>Included:</strong> Every value is a fixed class, a number, or yes/no. No free text is included. It contains classes of errors and processing stages, number classes, classes of file features, the app version, the display language, and similar items.</li>
+        <li><strong>Not included:</strong> Domains, IP addresses, email addresses, file names, folder paths, report values, exception messages, setting values, and database contents.</li>
+        <li><strong>Minimal error records that are always stored:</strong> Even when the mode is off, the app stores unhandled exceptions, ignored exceptions, out-of-memory errors, startup failures, and a previous abnormal exit, as classes only, for up to 7 days. The diagnostic file includes them.</li>
+        <li><strong>Export and sending:</strong> When you turn the mode off and diagnostic data exists, you can choose "Export the diagnostic file and delete the data", "Delete the data", "Turn off and keep the data", or "Cancel". The file is exported as a zip file to the location you choose. The app never sends the diagnostic file. Check its content, then send it to support (<a href="mailto:support@sumikkolab.com">support@sumikkolab.com</a>) at your own discretion.</li>
+        <li><strong>Deletion:</strong> If you choose "Export the diagnostic file and delete the data", the app deletes its diagnostic data only after the export succeeds. If you choose "Turn off and keep the data", the data is kept for up to 7 days.</li>
+      </ul>
+
       <h3>Data location and reset</h3>
-      <p>User data is stored under <code>%LocalAppData%\DmarcAnalysisAssistant</code>. Open Settings and use "Delete stored DMARC analysis data" to delete saved DMARC analysis results and processed markers. This action does not delete settings, consent information, management notes, or bounce analysis data.</p>
+      <p>User data is stored under <code>%LocalAppData%\DmarcAnalysisAssistant</code>. Open Settings and use "Delete stored DMARC analysis data" to delete saved DMARC analysis results and processed markers. This action does not delete settings, consent information, management notes, or bounce analysis data. It does not delete diagnostic data either. Diagnostic data is deleted when you turn the diagnostic mode off.</p>
 
       <h3>Still stuck?</h3>
       <ul>
