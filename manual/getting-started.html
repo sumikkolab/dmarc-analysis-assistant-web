@@ -121,7 +121,7 @@
       <p>設定画面の「自社メールサーバーの IP アドレス」と「既知の転送サーバー」に IP アドレス範囲（例: <code>203.0.113.0/24</code>）を登録すると、その IP からの認証失敗は、それぞれ「自社送信元の認証失敗」「転送経由の可能性」に分類されます。保存した内容は、次の分析から反映されます（<a href="classification.html">第 4 章</a>）。</p>
 
       <h3>Microsoft 365 の共有メールボックスから取得する場合（任意）</h3>
-      <p>Microsoft 365 の共有メールボックスから DMARC レポートを直接取り込むこともできます。この機能は任意で、設定画面でテナント ID とクライアント ID を設定します（Azure Portal でのアプリ登録が必要です）。<strong>画面からの取得では、読み取りの権限（<code>Mail.Read.Shared</code>）だけを使い、メールの削除・移動・既読化・送信は行いません。</strong></p>
+      <p>Microsoft 365 の共有メールボックスから DMARC レポートを直接取り込むこともできます。この機能は任意で、設定画面でテナント ID とクライアント ID を設定します（Azure Portal でのアプリ登録が必要です）。<strong>画面からの取得では、読み取りの権限（<code>Mail.Read.Shared</code>）だけを使い、メールの移動・既読化・送信は行いません。</strong></p>
 
       <h3>次にやること</h3>
       <ul>
@@ -191,7 +191,7 @@
       <p>If you register IP address ranges (for example <code>203.0.113.0/24</code>) under "Your mail server IP addresses" and "Known forwarding servers" on the settings screen, authentication failures from those IPs are classed as "Authentication failures from your own senders" and "Possible forwarding" respectively. Saved settings apply from the next analysis (<a href="classification.html?lang=en">Chapter 4</a>).</p>
 
       <h3>Importing from a Microsoft 365 shared mailbox (optional)</h3>
-      <p>You can also import DMARC reports directly from a Microsoft 365 shared mailbox. This feature is optional; you set the tenant ID and client ID on the settings screen (an app registration in the Azure Portal is required). <strong>Fetching from the app screen uses only the read permission (<code>Mail.Read.Shared</code>) and never deletes, moves, marks as read, or sends mail.</strong></p>
+      <p>You can also import DMARC reports directly from a Microsoft 365 shared mailbox. This feature is optional; you set the tenant ID and client ID on the settings screen (an app registration in the Azure Portal is required). <strong>Fetching from the app screen uses only the read permission (<code>Mail.Read.Shared</code>) and never moves, marks as read, or sends mail.</strong></p>
 
       <h3>Next steps</h3>
       <ul>

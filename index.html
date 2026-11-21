@@ -47,7 +47,7 @@
       "url": "https://dmarc-analysis.sumikkolab.com/",
       "downloadUrl": "https://apps.microsoft.com/detail/9MW671KFZL9B",
       "installUrl": "https://apps.microsoft.com/detail/9MW671KFZL9B",
-      "description": "Helps you decide whether a domain can move its DMARC policy to p=reject, and if not, what is causing the failures and what to do. From DMARC aggregate reports (XML / ZIP / GZ), the app shows a verdict (Ready to move / Conditional / Not ready / Not enough information to decide), a pass-rate gauge, recommended actions, the expected rejections by category (authentication failures from your own senders, pending review, possible spoofing, possible forwarding), and the impact of forwarding. Pass-rate bands (75 / 90 / 99%) are operational guidelines with no official basis. Analysis results are stored on the PC and are not sent to external AI or cloud analysis services. Fetching from the app screen uses only the read permission Mail.Read.Shared for Microsoft 365 shared mailboxes and never deletes, moves, marks as read, or sends mail. Bounce message analysis is available as a separate feature.",
+      "description": "Helps you decide whether a domain can move its DMARC policy to p=reject, and if not, what is causing the failures and what to do. From DMARC aggregate reports (XML / ZIP / GZ), the app shows a verdict (Ready to move / Conditional / Not ready / Not enough information to decide), a pass-rate gauge, recommended actions, the expected rejections by category (authentication failures from your own senders, pending review, possible spoofing, possible forwarding), and the impact of forwarding. Pass-rate bands (75 / 90 / 99%) are operational guidelines with no official basis. Analysis results are stored on the PC and are not sent to external AI or cloud analysis services. Fetching from the app screen uses only the read permission Mail.Read.Shared for Microsoft 365 shared mailboxes and never moves, marks as read, or sends mail. Bounce message analysis is available as a separate feature.",
       "inLanguage": ["ja", "en"],
       "dateModified": "2026-11-19",
       "featureList": [
@@ -206,7 +206,7 @@
         <dt>これは何か</dt><dd>DMARC 集約レポート（RUA）とバウンスメールを取り込み、「このドメインを p=reject に上げてよいか」を判断できるように示す Windows デスクトップアプリ。</dd>
         <dt>誰向けか</dt><dd>自社ドメインを持ち、DMARC ポリシーを none から quarantine、reject へ強化したい情シス・運用担当者。</dd>
         <dt>何ができる</dt><dd>reject 移行準備の判定（4 値）・通過率のゲージ・推奨アクション・reject にした場合に拒否される見込み・判定の根拠・転送の影響。レコードの分類、送信元サーバー別とドメイン別の集計、PDF・Excel・CSV の出力。DMARC とは別の機能として、バウンスメールの分析。</dd>
-        <dt>何をしない</dt><dd>解析結果を外部の AI やクラウドの解析サービスに送らない。画面からの Microsoft 365 の取得では、メールの削除・移動・既読化・送信をしない。DNS を変更しない。</dd>
+        <dt>何をしない</dt><dd>解析結果を外部の AI やクラウドの解析サービスに送らない。画面からの Microsoft 365 の取得では、メールの移動・既読化・送信をしない。DNS を変更しない。</dd>
       </dl>
     </div>
 
@@ -322,7 +322,7 @@
 
     <div class="privacy-note">
       <p><strong>プライバシー:</strong> 解析結果は PC 内に保存し、外部の AI やクラウドの解析サービスには送りません。Microsoft 365 への接続は、利用者が設定した場合に限ります。</p>
-      <p><strong>Microsoft 365 の権限:</strong> 画面からの取得では、共有メールボックスの読み取り権限（Mail.Read.Shared）だけを使い、メールの削除・移動・既読化・送信は行いません。</p>
+      <p><strong>Microsoft 365 の権限:</strong> 画面からの取得では、共有メールボックスの読み取り権限（Mail.Read.Shared）だけを使い、メールの移動・既読化・送信は行いません。</p>
     </div>
 
     <h2>動作環境</h2>
@@ -338,7 +338,7 @@
     <table class="sysreq" style="width:100%;border-collapse:collapse">
       <tr style="border-bottom:1px solid #e2e8f0"><td><strong>Mail.Read.Shared</strong></td><td>共有メールボックスの DMARC レポート / バウンスメールの読み取り（画面からの取得）</td></tr>
     </table>
-    <p style="font-size:0.82rem;color:#64748b;margin-top:8px">画面からの取得は、メールの削除・移動・既読化・送信を行いません。</p>
+    <p style="font-size:0.82rem;color:#64748b;margin-top:8px">画面からの取得は、メールの移動・既読化・送信を行いません。</p>
 
   </div>
 
@@ -353,7 +353,7 @@
         <dt>What it is</dt><dd>A Windows desktop app that imports DMARC aggregate reports (RUA) and bounce messages, and shows whether a domain can move to p=reject.</dd>
         <dt>Who it is for</dt><dd>IT / operations staff who own mail domains and want to strengthen the DMARC policy from none to quarantine to reject.</dd>
         <dt>What it does</dt><dd>A readiness verdict (four values), a pass-rate gauge, recommended actions, expected rejections if you move to reject, the basis for the decision, and the impact of forwarding. Record classification, summaries by sending server and by domain, and PDF / Excel / CSV export. Bounce message analysis is a separate feature.</dd>
-        <dt>What it doesn't do</dt><dd>It does not send analysis results to external AI or cloud analysis services. Fetching from the app screen never deletes, moves, marks as read, or sends Microsoft 365 mail. It never changes DNS.</dd>
+        <dt>What it doesn't do</dt><dd>It does not send analysis results to external AI or cloud analysis services. Fetching from the app screen never moves, marks as read, or sends Microsoft 365 mail. It never changes DNS.</dd>
       </dl>
     </div>
 
@@ -469,7 +469,7 @@
 
     <div class="privacy-note">
       <p><strong>Privacy:</strong> Analysis results are stored on your PC and are not sent to external AI or cloud analysis services. Microsoft 365 connections are made only when you configure them.</p>
-      <p><strong>Microsoft 365 permissions:</strong> Fetching from the app screen uses only the read permission for shared mailboxes (Mail.Read.Shared) and never deletes, moves, marks as read, or sends mail.</p>
+      <p><strong>Microsoft 365 permissions:</strong> Fetching from the app screen uses only the read permission for shared mailboxes (Mail.Read.Shared) and never moves, marks as read, or sends mail.</p>
     </div>
 
     <h2>System requirements</h2>
@@ -485,7 +485,7 @@
     <table class="sysreq" style="width:100%;border-collapse:collapse">
       <tr style="border-bottom:1px solid #e2e8f0"><td><strong>Mail.Read.Shared</strong></td><td>Read DMARC reports and bounce messages from a shared mailbox (fetching from the app screen)</td></tr>
     </table>
-    <p style="font-size:0.82rem;color:#64748b;margin-top:8px">Fetching from the app screen does not delete, move, mark as read, or send mail.</p>
+    <p style="font-size:0.82rem;color:#64748b;margin-top:8px">Fetching from the app screen does not move, mark as read, or send mail.</p>
 
   </div>
 

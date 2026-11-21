@@ -48,7 +48,7 @@ Each record is classified by a deterministic rule-based engine, using the DMARC 
 
 - Analysis results are stored on your PC and are not sent to external AI or cloud analysis services
 - Microsoft 365 connections are made only when you configure them
-- Fetching from the app screen uses only the read permission `Mail.Read.Shared` and never deletes, moves, marks as read, or sends mail
+- Fetching from the app screen uses only the read permission `Mail.Read.Shared` and never moves, marks as read, or sends mail
 - Authentication tokens are held in memory only and are never persisted to disk
 - Telemetry, crash reports, and usage history are **not collected**
 - Stored data lives under `%LocalAppData%\DmarcAnalysisAssistant` and can be deleted by the user
