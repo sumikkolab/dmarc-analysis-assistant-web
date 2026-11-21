@@ -98,7 +98,7 @@
           </ul>
         </li>
         <li><strong>詳細:</strong> 原因の文の後ろに「（詳細: …）」が付く場合があります。詳細に、英語のメッセージがそのまま表示されることがあります。</li>
-        <li><strong>対処:</strong> 表示されたファイルを確認します。ファイルを取得し直して、もう一度「分析を開始する」を押してください。</li>
+        <li><strong>対処:</strong> 表示されたファイルを確認します。ファイルを再取得して、もう一度「分析を開始する」を押してください。</li>
       </ul>
 
       <h4>「すべて取り込めませんでした」「保存できるレコードがありませんでした」と表示される</h4>
@@ -182,7 +182,7 @@
         <li><strong>対処:</strong> 別クライアントでメールの存在を確認してください。画面からの取得は、読み取りの権限だけを使います。</li>
       </ul>
 
-      <h4>「取り込めなかったものがあるメール N 件は、処理済みにせず、削除もしません」と表示される</h4>
+      <h4>「取り込めなかったものがあるメール N 件は、処理済みにしません」と表示される</h4>
       <ul>
         <li><strong>意味:</strong> 取得したメールの添付ファイルに、取り込めなかった項目がありました。そのメールは処理済みになりません。次回の取り込みで、もう一度処理します。</li>
         <li><strong>対処:</strong> 取り込めなかった原因は、上記の「取り込めなかった項目があります」の項目で確認してください。</li>
@@ -240,7 +240,7 @@
       </ul>
 
       <h4>"{N} item(s) could not be imported"</h4>
-      <p>The import result shows "{N} item(s) could not be imported." Below it, up to 5 items appear in the form "file name: cause". The items that could be imported are saved. One failure does not stop the import of the other reports. However, if the database cannot be saved to, the whole import is stopped.</p>
+      <p>The import result shows "{N} item(s) could not be imported." Below it, up to 5 items appear in the form "file name: cause". The items that could be imported are saved. One failure does not stop the import of the other reports. However, if the database cannot be saved to, the whole import stops.</p>
       <ul>
         <li><strong>Cause text (class):</strong>
           <ul>
@@ -255,7 +255,7 @@
           </ul>
         </li>
         <li><strong>Details:</strong> "(details: ...)" may follow the cause text. The details can be an English message as is.</li>
-        <li><strong>Fix:</strong> Check the file shown, obtain it again, and select "Start analysis" again.</li>
+        <li><strong>Fix:</strong> Check the file shown, download it again, and select "Start analysis" again.</li>
       </ul>
 
       <h4>"none could be imported" or "they contained no records to save"</h4>
@@ -339,9 +339,9 @@
         <li><strong>Fix:</strong> Verify the messages exist via another client. Fetching from the app screen uses only the read permission.</li>
       </ul>
 
-      <h4>"{N} email(s) with something that could not be imported are not marked as processed and are not deleted"</h4>
+      <h4>"{N} email(s) with something that could not be imported are not marked as processed"</h4>
       <ul>
-        <li><strong>Meaning:</strong> An item in the attachments of a fetched email could not be imported. The email is not marked as processed. The next import takes the email again.</li>
+        <li><strong>Meaning:</strong> An item in the attachments of a fetched email could not be imported. The email is not marked as processed. The next import processes the email again.</li>
         <li><strong>Fix:</strong> Check the cause in the item "{N} item(s) could not be imported" above.</li>
       </ul>
 
@@ -354,7 +354,7 @@
       </ul>
 
       <h3>Diagnostic mode (optional)</h3>
-      <p>If the items above do not explain an import problem, you can export a diagnostic file to send to support. The diagnostic mode is optional. Switch it on the "Diagnostic mode" setting on the settings screen.</p>
+      <p>If the items above do not explain an import problem, you can export a diagnostic file to send to support. The diagnostic mode is optional. Turn it on or off with the "Diagnostic mode" setting on the settings screen.</p>
       <ul>
         <li><strong>Default:</strong> Off. It turns off every time the app starts.</li>
         <li><strong>When you turn it on:</strong> The screen shows what the diagnostic file includes, what it does not include, and the minimal error records that are always stored. The mode turns on only when you select "Turn on".</li>
