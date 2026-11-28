@@ -10,7 +10,7 @@
 - 集計と出力 / Summaries and export: レコードの分類、送信元サーバー別とドメイン別の集計、PDF・Excel・CSV の出力 / Record classification, summaries by sending server and by domain, PDF, Excel, and CSV export
 - 別の機能 / Separate feature: バウンスメールの分析(DMARC の分類とは別) / Bounce message analysis (separate from DMARC classification)
 - データ / Data: 解析結果は PC 内に保存し、外部のクラウドの解析サービスには送らない。Microsoft 365 への接続は利用者が設定した場合のみ / Analysis results are stored on your PC and are not sent to external cloud analysis services. Microsoft 365 connections are made only when you configure them
-- 判定の使い方 / Using the results: 判定と分類は自動処理の結果。判定の根拠を確認して判断する / Verdicts and classifications are automated. Review the basis shown for each decision
+- 判定の使い方 / Using the results: 判定と分類は自動処理の結果。根拠を確認して、最終判断は利用者が行う(保証の範囲は利用規約を参照) / Verdicts and classifications are automated. Review the basis and make the final decision yourself (see the terms of use for warranty terms)
 - 動作環境 / Requirements: Windows 10 / 11、Microsoft Edge WebView2 Runtime(必須)、.NET 10(Store 版に同梱) / Windows 10 / 11, Microsoft Edge WebView2 Runtime (required), .NET 10 (included with the Store package)
 
 ## リンク / Links
