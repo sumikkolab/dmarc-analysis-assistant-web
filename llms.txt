@@ -1,0 +1,23 @@
+# DMARC 分析支援ツール / DMARC Analysis Assistant
+
+> 自社ドメインの DMARC ポリシーを none から quarantine、reject へ強化したい情シス・運用担当者向けの、Sumikko Lab の Windows デスクトップアプリです。DMARC 集約レポート(RUA)とバウンスメールを取り込み、ドメインを p=reject に上げてよいかを判断するための情報を示します。
+> A Windows desktop app by Sumikko Lab for IT and operations staff who want to strengthen their domain's DMARC policy from none to quarantine to reject. It imports DMARC aggregate reports (RUA) and bounce messages, and shows whether a domain can move to p=reject.
+
+## 概要 / Overview
+
+- 発行元 / Publisher: Sumikko Lab
+- できること / Features: reject 移行準備の判定、通過率、推奨アクション、reject にした場合に拒否される見込み、判定の根拠、転送の影響の表示 / Readiness verdict for reject, pass rate, recommended actions, expected rejections, basis for the decision, and impact of forwarding
+- 集計と出力 / Summaries and export: レコードの分類、送信元サーバー別とドメイン別の集計、PDF・Excel・CSV の出力 / Record classification, summaries by sending server and by domain, PDF, Excel, and CSV export
+- 別の機能 / Separate feature: バウンスメールの分析(DMARC の分類とは別) / Bounce message analysis (separate from DMARC classification)
+- データ / Data: 解析結果は PC 内に保存し、外部のクラウドの解析サービスには送らない。Microsoft 365 への接続は利用者が設定した場合のみ / Analysis results are stored on your PC and are not sent to external cloud analysis services. Microsoft 365 connections are made only when you configure them
+- 判定の注意 / Accuracy: 判定と分類は機械判定で、すべての事例を正確に分けるとは限らない / Verdicts and classifications are machine-produced and may not sort every entry correctly
+- 動作環境 / Requirements: Windows 10 / 11、Microsoft Edge WebView2 Runtime(必須)、.NET 10(Store 版に同梱) / Windows 10 / 11, Microsoft Edge WebView2 Runtime (required), .NET 10 (included with the Store package)
+
+## リンク / Links
+
+- [トップ / Home](https://dmarc-analysis.sumikkolab.com/)
+- [ユーザー マニュアル / User manual](https://dmarc-analysis.sumikkolab.com/manual/)
+- [サポート / Support](https://dmarc-analysis.sumikkolab.com/support.html)
+- [利用規約 / Terms of use](https://dmarc-analysis.sumikkolab.com/terms-of-use.html)
+- [プライバシー ポリシー / Privacy policy](https://dmarc-analysis.sumikkolab.com/privacy-policy.html)
+- [Microsoft Store](https://apps.microsoft.com/detail/9MW671KFZL9B)
